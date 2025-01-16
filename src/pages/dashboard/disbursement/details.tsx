@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {Drawer} from "@material-tailwind/react"
-import React, {useContext, useEffect, useMemo, useState} from "react"
-import {AiFillEdit} from "react-icons/ai"
-import {MdCancel} from "react-icons/md"
-import {useNavigate} from "react-router-dom"
-import {IDisbursement} from "../../../interfaces/disbursement"
-import {DisbursementContext} from "."
-import {fetchData, getUser, timeFormatter} from "../../../utils"
-import {toast} from "react-toastify"
+import { Drawer } from "@material-tailwind/react"
+import React, { useContext, useEffect, useMemo, useState } from "react"
+import { AiFillEdit } from "react-icons/ai"
+import { MdCancel } from "react-icons/md"
+import { useNavigate } from "react-router-dom"
+import { IDisbursement } from "../../../interfaces/disbursement"
+import { DisbursementContext } from "."
+import { fetchData, getUser, timeFormatter } from "../../../utils"
+import { toast } from "react-toastify"
 
 import useFetch from "../../../hooks/useFetch"
-import {IFarmer} from "../../../interfaces/farmer"
-import {IBundle} from "../../../interfaces/bundle"
-import {IUser} from "../../../interfaces/user"
+import { IFarmer } from "../../../interfaces/farmer"
+import { IBundle } from "../../../interfaces/bundle"
+import { IUser } from "../../../interfaces/user"
 
 interface IProps {
   open: boolean
@@ -21,7 +21,7 @@ interface IProps {
 }
 
 const DisbursementDetails: React.FC<IProps> = (props) => {
-  const {data} = useFetch(`/disbursement/${props.disbursement?._id}`)
+  const { data } = useFetch(`/disbursement/${props.disbursement?._id}`)
   const [_disbursement, setDisbursement] = useState<IDisbursement[]>(data)
   const navigate = useNavigate()
   const [_ctx, dispatch] = useContext(DisbursementContext)
@@ -73,7 +73,7 @@ const DisbursementDetails: React.FC<IProps> = (props) => {
             </p>
             <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize font-bold">
               <span className="text-gray-600">Farmer Name:</span>
-              {(props.disbursement?.farmer as IFarmer)?.name}
+              {(props.disbursement?.farmer as IFarmer)?.first_name}
             </p>
             <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize">
               <span className="text-gray-600">Hectares:</span>

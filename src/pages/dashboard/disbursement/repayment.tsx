@@ -328,7 +328,7 @@ const DisbursementRepaymentForm = () => {
                   key={index}
                   className="w-full"
                   value={farmer.farmer_id}
-                  children={farmer.name}
+                  children={farmer.first_name}
                 />
               )
             })}
@@ -338,7 +338,7 @@ const DisbursementRepaymentForm = () => {
             <>
               <Input
                 label="Farmer name"
-                value={(disbursement.farmer as IFarmer)?.name}
+                value={(disbursement.farmer as IFarmer)?.first_name}
                 readOnly
               />
               <Input

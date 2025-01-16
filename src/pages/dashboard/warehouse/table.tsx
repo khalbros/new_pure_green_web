@@ -32,7 +32,7 @@ const WarehouseTable = () => {
 
   const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(warehouses)
-  const [_ctx, dispatch] = useContext(WarehouseContext)
+  const [_ctx] = useContext(WarehouseContext)
 
   const navigate = useNavigate()
 

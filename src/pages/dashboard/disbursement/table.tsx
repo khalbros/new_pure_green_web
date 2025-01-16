@@ -15,54 +15,54 @@ import {
   MenuItem,
   MenuList,
 } from "@material-tailwind/react"
-import {FaEye} from "react-icons/fa"
-import {TfiMore} from "react-icons/tfi"
+import { FaEye } from "react-icons/fa"
+import { TfiMore } from "react-icons/tfi"
 import {
   AiFillCheckCircle,
   AiFillEdit,
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
 } from "react-icons/ai"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import AddUser from "../../../assets/illustrations/no-data.png"
-import {MdAdd, MdCancel, MdDeleteForever} from "react-icons/md"
-import {FiSearch} from "react-icons/fi"
+import { MdAdd, MdCancel, MdDeleteForever } from "react-icons/md"
+import { FiSearch } from "react-icons/fi"
 import usePagination from "../../../hooks/usePagination"
 import Input from "../../../components/form/input"
 import QueryResult from "../../../components/queryResult"
 import EmptyResult from "../../../components/queryResult/emptyResult"
-import {IDisbursement} from "../../../interfaces/disbursement"
-import {DisbursementContext} from "./"
+import { IDisbursement } from "../../../interfaces/disbursement"
+import { DisbursementContext } from "./"
 import {
   fetchData,
   generateExcelFile,
   getUser,
   shortDateFormatter,
 } from "../../../utils"
-import {useAppDispatch, useAppSelector} from "../../../store"
+import { useAppDispatch, useAppSelector } from "../../../store"
 import DisbursementDetails from "./details"
-import {toast} from "react-toastify"
-import {disbursementSelector} from "../../../store/slices/disbursement/index"
-import {IFarmer} from "../../../interfaces/farmer"
-import {IBundle} from "../../../interfaces/bundle"
+import { toast } from "react-toastify"
+import { disbursementSelector } from "../../../store/slices/disbursement/index"
+import { IFarmer } from "../../../interfaces/farmer"
+import { IBundle } from "../../../interfaces/bundle"
 import confirmAction from "../../../assets/illustrations/thinking.png"
-import {Dialog} from "@material-tailwind/react"
+import { Dialog } from "@material-tailwind/react"
 import {
   approveDisbursementAction,
   deleteDisbursementAction,
 } from "../../../store/actions/disbursement"
 import Receipt from "./receipt"
-import {useReactToPrint} from "react-to-print"
-import {IoMdPrint} from "react-icons/io"
-import {IWarehouse} from "../../../interfaces/warehouse"
-import {IUser} from "../../../interfaces/user"
-import {HiDocumentDownload} from "react-icons/hi"
-import {IProject} from "../../../interfaces/project"
-import {ICooperative} from "../../../interfaces/cooperative"
-import {useQuery} from "react-query"
+import { useReactToPrint } from "react-to-print"
+import { IoMdPrint } from "react-icons/io"
+import { IWarehouse } from "../../../interfaces/warehouse"
+import { IUser } from "../../../interfaces/user"
+import { HiDocumentDownload } from "react-icons/hi"
+import { IProject } from "../../../interfaces/project"
+import { ICooperative } from "../../../interfaces/cooperative"
+import { useQuery } from "react-query"
 
 const DisbursementTable = () => {
-  const {data, error, isLoading, isError} = useQuery({
+  const { data, error, isLoading, isError } = useQuery({
     queryKey: ["disbursement"],
     queryFn: async () => {
       return fetchData("/disbursement").then((res) => res.data)
@@ -75,7 +75,7 @@ const DisbursementTable = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [disbursements, setDisbursements] = useState<IDisbursement[]>(data)
   const [disbursement, setDisbursement] = useState<IDisbursement>()
-  const {currentItems, currentPage, pages, nextPage, prevPage, changePage} =
+  const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(disbursements)
   const [_ctx, dispatch] = useContext(DisbursementContext)
   const navigate = useNavigate()
@@ -86,7 +86,7 @@ const DisbursementTable = () => {
   const exportTableData = () => {
     return disbursements?.map((disbursement) => ({
       "Referance ID": disbursement.ref_id,
-      "Farmer Name": (disbursement.farmer as IFarmer)?.name,
+      "Farmer Name": (disbursement.farmer as IFarmer)?.first_name,
       "Farmer ID": (disbursement.farmer as IFarmer)?.farmer_id,
       Cooperative: (
         (disbursement.farmer as IFarmer)?.cooperative as ICooperative
@@ -117,7 +117,7 @@ const DisbursementTable = () => {
 
   // search
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target
+    const { value } = e.target
     if (!value) {
       setDisbursements(data)
       return
@@ -125,7 +125,7 @@ const DisbursementTable = () => {
 
     const result = (data as IDisbursement[])?.filter(
       (disbursement) =>
-        (disbursement.farmer as IFarmer)?.name
+        (disbursement.farmer as IFarmer)?.first_name
           ?.toLowerCase()
           .includes(value.toLowerCase()) ||
         (disbursement.farmer as IFarmer)?.farmer_id
@@ -144,7 +144,7 @@ const DisbursementTable = () => {
   // handle delete
   const handleDelete = (disbursement: IDisbursement) => {
     dispatchAction(
-      deleteDisbursementAction({...disbursement}, () =>
+      deleteDisbursementAction({ ...disbursement }, () =>
         setOpenDelete(!openDelete)
       )
     )
@@ -153,7 +153,7 @@ const DisbursementTable = () => {
   const handleStatus = (disbursement: IDisbursement) => {
     dispatchAction(
       approveDisbursementAction(
-        {...disbursement, isApproved: disbursement.isApproved ? false : true},
+        { ...disbursement, isApproved: disbursement.isApproved ? false : true },
         () => setOpenDialog(!openDialog)
       )
     )
@@ -299,7 +299,9 @@ const DisbursementTable = () => {
                     </td>
                     <td className="p-3 text-[14px] lg:text-[17px] font-bold">
                       <div className="flex flex-col">
-                        <span>{(disbursement?.farmer as IFarmer)?.name}</span>
+                        <span>
+                          {(disbursement?.farmer as IFarmer)?.first_name}
+                        </span>
                         <span className="text-gray-500 tracking-wider font-bold text-[10px] md:text-sm">
                           {(disbursement?.farmer as IFarmer)?.farmer_id}
                         </span>
@@ -563,7 +565,7 @@ const DisbursementTable = () => {
             />
             <p className="mx-auto text-base text-center max-w-[300px] text-black mb-7">
               Are you sure you want to DELETE disbursement for “
-              {(disbursement?.farmer as IFarmer)?.name}”
+              {(disbursement?.farmer as IFarmer)?.first_name}”
             </p>
             <Button
               onClick={() => handleDelete(disbursement!)}

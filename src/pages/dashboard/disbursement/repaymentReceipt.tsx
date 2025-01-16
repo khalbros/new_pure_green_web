@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import logo from "../../../assets/puregreen-logo.png"
-import {IUser} from "../../../interfaces/user"
+import { IUser } from "../../../interfaces/user"
 // import {IGrade} from "../../../interfaces/grade"
 // import {ICommodity} from "../../../interfaces/commodity"
-import {timeFormatter} from "../../../utils"
-import {IFarmer} from "../../../interfaces/farmer"
-import {IBundle} from "../../../interfaces/bundle"
-import {ICooperative} from "../../../interfaces/cooperative"
-import {IWarehouse} from "../../../interfaces/warehouse"
+import { timeFormatter } from "../../../utils"
+import { IFarmer } from "../../../interfaces/farmer"
+import { IBundle } from "../../../interfaces/bundle"
+import { ICooperative } from "../../../interfaces/cooperative"
+import { IWarehouse } from "../../../interfaces/warehouse"
 
-import {IGrainLRPPayload} from "../../../interfaces/grainLRP"
-import {ICommodity} from "../../../interfaces/commodity"
+import { IGrainLRPPayload } from "../../../interfaces/grainLRP"
+import { ICommodity } from "../../../interfaces/commodity"
 
 function RepaymentReceipt(props: IGrainLRPPayload) {
   return (
@@ -37,7 +37,7 @@ function RepaymentReceipt(props: IGrainLRPPayload) {
         </div>
         <div className="flex items-ceter justify-between">
           <span>Farmer</span>
-          <span>{(props.disbursement?.farmer as IFarmer)?.name}</span>
+          <span>{(props.disbursement?.farmer as IFarmer)?.first_name}</span>
         </div>
 
         <div className="flex items-ceter justify-between">

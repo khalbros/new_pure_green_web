@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {IFarmer} from "../../../interfaces/farmer"
+import { IFarmer } from "../../../interfaces/farmer"
 import logo from "../../../assets/puregreen-logo.png"
-import {IUser} from "../../../interfaces/user"
-import {shortDateFormatter} from "../../../utils"
-import {IEquity as IPayment} from "../../../interfaces/equity"
-import {useEffect, useState} from "react"
-import {useLocation} from "react-router-dom"
-import {IWarehouse} from "../../../interfaces/warehouse"
+import { IUser } from "../../../interfaces/user"
+import { shortDateFormatter } from "../../../utils"
+import { IEquity as IPayment } from "../../../interfaces/equity"
+import { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom"
+import { IWarehouse } from "../../../interfaces/warehouse"
 
 function Receipt(props: IPayment) {
   const [paymentType, setPaymentType] = useState("")
@@ -39,7 +39,7 @@ function Receipt(props: IPayment) {
         </div>
         <div className="flex items-ceter justify-between">
           <span>Farmer</span>
-          <span>{(props.farmer as IFarmer)?.name}</span>
+          <span>{(props.farmer as IFarmer)?.first_name}</span>
         </div>
         {props.farmer && (
           <div className="flex items-ceter justify-between">

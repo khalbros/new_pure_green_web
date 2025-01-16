@@ -176,7 +176,7 @@ const VisitationForm = () => {
                     key={index}
                     className="w-full"
                     value={farmer.farmer_id}
-                    children={farmer.name}
+                    children={farmer.first_name}
                   />
                 )
               })}

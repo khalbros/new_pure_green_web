@@ -1,21 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChangeEvent, useContext, useEffect, useState } from "react"
-import {
-  Button,
-  Dialog,
-  DialogBody,
-  Menu,
-  MenuHandler,
-  MenuItem,
-  MenuList,
-} from "@material-tailwind/react"
-import { FaEye, FaUserSlash } from "react-icons/fa"
-import { TfiMore } from "react-icons/tfi"
-import {
-  AiFillEdit,
-  AiOutlineArrowLeft,
-  AiOutlineArrowRight,
-} from "react-icons/ai"
+import { Button, Dialog, DialogBody } from "@material-tailwind/react"
+
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
 import AddUser from "../../../assets/illustrations/no-data.png"
 import { MdAdd, MdCancel } from "react-icons/md"
@@ -48,8 +35,8 @@ const ClientTable = () => {
   const [client, setClient] = useState<IClient>()
   const navigate = useNavigate()
 
-  const [_ctx, dispatch] = useContext(ClientContext)
-  const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
+  const [_ctx] = useContext(ClientContext)
+  const { currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(clients)
 
   // export data handler
@@ -89,12 +76,6 @@ const ClientTable = () => {
       setClient(client)
     }
     setOpenDrawer(!openDrawer)
-  }
-
-  // set client context and navigate to edit client
-  const handleEditClient = (client: IClient) => {
-    dispatch(client)
-    navigate("edit")
   }
 
   // open or close delete dialog

@@ -1,27 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChangeEvent, useContext, useEffect, useMemo, useState } from "react"
-import {
-  Avatar,
-  Button,
-  Chip,
-  Dialog,
-  DialogBody,
-  Menu,
-  MenuHandler,
-  MenuItem,
-  MenuList,
-} from "@material-tailwind/react"
-import { FaEye, FaUserSlash, FaUserAlt, FaUserCircle } from "react-icons/fa"
-import { TfiMore } from "react-icons/tfi"
-import {
-  AiFillEdit,
-  AiOutlineArrowLeft,
-  AiOutlineArrowRight,
-} from "react-icons/ai"
+import { Button, Dialog, DialogBody } from "@material-tailwind/react"
+
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
 import AddUser from "../../../assets/illustrations/no-data.png"
-import { MdAdd, MdCancel, MdDeleteForever, MdRestore } from "react-icons/md"
+import { MdAdd, MdCancel } from "react-icons/md"
 import DeleteUser from "../../../assets/illustrations/thinking.png"
 import { FiSearch } from "react-icons/fi"
 import { IUser } from "../../../interfaces/user"
@@ -31,7 +16,6 @@ import QueryResult from "../../../components/queryResult"
 import EmptyResult from "../../../components/queryResult/emptyResult"
 import useFetch from "../../../hooks/useFetch"
 import { UserContext } from "."
-import UserDetails from "./details"
 import {
   deleteUserAction,
   resetUserPasswordAction,
@@ -45,7 +29,6 @@ import DesktopList from "./components/large-screens/table"
 import MobileList from "./components/small-screens/list"
 
 const Table = () => {
-  const [openDrawer, setOpenDrawer] = useState<boolean>(false)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [openDialogReset, setOpenDialogReset] = useState<boolean>(false)
   const [openDelete, setOpenDelete] = useState<boolean>(false)
@@ -79,20 +62,6 @@ const Table = () => {
         user.phone?.toLowerCase().includes(value.toLowerCase())
     )
     setUsers(result)
-  }
-
-  // open drawer with users details
-  const toggleDrawer = (user?: IUser) => {
-    if (user) {
-      setUser(user)
-    }
-    setOpenDrawer(!openDrawer)
-  }
-
-  // set user context and navigate to edit user
-  const handleEditUser = (user: IUser) => {
-    dispatch(user)
-    navigate("edit")
   }
 
   // open or close reset dialog

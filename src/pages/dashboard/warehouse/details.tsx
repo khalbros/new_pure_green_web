@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { WarehouseContext } from "."
 import { IUser } from "../../../interfaces/user"
 import { fetchData, getUser } from "../../../utils"
-import { IFarmer } from "../../../interfaces/farmer"
 import { toast } from "react-toastify"
 import { BiEdit } from "react-icons/bi"
 import ApprovalDialog from "./components/ApprovalDialog"
@@ -276,7 +275,7 @@ const WarehouseDetails: React.FC = () => {
         {/* certificate */}
       </div>
       {/* Image Dialog */}
-      <Dialog size="sm" open={open} handler={() => setOpen(!open)}>
+      <Dialog size="sm" open={open} handler={handleImageView}>
         <DialogBody className="">
           <div className="flex justify-end">
             {" "}

@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {Drawer} from "@material-tailwind/react"
-import React, {useContext} from "react"
-import {AiFillEdit} from "react-icons/ai"
-import {MdCancel} from "react-icons/md"
-import {useNavigate} from "react-router-dom"
-import {RegistrationContext} from "."
-import {IEquity} from "../../../../interfaces/equity"
-import {IUser} from "../../../../interfaces/user"
-import {IFarmer} from "../../../../interfaces/farmer"
-import {shortDateFormatter} from "../../../../utils/index"
+import { Drawer } from "@material-tailwind/react"
+import React, { useContext } from "react"
+import { AiFillEdit } from "react-icons/ai"
+import { MdCancel } from "react-icons/md"
+import { useNavigate } from "react-router-dom"
+import { RegistrationContext } from "."
+import { IEquity } from "../../../../interfaces/equity"
+import { IUser } from "../../../../interfaces/user"
+import { IFarmer } from "../../../../interfaces/farmer"
+import { shortDateFormatter } from "../../../../utils/index"
 
 interface IProps {
   open: boolean
@@ -55,7 +55,7 @@ const RegDetails: React.FC<IProps> = (props) => {
             </p>
             <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize">
               <span className="text-gray-600">Farmer:</span>
-              {(props.payment?.farmer as IFarmer)?.name}
+              {(props.payment?.farmer as IFarmer)?.first_name}
             </p>
             <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize">
               <span className="text-gray-600">Farmer ID:</span>

@@ -21,13 +21,13 @@ import {
   createFarmerAction,
   updateFarmerAction,
 } from "../../../store/actions/farmer"
-import { FarmerContext, emptyFarmer } from "."
 import { reset } from "../../../store/slices/warehouse"
 import Select from "../../../components/form/select"
 import { fetchData } from "../../../utils"
 import { ICooperative } from "../../../interfaces/cooperative"
 import { FaFileImage } from "react-icons/fa"
 import { toast } from "react-toastify"
+import { emptyFarmer, FarmerContext } from "../farmer"
 
 const initialState: IFarmer = {
   first_name: undefined,

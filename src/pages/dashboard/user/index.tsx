@@ -3,14 +3,6 @@ import { Outlet, useNavigate } from "react-router-dom"
 import { IUser } from "../../../interfaces/user"
 import { MdOutlineKeyboardBackspace } from "react-icons/md"
 
-export const emptyUser: IUser = {
-  name: undefined,
-  email: undefined,
-  gender: undefined,
-  profile_img: undefined,
-  phone: undefined,
-  role: undefined,
-}
 const userReducer = (prev: IUser, next: IUser) => ({ ...prev, ...next })
 
 export const UserContext = createContext({} as ReturnType<typeof useReducer>)

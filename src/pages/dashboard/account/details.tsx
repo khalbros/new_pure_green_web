@@ -12,7 +12,6 @@ import {
   MdVerified,
 } from "react-icons/md"
 import { useLocation, useNavigate } from "react-router-dom"
-import { FarmerContext } from "."
 import { ICooperative } from "../../../interfaces/cooperative"
 import Chart from "react-apexcharts"
 import { FaPhoneAlt, FaStar, FaTransgender } from "react-icons/fa"
@@ -34,6 +33,7 @@ import ApprovalDialog from "./components/ApprovalDialog"
 import { fetchData, getUser } from "../../../utils"
 import { toast } from "react-toastify"
 import DeleteDialog from "./components/DeleteDialog"
+import { FarmerContext } from "../farmer"
 
 const FarmerDetails = () => {
   const navigate = useNavigate()
@@ -98,8 +98,7 @@ const FarmerDetails = () => {
                   ? "red"
                   : "gray"
               }-500 px-4 py-1 rounded-full cursor-pointer`}
-              onClick={toggleDiaglog}
-            >
+              onClick={toggleDiaglog}>
               {state?.isApproved === "APPROVED" ? (
                 <MdCancel className="text-xl lg:text-4xl" />
               ) : state?.isApproved === "REJECTED" ? (
@@ -117,16 +116,14 @@ const FarmerDetails = () => {
             <>
               <span
                 className="flex items-center gap-2 shadow-md md:shadow-lg text-white bg-blue-700 px-4 py-1 rounded-full cursor-pointer"
-                onClick={handleEditFarmer}
-              >
+                onClick={handleEditFarmer}>
                 <BiEdit className="text-xl lg:text-4xl" />
                 <span className="text-base lg:text-xl">Edit</span>
               </span>
               {state?.isApproved != "APPROVED" && (
                 <span
                   className="flex items-center gap-2 shadow-md md:shadow-lg text-white bg-red-700 px-4 py-1 rounded-full cursor-pointer"
-                  onClick={toggleDelete}
-                >
+                  onClick={toggleDelete}>
                   <MdDeleteForever className="text-xl lg:text-4xl" />
                   <span className="text-base lg:text-xl">DELETE</span>
                 </span>
@@ -142,8 +139,7 @@ const FarmerDetails = () => {
           <div className="flex items-center gap-4 md:gap-8 lg:gap-14 mb-4 md:mb-6">
             <div
               className=" grid place-items-center border rounded-full w-full h-full max-h-24 max-w-24 md:max-w-40 md:max-h-40 lg:max-h-52  lg:max-w-52 object-contain bg-gray-50 hover:transform hover:scale-125 transition-transform duration-300 ease-linear overflow-hidden"
-              onClick={() => handleImageView(state?.profile_img?.url)}
-            >
+              onClick={() => handleImageView(state?.profile_img?.url)}>
               {state?.profile_img?.url ? (
                 <img
                   src={state?.profile_img?.url}
@@ -170,8 +166,7 @@ const FarmerDetails = () => {
                       : state?.isApproved === "APPROVED"
                       ? "green"
                       : "gray"
-                  }-50`}
-                >
+                  }-50`}>
                   {state?.isApproved === "APPROVED" ? (
                     <p className="text-center rounded-full text-xs md:text-base lg:text-lg text-green-500">
                       {state?.isApproved}
@@ -306,8 +301,7 @@ const FarmerDetails = () => {
             <div className="flex flex-col md:flex-row items-start gap-2 md:gap-8 lg:gap-10">
               <div
                 className="grid place-items-center border rounded w-full h-full max-h-24 md:max-w-[50%] md:max-h-40 lg:max-h-52  lg:max-w-96 object-contain bg-gray-50 hover:transform hover:scale-125 transition-transform duration-300 ease-linear overflow-hidden"
-                onClick={() => handleImageView(state?.id_card?.url)}
-              >
+                onClick={() => handleImageView(state?.id_card?.url)}>
                 {state?.id_card?.url ? (
                   <img
                     src={state?.id_card?.url}
@@ -365,8 +359,7 @@ const FarmerDetails = () => {
                         : state?.isValidName === "INVALID"
                         ? "text-red-400"
                         : "text-orange-200"
-                    }`}
-                  >
+                    }`}>
                     <span className="uppercase">NAME</span>
                     <MdVerified />
                   </p>
@@ -377,8 +370,7 @@ const FarmerDetails = () => {
                         : state?.isValidDateOfBirth === "INVALID"
                         ? "text-red-400"
                         : "text-orange-200"
-                    }`}
-                  >
+                    }`}>
                     <span className="uppercase">DATE OF BIRTH</span>
                     <MdVerified />
                   </p>
@@ -389,8 +381,7 @@ const FarmerDetails = () => {
                         : state?.isValidAccount === "INVALID"
                         ? "text-red-400"
                         : "text-orange-200"
-                    }`}
-                  >
+                    }`}>
                     <span className="uppercase">ACCOUNT</span>
                     <MdVerified />
                   </p>
@@ -451,8 +442,7 @@ const FarmerDetails = () => {
                       : state?.isValidAccount === "INVALID"
                       ? "text-red-400"
                       : "text-orange-200"
-                  }`}
-                >
+                  }`}>
                   <MdVerified />
                 </p>
               )}
@@ -460,8 +450,7 @@ const FarmerDetails = () => {
             <div className="flex flex-col md:flex-row items-start gap-2 md:gap-8 lg:gap-10">
               <div
                 className="grid place-items-center border rounded w-full h-full max-h-24 md:max-w-[50%] md:max-h-40 lg:max-h-52  lg:max-w-96 object-contain bg-gray-50 hover:transform hover:scale-125 transition-transform duration-300 ease-linear overflow-hidden"
-                onClick={() => handleImageView(state?.guarantor_id?.url)}
-              >
+                onClick={() => handleImageView(state?.guarantor_id?.url)}>
                 {state?.guarantor_id?.url ? (
                   <img
                     src={state?.guarantor_id?.url}

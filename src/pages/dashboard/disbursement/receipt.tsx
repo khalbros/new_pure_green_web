@@ -1,13 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import logo from "../../../assets/puregreen-logo.png"
-import {IUser} from "../../../interfaces/user"
-import {timeFormatter} from "../../../utils"
-import {IFarmer} from "../../../interfaces/farmer"
-import {IBundle} from "../../../interfaces/bundle"
-import {ICooperative} from "../../../interfaces/cooperative"
-import {IWarehouse} from "../../../interfaces/warehouse"
-import {IDisbursement} from "../../../interfaces/disbursement"
+import { IUser } from "../../../interfaces/user"
+import { timeFormatter } from "../../../utils"
+import { IFarmer } from "../../../interfaces/farmer"
+import { IBundle } from "../../../interfaces/bundle"
+import { ICooperative } from "../../../interfaces/cooperative"
+import { IWarehouse } from "../../../interfaces/warehouse"
+import { IDisbursement } from "../../../interfaces/disbursement"
 
 function Receipt(props: IDisbursement) {
   return (
@@ -33,7 +31,7 @@ function Receipt(props: IDisbursement) {
         </div>
         <div className="flex items-ceter justify-between">
           <span>Farmer</span>
-          <span>{(props.farmer as IFarmer)?.name}</span>
+          <span>{(props.farmer as IFarmer)?.first_name}</span>
         </div>
 
         <div className="flex items-ceter justify-between">

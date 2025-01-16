@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {ChangeEvent, useContext, useEffect, useRef, useState} from "react"
+import { ChangeEvent, useContext, useEffect, useRef, useState } from "react"
 import {
   Button,
   Dialog,
@@ -9,14 +9,14 @@ import {
   MenuItem,
   MenuList,
 } from "@material-tailwind/react"
-import {FaEye} from "react-icons/fa"
-import {TfiMore} from "react-icons/tfi"
+import { FaEye } from "react-icons/fa"
+import { TfiMore } from "react-icons/tfi"
 import {
   AiFillEdit,
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
 } from "react-icons/ai"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import AddUser from "../../../../assets/illustrations/no-data.png"
 import {
   MdAdd,
@@ -25,32 +25,32 @@ import {
   MdOutlineKeyboardBackspace,
 } from "react-icons/md"
 import DeleteUser from "../../../../assets/illustrations/thinking.png"
-import {FiSearch} from "react-icons/fi"
-import {IEquity as IPayment} from "../../../../interfaces/equity"
+import { FiSearch } from "react-icons/fi"
+import { IEquity as IPayment } from "../../../../interfaces/equity"
 import usePagination from "../../../../hooks/usePagination"
-import {RegistrationContext} from "."
+import { RegistrationContext } from "."
 import useFetch from "../../../../hooks/useFetch"
 import QueryResult from "../../../../components/queryResult"
 import EmptyResult from "../../../../components/queryResult/emptyResult"
 import Input from "../../../../components/form/input"
-import {IFarmer} from "../../../../interfaces/farmer"
+import { IFarmer } from "../../../../interfaces/farmer"
 import PaymentDetails from "./details"
-import {useReactToPrint} from "react-to-print"
-import {IoMdPrint} from "react-icons/io"
+import { useReactToPrint } from "react-to-print"
+import { IoMdPrint } from "react-icons/io"
 import Receipt from "../receipt"
 import {
   fetchData,
   generateExcelFile,
   shortDateFormatter,
 } from "../../../../utils"
-import {useAppDispatch, useAppSelector} from "../../../../store"
-import {registrationSelector} from "../../../../store/slices/finance/registration"
-import {deleteRegistrationPaymentAction} from "../../../../store/actions/finance"
-import {toast} from "react-toastify"
-import {HiDocumentDownload} from "react-icons/hi"
-import {IUser} from "../../../../interfaces/user"
-import {ICooperative} from "../../../../interfaces/cooperative"
-import {IWarehouse} from "../../../../interfaces/warehouse"
+import { useAppDispatch, useAppSelector } from "../../../../store"
+import { registrationSelector } from "../../../../store/slices/finance/registration"
+import { deleteRegistrationPaymentAction } from "../../../../store/actions/finance"
+import { toast } from "react-toastify"
+import { HiDocumentDownload } from "react-icons/hi"
+import { IUser } from "../../../../interfaces/user"
+import { ICooperative } from "../../../../interfaces/cooperative"
+import { IWarehouse } from "../../../../interfaces/warehouse"
 
 const PaymentRegTable = () => {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false)
@@ -60,8 +60,10 @@ const PaymentRegTable = () => {
   const [payment, setPayment] = useState<IPayment>()
   const [_ctx, dispatch] = useContext(RegistrationContext)
   const navigate = useNavigate()
-  const {data, error, loading, message} = useFetch(`/payment/list/registration`)
-  const {currentItems, currentPage, pages, nextPage, prevPage, changePage} =
+  const { data, error, loading, message } = useFetch(
+    `/payment/list/registration`
+  )
+  const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(payments)
 
   const [open, setOpen] = useState<boolean>(false)
@@ -77,7 +79,7 @@ const PaymentRegTable = () => {
   const exportTableData = () => {
     return payments?.map((payment) => ({
       "Payment For": "Registration",
-      Farmer: (payment?.farmer as IFarmer)?.name,
+      Farmer: (payment?.farmer as IFarmer)?.first_name,
       "Farmer ID": (payment?.farmer as IFarmer)?.farmer_id,
       Cooperative: ((payment?.farmer as IFarmer)?.cooperative as ICooperative)
         ?.name,
@@ -108,14 +110,14 @@ const PaymentRegTable = () => {
 
   // search
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target
+    const { value } = e.target
     if (!value) {
       setPayments(data)
       return
     }
     const result = (data as IPayment[])?.filter(
       (payment) =>
-        (payment.farmer as IFarmer).name
+        (payment.farmer as IFarmer).first_name
           ?.toLowerCase()
           .includes(value.toLowerCase()) ||
         (payment.paid_by as IUser).name
@@ -161,7 +163,7 @@ const PaymentRegTable = () => {
   // handle delete
   const handleDelete = (payment: IPayment) => {
     dispatchAction(
-      deleteRegistrationPaymentAction({...payment}, () =>
+      deleteRegistrationPaymentAction({ ...payment }, () =>
         setOpenDelete(!openDelete)
       )
     )
@@ -280,7 +282,7 @@ const PaymentRegTable = () => {
                       {/* <input type="checkbox" /> */}
                     </td>
                     <td className="p-3 flex flex-col flex-wrap gap-1 md:gap-2 items-start capitalize tracking-wide font-bold">
-                      <span> {(payments?.farmer as IFarmer)?.name}</span>
+                      <span> {(payments?.farmer as IFarmer)?.first_name}</span>
                     </td>
                     <td className="p-3">
                       {(payments?.farmer as IFarmer)?.farmer_id}
@@ -414,7 +416,7 @@ const PaymentRegTable = () => {
             />
             <p className="mx-auto text-base text-center max-w-[300px] text-black mb-7">
               Are you sure you want to DELETE this Payment for “
-              {(payment?.farmer as IFarmer)?.name}”
+              {(payment?.farmer as IFarmer)?.first_name}”
             </p>
             <Button
               onClick={() => handleDelete(payment!)}

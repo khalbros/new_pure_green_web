@@ -84,7 +84,7 @@ const CashDisbursementTable = () => {
       "Referance ID": disburse.ref_id,
       "Farmer Name": (
         (disburse?.disbursement as unknown as IDisbursement)?.farmer as IFarmer
-      )?.name,
+      )?.first_name,
       "Farmer ID": (
         (disburse?.disbursement as unknown as IDisbursement)?.farmer as IFarmer
       )?.farmer_id,
@@ -148,7 +148,7 @@ const CashDisbursementTable = () => {
         (
           (disburse?.disbursement as unknown as IDisbursement)
             ?.farmer as IFarmer
-        )?.name
+        )?.first_name
           ?.toLowerCase()
           .includes(value.toLowerCase()) ||
         (
@@ -359,7 +359,7 @@ const CashDisbursementTable = () => {
                               (
                                 disburse?.disbursement as unknown as IDisbursement
                               )?.farmer as IFarmer
-                            )?.name
+                            )?.first_name
                           }
                         </span>
                         <span className="text-gray-500 tracking-wider font-bold text-[10px] md:text-sm">
@@ -576,7 +576,7 @@ const CashDisbursementTable = () => {
                 (
                   (disbursement?.disbursement as unknown as IDisbursement)
                     ?.farmer as IFarmer
-                )?.name
+                )?.first_name
               }
               ”
             </p>

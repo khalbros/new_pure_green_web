@@ -203,7 +203,7 @@ const DisbursementLoanForm = () => {
                     key={index}
                     className="w-full"
                     value={farmer.farmer_id}
-                    children={farmer.name}
+                    children={farmer.first_name}
                   />
                 )
               })}
@@ -212,7 +212,7 @@ const DisbursementLoanForm = () => {
           {farmer ? (
             farmerEquity?.status ? (
               <>
-                <Input label="Farmer name" value={farmer?.name} />
+                <Input label="Farmer name" value={farmer?.first_name} />
                 <Input label="Phone number" value={farmer?.phone} />
                 <Input
                   label="Cooperative"

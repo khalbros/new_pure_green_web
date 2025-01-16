@@ -16,48 +16,48 @@ import {
   MenuItem,
   MenuList,
 } from "@material-tailwind/react"
-import {FaEye} from "react-icons/fa"
-import {TfiMore} from "react-icons/tfi"
+import { FaEye } from "react-icons/fa"
+import { TfiMore } from "react-icons/tfi"
 import {
   AiFillEdit,
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
 } from "react-icons/ai"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import AddUser from "../../../assets/illustrations/no-data.png"
-import {MdAdd, MdCancel, MdDeleteForever} from "react-icons/md"
-import {FiSearch} from "react-icons/fi"
+import { MdAdd, MdCancel, MdDeleteForever } from "react-icons/md"
+import { FiSearch } from "react-icons/fi"
 import usePagination from "../../../hooks/usePagination"
 import Input from "../../../components/form/input"
 import QueryResult from "../../../components/queryResult"
 import EmptyResult from "../../../components/queryResult/emptyResult"
-import {IGrainLRPPayload} from "../../../interfaces/grainLRP"
+import { IGrainLRPPayload } from "../../../interfaces/grainLRP"
 import useFetch from "../../../hooks/useFetch"
-import {DisbursementContext} from "."
+import { DisbursementContext } from "."
 import {
   fetchData,
   generateExcelFile,
   getUser,
   shortDateFormatter,
 } from "../../../utils"
-import {useAppDispatch, useAppSelector} from "../../../store"
+import { useAppDispatch, useAppSelector } from "../../../store"
 import DisbursementDetails from "./details"
-import {toast} from "react-toastify"
-import {disbursementSelector} from "../../../store/slices/disbursement/index"
-import {IFarmer} from "../../../interfaces/farmer"
-import {IBundle} from "../../../interfaces/bundle"
+import { toast } from "react-toastify"
+import { disbursementSelector } from "../../../store/slices/disbursement/index"
+import { IFarmer } from "../../../interfaces/farmer"
+import { IBundle } from "../../../interfaces/bundle"
 import confirmAction from "../../../assets/illustrations/thinking.png"
-import {Dialog} from "@material-tailwind/react"
-import {deleteGrainLRPAction} from "../../../store/actions/disbursement"
+import { Dialog } from "@material-tailwind/react"
+import { deleteGrainLRPAction } from "../../../store/actions/disbursement"
 import Receipt from "./repaymentReceipt"
-import {useReactToPrint} from "react-to-print"
-import {IoMdPrint} from "react-icons/io"
-import {IWarehouse} from "../../../interfaces/warehouse"
-import {IUser} from "../../../interfaces/user"
-import {HiDocumentDownload} from "react-icons/hi"
-import {IProject} from "../../../interfaces/project"
-import {ICooperative} from "../../../interfaces/cooperative"
-import {ICommodity} from "../../../interfaces/commodity"
+import { useReactToPrint } from "react-to-print"
+import { IoMdPrint } from "react-icons/io"
+import { IWarehouse } from "../../../interfaces/warehouse"
+import { IUser } from "../../../interfaces/user"
+import { HiDocumentDownload } from "react-icons/hi"
+import { IProject } from "../../../interfaces/project"
+import { ICooperative } from "../../../interfaces/cooperative"
+import { ICommodity } from "../../../interfaces/commodity"
 
 const RepaymentTable = () => {
   const currentUser = useMemo(() => JSON.parse(getUser()!), [])
@@ -67,10 +67,10 @@ const RepaymentTable = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [disbursements, setDisbursements] = useState<IGrainLRPPayload[]>()
   const [disbursement, setDisbursement] = useState<IGrainLRPPayload>()
-  const {currentItems, currentPage, pages, nextPage, prevPage, changePage} =
+  const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(disbursements)
   const [_ctx, dispatch] = useContext(DisbursementContext)
-  const {data, error, loading, message} = useFetch(`/disbursement/grain`)
+  const { data, error, loading, message } = useFetch(`/disbursement/grain`)
   const navigate = useNavigate()
   const dispatchAction = useAppDispatch()
   const disbursementState = useAppSelector(disbursementSelector)
@@ -79,7 +79,7 @@ const RepaymentTable = () => {
   const exportTableData = () => {
     return disbursements?.map((disbursement) => ({
       "Referance ID": disbursement.ref_id,
-      "Farmer Name": (disbursement.disbursement?.farmer as IFarmer)?.name,
+      "Farmer Name": (disbursement.disbursement?.farmer as IFarmer)?.first_name,
       "Farmer ID": (disbursement.disbursement?.farmer as IFarmer)?.farmer_id,
       Cooperative: (
         (disbursement.disbursement?.farmer as IFarmer)
@@ -123,14 +123,14 @@ const RepaymentTable = () => {
 
   // search
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target
+    const { value } = e.target
     if (!value) {
       setDisbursements(data)
       return
     }
     const result = (data as IGrainLRPPayload[])?.filter(
       (disbursement) =>
-        (disbursement.disbursement?.farmer as IFarmer)?.name
+        (disbursement.disbursement?.farmer as IFarmer)?.first_name
           ?.toLowerCase()
           .includes(value.toLowerCase()) ||
         (disbursement.disbursement?.farmer as IFarmer)?.farmer_id
@@ -301,7 +301,7 @@ const RepaymentTable = () => {
                         <span>
                           {
                             (disbursement?.disbursement?.farmer as IFarmer)
-                              ?.name
+                              ?.first_name
                           }
                         </span>
                         <span className="text-gray-500 tracking-wider font-bold text-[10px] md:text-sm">
@@ -522,7 +522,7 @@ const RepaymentTable = () => {
             />
             <p className="mx-auto text-base text-center max-w-[300px] text-black mb-7">
               Are you sure you want to DELETE disbursement for “
-              {(disbursement?.disbursement?.farmer as IFarmer)?.name}”
+              {(disbursement?.disbursement?.farmer as IFarmer)?.first_name}”
             </p>
             <Button
               onClick={() => handleDelete(disbursement!)}

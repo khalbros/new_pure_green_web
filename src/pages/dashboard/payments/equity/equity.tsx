@@ -7,23 +7,23 @@ import {
   useReducer,
   useState,
 } from "react"
-import {MdOutlineKeyboardBackspace} from "react-icons/md"
-import {useLocation, useNavigate} from "react-router-dom"
-import {Button} from "@material-tailwind/react"
+import { MdOutlineKeyboardBackspace } from "react-icons/md"
+import { useLocation, useNavigate } from "react-router-dom"
+import { Button } from "@material-tailwind/react"
 
-import {useAppDispatch, useAppSelector} from "../../../../store"
-import {fetchData} from "../../../../utils"
-import {ICooperative} from "../../../../interfaces/cooperative"
+import { useAppDispatch, useAppSelector } from "../../../../store"
+import { fetchData } from "../../../../utils"
+import { ICooperative } from "../../../../interfaces/cooperative"
 import Input from "../../../../components/form/input"
-import {IFarmer} from "../../../../interfaces/farmer"
-import {toast} from "react-toastify"
-import {IEquity} from "../../../../interfaces/equity"
-import {equitySelector, reset} from "../../../../store/slices/finance/equity"
+import { IFarmer } from "../../../../interfaces/farmer"
+import { toast } from "react-toastify"
+import { IEquity } from "../../../../interfaces/equity"
+import { equitySelector, reset } from "../../../../store/slices/finance/equity"
 import {
   equityPaymentAction,
   updateEquityPaymentAction,
 } from "../../../../store/actions/finance"
-import {EquityContext} from "."
+import { EquityContext } from "."
 
 const initialState: IEquity = {
   amount_paid: undefined,
@@ -59,9 +59,9 @@ const EquityPaymentForm = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const {name, value} = e.target
+    const { name, value } = e.target
 
-    setState({...state, [name]: value})
+    setState({ ...state, [name]: value })
     return
   }
 
@@ -72,7 +72,7 @@ const EquityPaymentForm = () => {
     const data = new FormData(form)
 
     if (edit) {
-      const {...rest} = existingEquity
+      const { ...rest } = existingEquity
       dispatch(
         updateEquityPaymentAction(
           {
@@ -102,8 +102,8 @@ const EquityPaymentForm = () => {
 
   useEffect(() => {
     if (existingEquity) {
-      const {...rest} = existingEquity
-      setState({...rest, farmer: rest?.farmer?.farmer_id})
+      const { ...rest } = existingEquity
+      setState({ ...rest, farmer: rest?.farmer?.farmer_id })
     }
 
     fetchData("/farmer")
@@ -171,7 +171,7 @@ const EquityPaymentForm = () => {
                     key={index}
                     className="w-full"
                     value={farmer.farmer_id}
-                    children={farmer.name}
+                    children={farmer.first_name}
                   />
                 )
               })}
@@ -179,7 +179,7 @@ const EquityPaymentForm = () => {
           </>
           {farmer && (
             <>
-              <Input label="Farmer name" value={farmer?.name} />
+              <Input label="Farmer name" value={farmer?.first_name} />
               <Input label="Phone number" value={farmer?.phone} />
               <Input
                 label="Cooperative"

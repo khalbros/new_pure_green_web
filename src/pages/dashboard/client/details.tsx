@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {Drawer} from "@material-tailwind/react"
-import React, {useContext, useEffect, useState} from "react"
-import {AiFillEdit} from "react-icons/ai"
-import {MdCancel} from "react-icons/md"
-import {useNavigate} from "react-router-dom"
-import {IClient} from "../../../interfaces/client"
-import {ClientContext} from "."
-import {FcPicture} from "react-icons/fc"
-import {IDispatch} from "../../../interfaces/dispatch"
-import {fetchData} from "../../../utils"
-import {useQuery} from "react-query"
+import { Drawer } from "@material-tailwind/react"
+import React, { useContext, useEffect, useState } from "react"
+import { AiFillEdit } from "react-icons/ai"
+import { MdCancel } from "react-icons/md"
+import { useNavigate } from "react-router-dom"
+import { IClient } from "../../../interfaces/client"
+import { ClientContext } from "."
+import { FcPicture } from "react-icons/fc"
+import { IDispatch } from "../../../interfaces/dispatch"
+import { fetchData } from "../../../utils"
+import { useQuery } from "react-query"
 
 interface IProps {
   open: boolean
@@ -21,7 +21,7 @@ const ClientDetails: React.FC<IProps> = (props) => {
   const [clientDispatch, setClientDispatch] = useState<IDispatch[]>()
   const [open, setOpen] = useState(false)
 
-  const {data} = useQuery({
+  const { data } = useQuery({
     queryKey: ["dispatch", props.client?._id],
     queryFn: async () => {
       return fetchData(`/dispatch`).then((res) => res.data)
@@ -66,7 +66,7 @@ const ClientDetails: React.FC<IProps> = (props) => {
             className="grid place-items-center h-28 bg-gray-50 hover:transform hover:scale-125 transition-transform duration-300 ease-linear"
             onClick={() => setOpen(!open)}>
             {props.client?.profile_img ? (
-              <img src={props.client.profile_img} alt="id card" />
+              <img src={props.client.profile_img.url} alt="id card" />
             ) : (
               <FcPicture size={35} color="red" />
             )}

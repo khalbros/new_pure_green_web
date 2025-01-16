@@ -101,7 +101,7 @@ const ProfileForm = () => {
           {
             ...state,
             warehouse: state.warehouse && (state.warehouse as IWarehouse)._id,
-            profile_img: profileImg,
+            profile_img: profileImg as any,
           },
           () => {
             navigate(-1)

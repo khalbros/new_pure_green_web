@@ -38,10 +38,6 @@ const AdminInputForm = () => {
   const dispatch = useAppDispatch()
   const queryClient = useQueryClient()
 
-  const handleGoBack = () => {
-    navigate(-1)
-  }
-
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {

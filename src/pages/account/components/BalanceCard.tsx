@@ -1,5 +1,3 @@
-import React from "react"
-
 function BalanceCard() {
   return (
     <div className="w-full">

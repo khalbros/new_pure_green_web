@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {Drawer} from "@material-tailwind/react"
-import React, {useContext, useMemo} from "react"
-import {AiFillEdit} from "react-icons/ai"
-import {MdCancel} from "react-icons/md"
-import {useNavigate} from "react-router-dom"
-import {IDisbursement} from "../../../../interfaces/disbursement"
-import {DisbursementContext} from "."
-import {getUser, timeFormatter} from "../../../../utils"
-import {IFarmer} from "../../../../interfaces/farmer"
-import {IBundle} from "../../../../interfaces/bundle"
-import {IUser} from "../../../../interfaces/user"
-import {ICashLRP, ICashLRPPayload} from "../../../../interfaces/cashLRP"
-import {ICooperative} from "../../../../interfaces/cooperative"
-import {IWarehouse} from "../../../../interfaces/warehouse"
+import { Drawer } from "@material-tailwind/react"
+import React, { useContext, useMemo } from "react"
+import { AiFillEdit } from "react-icons/ai"
+import { MdCancel } from "react-icons/md"
+import { useNavigate } from "react-router-dom"
+import { IDisbursement } from "../../../../interfaces/disbursement"
+import { DisbursementContext } from "."
+import { getUser, timeFormatter } from "../../../../utils"
+import { IFarmer } from "../../../../interfaces/farmer"
+import { IBundle } from "../../../../interfaces/bundle"
+import { IUser } from "../../../../interfaces/user"
+import { ICashLRP, ICashLRPPayload } from "../../../../interfaces/cashLRP"
+import { ICooperative } from "../../../../interfaces/cooperative"
+import { IWarehouse } from "../../../../interfaces/warehouse"
 
 interface IProps {
   open: boolean
@@ -64,7 +64,7 @@ const CashDisbursementDetails: React.FC<IProps> = (props) => {
                 (
                   (props.disbursement?.disbursement as unknown as IDisbursement)
                     ?.farmer as IFarmer
-                )?.name
+                )?.first_name
               }
             </p>
             <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize font-bold">

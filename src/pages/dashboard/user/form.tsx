@@ -34,7 +34,7 @@ import {
   createUserAction,
   updateUserAction,
 } from "../../../store/actions/users"
-import { UserContext, emptyUser } from "."
+import { UserContext } from "."
 import { fetchData } from "../../../utils"
 import { updateUserSelector } from "../../../store/slices/users/update.slice"
 import { IWarehouse } from "../../../interfaces/warehouse"
@@ -164,7 +164,7 @@ const UsersForm = () => {
 
     return () => {
       setState(initialState)
-      clearUser(emptyUser)
+      clearUser({})
       dispatch(createUserReset())
     }
   }, [])
@@ -186,8 +186,7 @@ const UsersForm = () => {
         color="red"
         className="mb-12"
         icon={<MdError size={24} />}
-        open={createState.error ? true : false}
-      >
+        open={createState.error ? true : false}>
         {createState.message}
       </Alert>
       <div className="flex flex-col md:flex-row gap-[20px] md:gap-[66px] lg:h-[calc(100%-48px)] lg:pl-6">
@@ -195,8 +194,7 @@ const UsersForm = () => {
           <p className="">Profile image</p>
           <div
             onClick={() => inputRef.current?.click()}
-            className="bg-gray-50 cursor-pointer rounded-full w-[100px] md:w-[120px] h-[100px] md:h-[120px] grid place-content-center gap-[6px] overflow-hidden"
-          >
+            className="bg-gray-50 cursor-pointer rounded-full w-[100px] md:w-[120px] h-[100px] md:h-[120px] grid place-content-center gap-[6px] overflow-hidden">
             {state.profile_img || preview ? (
               <img
                 src={preview || state.profile_img?.url}
@@ -220,8 +218,7 @@ const UsersForm = () => {
         <form
           id="form"
           onSubmit={handleSubmit}
-          className="h-fit flex flex-1 w-full lg:max-w-[70%] flex-col lg:grid lg:grid-cols-2 lg:gap-x-5 gap-y-4 lg:gap-y-8 lg:pr-16"
-        >
+          className="h-fit flex flex-1 w-full lg:max-w-[70%] flex-col lg:grid lg:grid-cols-2 lg:gap-x-5 gap-y-4 lg:gap-y-8 lg:pr-16">
           <Input
             name="name"
             label="Full name"
@@ -250,8 +247,7 @@ const UsersForm = () => {
             label="Gender*"
             placeholder="Select gender"
             value={state?.gender}
-            onChange={handleChange}
-          >
+            onChange={handleChange}>
             <option value="">Select gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
@@ -261,8 +257,7 @@ const UsersForm = () => {
             label="Role*"
             placeholder="Select role"
             onChange={handleChange}
-            value={state?.role}
-          >
+            value={state?.role}>
             <option>Select Role</option>
             {[
               "SUPER ADMIN",
@@ -288,8 +283,7 @@ const UsersForm = () => {
               label="Warehouse*"
               placeholder="Select warehouse"
               onChange={handleChange}
-              value={edit ? (state.warehouse as any)?.name : state?.warehouse}
-            >
+              value={edit ? (state.warehouse as any)?.name : state?.warehouse}>
               <option disabled selected>
                 Select Warehouse
               </option>
@@ -311,8 +305,7 @@ const UsersForm = () => {
                   <ListItem className="p-0" key={wh._id}>
                     <label
                       htmlFor={wh.name}
-                      className="py-2 flex items-center justify-between w-full cursor-pointer"
-                    >
+                      className="py-2 flex items-center justify-between w-full cursor-pointer">
                       <Typography color="black" className="capitalize">
                         {wh.name}
                       </Typography>
@@ -341,8 +334,7 @@ const UsersForm = () => {
               label="Supervisor*"
               placeholder="Select Supervisor"
               onChange={handleChange}
-              value={state?.supervisor as string}
-            >
+              value={state?.supervisor as string}>
               <option disabled selected>
                 Select Supervisor
               </option>
@@ -359,8 +351,7 @@ const UsersForm = () => {
             <Button
               type="submit"
               disabled={createState.isLoading}
-              className="w-[70%] bg-green-600 py-3"
-            >
+              className="w-[70%] bg-green-600 py-3">
               {createState.isLoading || updateState.isLoading
                 ? "Loading..."
                 : edit

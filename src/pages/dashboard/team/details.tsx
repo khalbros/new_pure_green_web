@@ -94,7 +94,7 @@ const TeamDetails: React.FC<IProps> = (props) => {
                 <span className="flex flex-wrap gap-1">
                   {members?.map((farmer) => (
                     <span className="capitalize" key={farmer._id}>
-                      {farmer.name},{" "}
+                      {farmer.first_name},{" "}
                     </span>
                   ))}
                 </span>

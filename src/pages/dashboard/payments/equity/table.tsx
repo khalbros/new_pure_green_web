@@ -77,7 +77,7 @@ const PaymentEquityTable = () => {
   const exportTableData = () => {
     return payments?.map((payment) => ({
       "Payment For": "Equity",
-      Farmer: (payment?.farmer as IFarmer)?.name,
+      Farmer: (payment?.farmer as IFarmer)?.first_name,
       "Farmer ID": (payment?.farmer as IFarmer)?.farmer_id,
       Cooperative: ((payment?.farmer as IFarmer)?.cooperative as ICooperative)
         ?.name,
@@ -115,7 +115,7 @@ const PaymentEquityTable = () => {
     }
     const result = (data as IPayment[])?.filter(
       (payment) =>
-        (payment.farmer as IFarmer).name
+        (payment.farmer as IFarmer).first_name
           ?.toLowerCase()
           .includes(value.toLowerCase()) ||
         (payment.paid_by as IUser).name
@@ -277,7 +277,7 @@ const PaymentEquityTable = () => {
                       {/* <input type="checkbox" /> */}
                     </td>
                     <td className="p-3 flex flex-col flex-wrap gap-1 md:gap-2 items-start capitalize tracking-wide font-bold">
-                      <span> {(payments?.farmer as IFarmer)?.name}</span>
+                      <span> {(payments?.farmer as IFarmer)?.first_name}</span>
                     </td>
                     <td className="p-3">
                       {(payments?.farmer as IFarmer)?.farmer_id}
@@ -413,7 +413,7 @@ const PaymentEquityTable = () => {
             />
             <p className="mx-auto text-base text-center max-w-[300px] text-black mb-7">
               Are you sure you want to DELETE this Payment for “
-              {(payment?.farmer as IFarmer)?.name}”
+              {(payment?.farmer as IFarmer)?.first_name}”
             </p>
             <Button
               onClick={() => handleDelete(payment!)}

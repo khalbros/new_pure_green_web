@@ -1,5 +1,4 @@
 import React from "react"
-import { IFarmer } from "../../../interfaces/farmer"
 import { FcImageFile } from "react-icons/fc"
 import { FaUser } from "react-icons/fa"
 import { TbBuildingWarehouse } from "react-icons/tb"
@@ -14,7 +13,7 @@ import { fetchData, getFarmer } from "../../../utils"
 
 const Header: React.FC = () => {
   const currentUser = getFarmer()
-  const farmer = useQuery({
+  const { data: farmer } = useQuery({
     queryKey: ["account", "farmer"],
     queryFn: async () => {
       return fetchData(`farmer/${JSON.parse(currentUser!)._id}`).then(
@@ -32,8 +31,7 @@ const Header: React.FC = () => {
             className="object-contain object-center w-12 lg:w-20 h-12 lg:h-20"
           />
           <p
-            className={`w-full lg:text-3xl text-gray-800 leading-10 font-extrabold`}
-          >
+            className={`w-full lg:text-3xl text-gray-800 leading-10 font-extrabold`}>
             PureGreen{" "}
             <span className="text-green-600 font-bold italic">
               {" "}
@@ -45,8 +43,7 @@ const Header: React.FC = () => {
         <div className="flex items-center gap-4 md:gap-8 lg:gap-14 mb-4 md:mb-6">
           <div
             className="grid place-items-center border rounded-full w-full h-full max-h-24 max-w-24 md:max-w-40 md:max-h-40 lg:max-h-52  lg:max-w-52 object-contain bg-gray-50 hover:transform hover:scale-125 transition-transform duration-300 ease-linear overflow-hidden"
-            onClick={() => null}
-          >
+            onClick={() => null}>
             {farmer?.profile_img?.url ? (
               <img
                 src={farmer?.profile_img?.url}
