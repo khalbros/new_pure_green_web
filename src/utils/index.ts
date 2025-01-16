@@ -8,7 +8,7 @@ export const GOOGLE_MAPS_API_KEY = "AIzaSyBKfZ8DFU5Lyu0u0WF4AQTPM4XGokIbuo0"
 
 const baseURL = import.meta.env.DEV
   ? "http://localhost:5000/api"
-  : "https://puregreen-agrochemicals-api.onrender.com/api"
+  : "https://puregreenapi.onrender.com/api"
 
 export const http = axios.create({
   baseURL,
