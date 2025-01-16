@@ -1,0 +1,58 @@
+import { IUser } from "../interfaces/user"
+
+export const user_log = {
+  userId: "12345",
+  name: "User Logged",
+  email: "user@example.com",
+  phone: "09090357951",
+  role: "WAREHOUSE ADMIN",
+  isEnable: true,
+}
+
+export const dom_user: IUser = {
+  _id: "123456789",
+  name: "WAREHOUSE ADMIN",
+  email: "user@emial.com",
+  phone: "08012345678",
+  gender: "Male",
+  warehouse: { name: "Warehouse Name", _id: "warehouse id" },
+  field_officers: [],
+  address: "address",
+  password: "password1234",
+  role: "WAREHOUSE ADMIN",
+  isEnable: true,
+}
+
+export const farmer = {
+  _id: "123456789",
+  farmer_id: "PGF-2024-1234",
+  name: "the farmers name",
+  gender: "Male",
+  date_of_birth: "13/01/1996",
+  phone: "08089299900",
+  state: "Kaduna",
+  lga: "zaria",
+  village: "Zaria",
+  address: "101 kaura",
+  farm_location: "kaura",
+  id_type: "NIMC",
+  id_number: "71534682915",
+  account_name: "the account name",
+  account_number: "0164658632",
+  bvn: "22314658246",
+  bank_name: "GT Bank",
+  cooperative: { id: "1", name: "farmers cooperative" },
+  role: "Chairman",
+  guarantor_name: "Guarantor name",
+  guarantor_number: "07078965412",
+  guarantor_village: "zaria",
+  guarantor_id_type: "NIMC",
+  guarantor_id_number: "17324568521",
+  guarantor_address: "111 Rimin kambari",
+  field_officer: { _id: "12345", name: "Field Officer Name" },
+  supervisor: { _id: "12345", name: "Supervisor Officer Name" },
+  reg_amount: "15000",
+  equity_amount: "350000",
+  isApproved: true,
+  isPaid: true,
+}
