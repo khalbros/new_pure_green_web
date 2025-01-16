@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import logo from "../../../../assets/puregreen-logo.png"
-import {IUser} from "../../../../interfaces/user"
-import {timeFormatter} from "../../../../utils"
-import {IDisbursement} from "../../../../interfaces/disbursement"
-import {IFarmer} from "../../../../interfaces/farmer"
-import {IBundle} from "../../../../interfaces/bundle"
-import {ICooperative} from "../../../../interfaces/cooperative"
-import {IWarehouse} from "../../../../interfaces/warehouse"
-import {ICashLRP} from "../../../../interfaces/cashLRP"
+import { IUser } from "../../../../interfaces/user"
+import { timeFormatter } from "../../../../utils"
+import { IDisbursement } from "../../../../interfaces/disbursement"
+import { IFarmer } from "../../../../interfaces/farmer"
+import { IBundle } from "../../../../interfaces/bundle"
+import { ICooperative } from "../../../../interfaces/cooperative"
+import { IWarehouse } from "../../../../interfaces/warehouse"
+import { ICashLRP } from "../../../../interfaces/cashLRP"
 
 function Receipt(props: ICashLRP) {
   return (
@@ -38,7 +38,7 @@ function Receipt(props: ICashLRP) {
               (
                 (props?.disbursement as unknown as IDisbursement)
                   ?.farmer as IFarmer
-              )?.name
+              )?.first_name
             }
           </span>
         </div>

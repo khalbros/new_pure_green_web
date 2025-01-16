@@ -17,9 +17,9 @@ import { IoMdCheckmarkCircle } from "react-icons/io"
 import { AiFillEdit } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
 import { getUser } from "../../../../../utils"
-import { FarmerContext } from "../.."
 import DeleteDialog from "../DeleteDialog"
 import ApprovalDialog from "../ApprovalDialog"
+import { FarmerContext } from "../../../farmer"
 
 interface IProps {
   farmers?: IFarmer[]
@@ -183,16 +183,14 @@ const Table: React.FC<ITProps> = ({ farmer, count }) => {
                   navigate("/dashboard/farmer-management/details", {
                     state: farmer,
                   })
-                }
-              >
+                }>
                 <FaEye size={16} /> View details
               </MenuItem>
               {currentUser.role === "WAREHOUSE ADMIN" ||
               currentUser.role === "FIELD OFFICER" ? (
                 <MenuItem
                   onClick={() => handleEditFarmer(farmer)}
-                  className="inline-flex gap-2 border-b-2"
-                >
+                  className="inline-flex gap-2 border-b-2">
                   <AiFillEdit size={16} /> Edit
                 </MenuItem>
               ) : (
@@ -216,8 +214,7 @@ const Table: React.FC<ITProps> = ({ farmer, count }) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => toggleDelete()}
-                      className="inline-flex gap-2 border-b-2"
-                    >
+                      className="inline-flex gap-2 border-b-2">
                       <MdDeleteForever
                         className="mr-2 inline"
                         color="red"

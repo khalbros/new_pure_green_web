@@ -1,15 +1,15 @@
-import {ChangeEvent, FormEvent, useEffect, useMemo, useState} from "react"
-import {MdOutlineKeyboardBackspace} from "react-icons/md"
-import {useLocation, useNavigate} from "react-router-dom"
-import {Button} from "@material-tailwind/react"
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react"
+import { MdOutlineKeyboardBackspace } from "react-icons/md"
+import { useLocation, useNavigate } from "react-router-dom"
+import { Button } from "@material-tailwind/react"
 
-import {useAppDispatch, useAppSelector} from "../../../store"
-import {fetchData} from "../../../utils"
-import {ICooperative} from "../../../interfaces/cooperative"
+import { useAppDispatch, useAppSelector } from "../../../store"
+import { fetchData } from "../../../utils"
+import { ICooperative } from "../../../interfaces/cooperative"
 import Input from "../../../components/form/input"
-import {IFarmer} from "../../../interfaces/farmer"
-import {toast} from "react-toastify"
-import {IEquity} from "../../../interfaces/equity"
+import { IFarmer } from "../../../interfaces/farmer"
+import { toast } from "react-toastify"
+import { IEquity } from "../../../interfaces/equity"
 import {
   registrationSelector,
   reset,
@@ -42,9 +42,9 @@ const RegisterPaymentForm = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const {name, value} = e.target
+    const { name, value } = e.target
 
-    setState({...state, [name]: value})
+    setState({ ...state, [name]: value })
     return
   }
 
@@ -131,7 +131,7 @@ const RegisterPaymentForm = () => {
                     key={index}
                     className="w-full"
                     value={farmer.farmer_id}
-                    children={farmer.name}
+                    children={farmer.first_name}
                   />
                 )
               })}
@@ -139,7 +139,7 @@ const RegisterPaymentForm = () => {
           </>
           {farmer && (
             <>
-              <Input label="Farmer name" value={farmer?.name} />
+              <Input label="Farmer name" value={farmer?.first_name} />
               <Input label="Phone number" value={farmer?.phone} />
               <Input
                 label="Cooperative"

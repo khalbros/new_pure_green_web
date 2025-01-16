@@ -129,7 +129,7 @@ const OverageForm = () => {
                     key={index}
                     className="w-full"
                     value={farmer.farmer_id}
-                    children={farmer.name}
+                    children={farmer.first_name}
                   />
                 )
               })}
@@ -137,7 +137,7 @@ const OverageForm = () => {
           </>
           {farmer && (
             <>
-              <Input label="Farmer name" value={farmer?.name} />
+              <Input label="Farmer name" value={farmer?.first_name} />
               {disbursement?.map((dis) =>
                 Number(dis?.overage) < 0 ? (
                   <Input label="Overage" value={dis.overage} name="overage" />
