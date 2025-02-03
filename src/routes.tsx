@@ -485,8 +485,14 @@ export const routes: IRoute[] = [
     icon: <MdDashboard className="text-2xl md:text3xl" />,
     children: [
       {
-        name: "reg payment",
+        name: "data capture fees",
         path: "/dashboard/payment/registration",
+        layout: "financial officer",
+        icon: <IoIosCash className="text-2xl md:text3xl" />,
+      },
+      {
+        name: "certificate fees",
+        path: "/dashboard/payment/certificate_fees",
         layout: "financial officer",
         icon: <FaMoneyBill className="text-2xl md:text3xl" />,
       },
@@ -497,16 +503,16 @@ export const routes: IRoute[] = [
         icon: <FaMoneyBillWave className="text-2xl md:text3xl" />,
       },
       {
-        name: "account",
-        path: "/account/account-management",
-        layout: "financial officer",
-        icon: <FaPiggyBank className="text-2xl md:text3xl" />,
-      },
-      {
         name: "Cash LRP",
         path: "/dashboard/payment/loan",
         layout: "financial officer",
         icon: <IoIosCash className="text-2xl md:text3xl" />,
+      },
+      {
+        name: "account",
+        path: "/account/account-management",
+        layout: "financial officer",
+        icon: <FaPiggyBank className="text-2xl md:text3xl" />,
       },
     ],
   },

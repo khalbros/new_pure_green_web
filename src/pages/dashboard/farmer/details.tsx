@@ -31,7 +31,7 @@ import { IWarehouse } from "../../../interfaces/warehouse"
 import { IoWallet } from "react-icons/io5"
 import { BiEdit } from "react-icons/bi"
 import ApprovalDialog from "./components/ApprovalDialog"
-import { fetchData, getUser } from "../../../utils"
+import { fetchData, getUser, shortDateFormatter } from "../../../utils"
 import { toast } from "react-toastify"
 import DeleteDialog from "./components/DeleteDialog"
 import { IUser } from "../../../interfaces/user"
@@ -202,7 +202,7 @@ const FarmerDetails = () => {
                   <span className="text-gray-600">
                     <BsFillCalendarDateFill />
                   </span>
-                  {state?.date_of_birth}
+                  {shortDateFormatter(state?.date_of_birth as string)}
                 </p>
 
                 <p className="flex items-center gap-3">

@@ -372,16 +372,18 @@ function WarehouseManagerDashboard() {
         />
       </div>
       <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-3 items-stretch">
-        <div className="">
-          <Doughnut
-            data={data}
-            options={{
-              maintainAspectRatio: true,
-              responsive: true,
-            }}
-            className="mx-0"
-          />
-        </div>
+        {queryToatalLoan.data && (
+          <div className="">
+            <Doughnut
+              data={data}
+              options={{
+                maintainAspectRatio: true,
+                responsive: true,
+              }}
+              className="mx-0"
+            />
+          </div>
+        )}
 
         <div className=" p-4 gap-2 md:gap-3 lg:gap-4 lg:shadow-lg border">
           <div className=" border-2 p-2">
@@ -465,7 +467,7 @@ function WarehouseManagerDashboard() {
                 <p className="flex flex-row items-center justify-between w-full">
                   <span className="text-lg">Sent</span>
                   <span className="text-lg font-bold tracking-wide">
-                    {Number(queryDispatchTr?.data)?.toLocaleString()}{" "}
+                    {Number(queryDispatchTr?.data ?? 0)?.toLocaleString()}{" "}
                     <span className="text-xs text-gray-500">bags</span>
                   </span>
                 </p>
@@ -477,14 +479,14 @@ function WarehouseManagerDashboard() {
                 <p className="flex flex-row items-center justify-between w-full">
                   <span className="text-lg">Sent</span>
                   <span className="text-lg font-bold tracking-wide">
-                    {Number(queryDispatchWhS?.data)?.toLocaleString()}{" "}
+                    {Number(queryDispatchWhS?.data ?? 0)?.toLocaleString()}{" "}
                     <span className="text-xs text-gray-500">bags</span>
                   </span>
                 </p>
                 <p className="flex flex-row items-center justify-between w-full">
                   <span className="text-lg">Receive</span>
                   <span className="text-lg font-bold tracking-wide">
-                    {Number(queryDispatchWhR?.data)?.toLocaleString()}{" "}
+                    {Number(queryDispatchWhR?.data ?? 0)?.toLocaleString()}{" "}
                     <span className="text-xs text-gray-500">bags</span>
                   </span>
                 </p>

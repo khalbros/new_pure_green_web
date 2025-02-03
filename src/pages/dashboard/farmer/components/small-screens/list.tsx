@@ -55,7 +55,9 @@ const MobileCard: React.FC<ICardProps> = ({ farmer }) => {
             <div className="flex flex-col text-start md:gap-1 text-[0.8rem] md:text-[1.2rem]">
               <span className="text-ellipsis text-pretty truncate">
                 {farmer?.first_name +
-                  ` ${farmer?.other_name && farmer.other_name} ` +
+                  ` ${
+                    farmer?.other_name !== "undefined" && farmer?.other_name
+                  } ` +
                   farmer?.last_name}
               </span>
               <span className="text-gray-500 tracking-wider font-bold text-[0.7rem] md:text-[1rem]">

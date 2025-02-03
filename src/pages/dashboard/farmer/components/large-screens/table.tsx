@@ -130,7 +130,9 @@ const Table: React.FC<ITProps> = ({ farmer, count }) => {
           <div className="flex flex-col">
             <span>
               {farmer?.first_name +
-                ` ${farmer?.other_name && farmer?.other_name} ` +
+                ` ${
+                  farmer?.other_name !== "undefined" && farmer?.other_name
+                } ` +
                 farmer?.last_name}
             </span>
             <span className="text-gray-500 tracking-wider font-bold text-[10px] md:text-sm">

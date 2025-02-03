@@ -296,7 +296,7 @@ function SuperAdminDashboard() {
             />
           }
           title="Total Cash Repaid"
-          count={queryCashRecovered?.data?.toLocaleString("en-NG", {
+          count={(queryCashRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
@@ -306,7 +306,7 @@ function SuperAdminDashboard() {
           color="red"
           icon={<FcComboChart className="text-3xl md:text-5xl lg:text-6xl" />}
           title="Total Grain Repaid"
-          count={queryGrainRecovered?.data?.toLocaleString("en-NG", {
+          count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}

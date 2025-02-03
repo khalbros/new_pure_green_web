@@ -143,9 +143,11 @@ function AreaSalesManagerDashboard() {
   const queryInputs = useQuery({
     queryKey: ["inputs"],
     queryFn: async () => {
-      return fetchData("/input").then((res) => res.data)
+      return fetchData("/input/by/warehouse").then((res) => res.data)
     },
   })
+  console.log(queryInputs.data)
+
   const queryCommodity = useQuery({
     queryKey: ["commodity"],
     queryFn: async () => {
@@ -220,7 +222,7 @@ function AreaSalesManagerDashboard() {
             <FaUsers className="text-4xl md:text-5xl lg:text-6xl text-cyan-500" />
           }
           title="Total Farmers"
-          count={queryFarmers?.data?.toLocaleString()}
+          count={(queryFarmers?.data ?? 0)?.toLocaleString()}
           action={() => navigate("farmer-management")}
         />
         <StatCard
@@ -229,14 +231,14 @@ function AreaSalesManagerDashboard() {
             <FaUsers className="text-4xl md:text-5xl lg:text-6xl text-cyan-500" />
           }
           title="Total Clients"
-          count={queryClients?.data?.toLocaleString()}
+          count={(queryClients?.data ?? 0)?.toLocaleString()}
           action={() => navigate("client-management")}
         />
         <StatCard
           color="red"
           icon={<FcFlowChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Cooperativies"
-          count={queryCooperatives?.data?.toLocaleString()}
+          count={(queryCooperatives?.data ?? 0)?.toLocaleString()}
           action={() => navigate("cooperative-management")}
         />
         <StatCard
@@ -245,7 +247,7 @@ function AreaSalesManagerDashboard() {
             <FcPositiveDynamic className="text-4xl md:text-5xl lg:text-6xl" />
           }
           title="Total Loan Disburse"
-          count={queryToatalLoan?.data?.toLocaleString("en-NG", {
+          count={(queryToatalLoan?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
@@ -255,7 +257,7 @@ function AreaSalesManagerDashboard() {
           color="red"
           icon={<FcComboChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Cash Repaid"
-          count={queryCashRecovered?.data?.toLocaleString("en-NG", {
+          count={(queryCashRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
@@ -265,7 +267,7 @@ function AreaSalesManagerDashboard() {
           color="red"
           icon={<FcComboChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Grain Repaid"
-          count={queryGrainRecovered?.data?.toLocaleString("en-NG", {
+          count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
@@ -275,7 +277,7 @@ function AreaSalesManagerDashboard() {
           color="red"
           icon={<FcComboChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Loan Repaid"
-          count={queryLoanRecovered?.data?.toLocaleString("en-NG", {
+          count={(queryLoanRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
@@ -286,7 +288,7 @@ function AreaSalesManagerDashboard() {
           color="green"
           icon={<FcBarChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Outstanding Loan"
-          count={queryOutstandingLoan?.data?.toLocaleString("en-NG", {
+          count={(queryOutstandingLoan?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
@@ -298,7 +300,7 @@ function AreaSalesManagerDashboard() {
             <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
           }
           title="Total Equity"
-          count={queryEquity?.data?.toLocaleString("en-NG", {
+          count={(queryEquity?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
@@ -308,47 +310,49 @@ function AreaSalesManagerDashboard() {
           color="green"
           icon={<FcAreaChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Hectares Disbursed"
-          count={queryHectares?.data?.toLocaleString() + " Ha"}
+          count={(queryHectares?.data ?? 0)?.toLocaleString() + " Ha"}
           action={() => navigate("disbursement")}
         />
         <GrainStatCard
           color="green"
           icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Grains Loan"
-          bags={queryLoanWeight?.data?.bags.toLocaleString()}
-          weight={Number(queryLoanWeight?.data?.weight)?.toFixed(2) + ""}
+          bags={(queryLoanWeight?.data?.bags ?? 0).toLocaleString()}
+          weight={Number(queryLoanWeight?.data?.weight ?? 0)?.toFixed(2) + ""}
           action={() => navigate("warehouse-commodity-management")}
         />
         <GrainStatCard
           color="green"
           icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Grains Trade"
-          bags={queryTradeWeight?.data?.bags.toLocaleString()}
-          weight={Number(queryTradeWeight?.data?.weight)?.toFixed(2) + ""}
+          bags={(queryTradeWeight?.data?.bags ?? 0).toLocaleString()}
+          weight={Number(queryTradeWeight?.data?.weight ?? 0)?.toFixed(2) + ""}
           action={() => navigate("warehouse-commodity-management")}
         />
         <GrainStatCard
           color="green"
           icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Grains Storage"
-          bags={queryStorageWeight?.data?.bags.toLocaleString()}
-          weight={Number(queryStorageWeight?.data?.weight)?.toFixed(2) + ""}
+          bags={(queryStorageWeight?.data?.bags ?? 0).toLocaleString()}
+          weight={
+            Number(queryStorageWeight?.data?.weight ?? 0)?.toFixed(2) + ""
+          }
           action={() => navigate("warehouse-commodity-management")}
         />
         <GrainStatCard
           color="green"
           icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Gross Weight"
-          weight={Number(queryGrossweight?.data?.weight)?.toFixed(2) + ""}
-          bags={queryGrossweight?.data?.quantity?.toLocaleString() + ""}
+          weight={Number(queryGrossweight?.data?.weight ?? 0)?.toFixed(2) + ""}
+          bags={(queryGrossweight?.data?.quantity ?? 0)?.toLocaleString() + ""}
           action={() => navigate("warehouse-commodity-management")}
         />
         <GrainStatCard
           color="green"
           icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Net Weight"
-          weight={Number(queryNetweight?.data?.weight)?.toFixed(2) + ""}
-          bags={queryNetweight?.data?.quantity?.toLocaleString() + ""}
+          weight={Number(queryNetweight?.data?.weight ?? 0)?.toFixed(2) + ""}
+          bags={(queryNetweight?.data?.quantity ?? 0)?.toLocaleString() + ""}
           action={() => navigate("warehouse-commodity-management")}
         />
 
@@ -372,16 +376,18 @@ function AreaSalesManagerDashboard() {
         />
       </div>
       <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-3 items-stretch">
-        <div className="">
-          <Doughnut
-            data={data}
-            options={{
-              maintainAspectRatio: true,
-              responsive: true,
-            }}
-            className="mx-0"
-          />
-        </div>
+        {queryToatalLoan.data && (
+          <div className="">
+            <Doughnut
+              data={data}
+              options={{
+                maintainAspectRatio: true,
+                responsive: true,
+              }}
+              className="mx-0"
+            />
+          </div>
+        )}
 
         <div className=" p-4 gap-2 md:gap-3 lg:gap-4 lg:shadow-lg border">
           <div className=" border-2 p-2">
@@ -465,7 +471,7 @@ function AreaSalesManagerDashboard() {
                 <p className="flex flex-row items-center justify-between w-full">
                   <span className="text-lg">Sent</span>
                   <span className="text-lg font-bold tracking-wide">
-                    {Number(queryDispatchTr?.data)?.toLocaleString()}{" "}
+                    {Number(queryDispatchTr?.data ?? 0)?.toLocaleString()}{" "}
                     <span className="text-xs text-gray-500">bags</span>
                   </span>
                 </p>
@@ -477,14 +483,14 @@ function AreaSalesManagerDashboard() {
                 <p className="flex flex-row items-center justify-between w-full">
                   <span className="text-lg">Sent</span>
                   <span className="text-lg font-bold tracking-wide">
-                    {Number(queryDispatchWhS?.data)?.toLocaleString()}{" "}
+                    {Number(queryDispatchWhS?.data ?? 0)?.toLocaleString()}{" "}
                     <span className="text-xs text-gray-500">bags</span>
                   </span>
                 </p>
                 <p className="flex flex-row items-center justify-between w-full">
                   <span className="text-lg">Receive</span>
                   <span className="text-lg font-bold tracking-wide">
-                    {Number(queryDispatchWhR?.data)?.toLocaleString()}{" "}
+                    {Number(queryDispatchWhR?.data ?? 0)?.toLocaleString()}{" "}
                     <span className="text-xs text-gray-500">bags</span>
                   </span>
                 </p>
@@ -500,19 +506,19 @@ function AreaSalesManagerDashboard() {
           </h3>
           <div className="grid grid-flow-row md:grid-cols-2 w-full gap-2 max-h-[400px] overflow-hidden overflow-y-auto">
             {queryInputs?.data?.map((input: IWInput) => (
-              <div
-                className="flex items-center border flex-1 px-2"
-                key={input._id}>
+              <div className="flex border flex-1 px-2" key={input._id}>
                 <div className="flex flex-col lg:flex-row gap-2 capitalize px-2 w-full">
                   <span className="text-lg lg:text-xl tracking-wide">
-                    {input.input?.name}
+                    {input?.input?.name}
                   </span>
                 </div>
 
-                <div className="flex-1 gap-1">
-                  <span className="flex gap-2 items-center w-full">
-                    <span className="text-gray-400 text-base">Disbursed:</span>
-                    <span className="text-gray-600 font-bold tracking-wide">
+                <div className="flex flex-col gap-1">
+                  <span className="flex flex-row gap-2 items-center justify-between w-full">
+                    <span className="flex text-gray-400 text-base">
+                      Disbursed:
+                    </span>
+                    <span className="flex text-gray-600 font-bold tracking-wide">
                       {Number(input.quantity_out ?? 0).toLocaleString()}
                     </span>
                   </span>
