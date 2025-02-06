@@ -289,7 +289,7 @@ export const routes: IRoute[] = [
       // inputs
       {
         name: "inputs",
-        path: "/dashboard/input-management",
+        path: "/dashboard/warehouse-input-management",
         layout: "area sales manager",
         icon: <TbPackage className="text-2xl md:text3xl" />,
       },

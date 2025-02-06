@@ -244,6 +244,53 @@ export const approveInputAction = (
     )
   }
 }
+export const approveWarehouseInputAction = (
+  input: IInput,
+  callback: () => void
+) => async (dispatch: Dispatch<any>) => {
+  if (!input._id) {
+    dispatch(failed("Wrong input selection"))
+    return toast.error("Wrong input selection")
+  }
+
+  dispatch(initialize())
+
+  try {
+    const response = await http.patch(`/input/warehouse/approve/${input._id}`, {
+      isApproved: input.isApproved,
+    })
+    console.log("dispatch called")
+    if (!response.data) {
+      dispatch(failed(response.statusText))
+      return toast.error(response.statusText)
+    }
+    if (response.status === 401) {
+      deleteToken()
+      deleteUser()
+      toast.warn("Session expired, Plaese Login")
+      window.location.replace("/auth/login")
+      return
+    }
+    if (response.data?.error) {
+      dispatch(failed(response.data.message))
+      return toast.error(response.data.message)
+    }
+    dispatch(success(response.data.data))
+    toast.success(response.data.message)
+    callback()
+  } catch (err) {
+    dispatch(
+      failed(
+        ((err as AxiosError).response?.data as IAxiosError).message ??
+          (err as any)?.message
+      )
+    )
+    toast.error(
+      ((err as AxiosError).response?.data as IAxiosError).message ??
+        (err as any)?.message
+    )
+  }
+}
 
 export const deleteInputAction = (
   input: IInput,
@@ -258,6 +305,52 @@ export const deleteInputAction = (
 
   try {
     const response = await http.delete(`/input/${input._id}`)
+
+    if (response.status === 401) {
+      deleteToken()
+      deleteUser()
+      window.location.replace("/")
+      toast.error(response.status)
+      return dispatch(reset())
+    }
+    if (!response.data) {
+      dispatch(failed(response.statusText))
+      toast.error(response.status)
+      return dispatch(reset())
+    }
+    if (response.data.data?.error) {
+      dispatch(failed(response.data.data.message))
+      toast.error(response.data.data.message)
+      return dispatch(reset())
+    }
+
+    dispatch(success(response.data.data))
+    toast.success(response.data.message)
+    callback()
+  } catch (err) {
+    dispatch(
+      failed(
+        ((err as AxiosError).response?.data as IAxiosError).message ??
+          (err as any)?.message
+      )
+    )
+    toast.error((err as any).message)
+    dispatch(reset())
+  }
+}
+export const deleteWarehouseInputAction = (
+  input: IInput,
+  callback: () => void
+) => async (dispatch: Dispatch<any>) => {
+  if (!input._id) {
+    dispatch(failed("Wrong disbursement selection"))
+    return dispatch(reset())
+  }
+
+  dispatch(initialize())
+
+  try {
+    const response = await http.delete(`/input/warehouse/${input._id}`)
 
     if (response.status === 401) {
       deleteToken()

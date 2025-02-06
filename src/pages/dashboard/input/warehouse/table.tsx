@@ -1,23 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ChangeEvent, useContext, useEffect, useState } from "react"
-import {
-  Button,
-  Dialog,
-  DialogBody,
-  Menu,
-  MenuHandler,
-  MenuItem,
-  MenuList,
-} from "@material-tailwind/react"
-import { TfiMore } from "react-icons/tfi"
-import {
-  AiFillEdit,
-  AiOutlineArrowLeft,
-  AiOutlineArrowRight,
-} from "react-icons/ai"
+import { ChangeEvent, useContext, useEffect, useMemo, useState } from "react"
+import { Button, Dialog, DialogBody } from "@material-tailwind/react"
+
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
 import AddUser from "../../../../assets/illustrations/no-data.png"
-import { MdAdd, MdCancel, MdDeleteForever } from "react-icons/md"
+import { MdAdd, MdCancel } from "react-icons/md"
 import DeleteUser from "../../../../assets/illustrations/thinking.png"
 import { FiSearch } from "react-icons/fi"
 import usePagination from "../../../../hooks/usePagination"
@@ -28,14 +16,17 @@ import { InputContext } from "../"
 import { IWarehouse } from "../../../../interfaces/warehouse"
 import { useAppDispatch } from "../../../../store"
 import {
-  approveInputAction,
+  approveWarehouseInputAction,
   deleteInputAction,
 } from "../../../../store/actions/input"
-import { fetchData } from "../../../../utils"
+import { fetchData, getUser } from "../../../../utils"
 import { useQuery, useQueryClient } from "react-query"
-import EmptyResult from "../emptyResult"
+import EmptyResult from "./emptyResult"
+import MobileList from "./mobileList"
+import DesktopList from "./desktopList"
 
 const WarehouseInputTable = () => {
+  const currentUser = useMemo(() => JSON.parse(getUser()!), [])
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ["inputs", "warehouse"],
     queryFn: async () => {
@@ -51,10 +42,11 @@ const WarehouseInputTable = () => {
   const [input, setInput] = useState<IWInput>()
   const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(inputs)
-  const [_ctx, dispatch] = useContext(InputContext)
+  const [_ctx] = useContext(InputContext)
 
   const navigate = useNavigate()
   const dispatchAction = useAppDispatch()
+
   // search
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -74,12 +66,6 @@ const WarehouseInputTable = () => {
     setInputs(result)
   }
 
-  // set user context and navigate to edit user
-  const handleEdit = (input: IWInput) => {
-    dispatch(input)
-    navigate("edit")
-  }
-
   // open or close delete dialog
   const toggleDiaglog = (input?: IWInput) => {
     if (input) {
@@ -87,11 +73,12 @@ const WarehouseInputTable = () => {
     }
     setOpenDialog(!openDialog)
   }
+
   // handle status
   const handleStatus = (input: IWInput) => {
     dispatchAction(
-      approveInputAction({ ...input }, () => {
-        queryClient.invalidateQueries("inputs", { exact: true })
+      approveWarehouseInputAction({ ...input }, () => {
+        queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
         setOpenDialog(!openDialog)
       })
     )
@@ -108,7 +95,7 @@ const WarehouseInputTable = () => {
   const handleDelete = (input: IWInput) => {
     dispatchAction(
       deleteInputAction({ ...input }, () => {
-        queryClient.invalidateQueries("inputs", { exact: true })
+        queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
         setOpenDelete(!openDelete)
       })
     )
@@ -118,7 +105,8 @@ const WarehouseInputTable = () => {
     if (data) {
       setInputs(data)
     }
-  }, [data, dispatchAction])
+    queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
+  }, [data, dispatchAction, openDialog, queryClient])
 
   return (
     <>
@@ -133,11 +121,15 @@ const WarehouseInputTable = () => {
             path="/dashboard/warehouse-input-management/add"
           />
         }>
-        <Button
-          onClick={(_) => navigate("/dashboard/warehouse-input-management/add")}
-          className="bg-green-700 flex gap-1 justify-center items-center py-1 text-sm lg:text-base lg:py-2 mt-5">
-          <MdAdd className="text-[18px] lg:text-[30px]" /> Add Input
-        </Button>
+        {currentUser?.role === "WAREHOUSE MANAGER" && (
+          <Button
+            onClick={(_) =>
+              navigate("/dashboard/warehouse-input-management/add")
+            }
+            className="bg-green-700 flex gap-1 justify-center items-center py-1 text-sm lg:text-base lg:py-2 mt-5">
+            <MdAdd className="text-[18px] lg:text-[30px]" /> Add Input
+          </Button>
+        )}
         <Input
           type="search"
           leftIcon={<FiSearch size={24} />}
@@ -147,84 +139,14 @@ const WarehouseInputTable = () => {
         />
 
         <>
-          <div className="w-full overflow-x-scroll rounded-lg">
-            <table className="w-full border-collapse border-spacing-y-1 shadow border-[0.5px] rounded-lg whitespace-nowrap capitalize">
-              <thead className="bg-green-50">
-                <tr>
-                  <th className="w-10 text-green-700"></th>
-                  <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
-                    Input's Name
-                  </th>
-                  <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
-                    Quantity
-                  </th>
-                  <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
-                    Available
-                  </th>
-
-                  <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
-                    Disbursed
-                  </th>
-                  <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
-                    Status
-                  </th>
-
-                  <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentItems?.map((input, key) => (
-                  <tr key={key} className={`divide-y even:bg-[#FAFAFA]`}>
-                    <td className="w-10 pl-3">{key + 1}</td>
-                    <td className="p-3 font-bold">{input.input?.name}</td>
-                    <td className="p-3">
-                      {(input.quantity ?? 0) + (input?.quantity_out ?? 0)}
-                    </td>
-                    <td className="p-3">{input.quantity ?? 0}</td>
-                    <td className="p-3">{input.quantity_out ?? 0}</td>
-                    <td className="p-3">
-                      <span
-                        className={`${
-                          input.isApproved
-                            ? "bg-green-400"
-                            : !input?.isApproved
-                            ? "bg-gray-500"
-                            : "bg-red-500"
-                        } whitespace-nowrap px-4 py-1 text-center text-white uppercase rounded-full cursor-pointer`}>
-                        {!input?.isApproved ? "PENDING" : "APPROVED"}
-                      </span>
-                    </td>
-
-                    <td className="p-3">
-                      <Menu placement="bottom-start">
-                        <MenuHandler>
-                          <span className="cursor-pointer">
-                            <TfiMore className="text-3xl md:text-4xl" />
-                          </span>
-                        </MenuHandler>
-                        <MenuList>
-                          <MenuItem
-                            onClick={() => handleEdit(input)}
-                            className="inline-flex gap-2 border-b-2">
-                            <AiFillEdit size={16} /> Edit
-                          </MenuItem>
-                          <MenuItem
-                            onClick={() => toggleDeleteDialog(input)}
-                            className="inline-flex gap-2 border-b-2">
-                            <MdDeleteForever
-                              size={16}
-                              className="text-red-400"
-                            />{" "}
-                            Delete
-                          </MenuItem>
-                        </MenuList>
-                      </Menu>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <>
+            <div className="lg:hidden">
+              <MobileList inputs={currentItems} />
+            </div>
+            <div className="hidden lg:flex">
+              <DesktopList inputs={currentItems} />
+            </div>
+          </>
           {/* Pagination */}
           <div className="flex justify-between items-center mt-8">
             {/* Previous Button */}

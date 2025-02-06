@@ -3,6 +3,9 @@ import React, { lazy, Suspense } from "react"
 import { Navigate, createBrowserRouter } from "react-router-dom"
 import Loading from "./components/Loading"
 import ErrorPage from "./pages/404"
+const InputDetails = lazy(
+  () => import("./pages/dashboard/input/warehouse/details")
+)
 const VerifyNIN = lazy(() => import("./pages/test"))
 const PrivateRoute = lazy(() => import("./pages"))
 const Layout = lazy(() => import("./pages/dashboard/layout"))
@@ -654,8 +657,12 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: "detail",
-            element: <React.Fragment></React.Fragment>,
+            path: "details",
+            element: (
+              <Suspense fallback={<Loading />}>
+                <InputDetails />
+              </Suspense>
+            ),
           },
         ],
       },
