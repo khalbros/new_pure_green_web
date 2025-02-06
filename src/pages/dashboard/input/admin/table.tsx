@@ -1,24 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ChangeEvent, useContext, useEffect, useMemo, useState } from "react"
-import {
-  Button,
-  Dialog,
-  DialogBody,
-  Menu,
-  MenuHandler,
-  MenuItem,
-  MenuList,
-} from "@material-tailwind/react"
-// import {FaEye, FaFilter} from "react-icons/fa"
-import { TfiMore } from "react-icons/tfi"
-import {
-  AiFillEdit,
-  AiOutlineArrowLeft,
-  AiOutlineArrowRight,
-} from "react-icons/ai"
-import { useNavigate } from "react-router-dom"
+import { ChangeEvent, useContext, useEffect, useState } from "react"
+import { Button, Dialog, DialogBody } from "@material-tailwind/react"
+
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
 import AddUser from "../../../../assets/illustrations/no-data.png"
-import { MdCancel, MdDeleteForever } from "react-icons/md"
+import { MdCancel } from "react-icons/md"
 import DeleteUser from "../../../../assets/illustrations/thinking.png"
 import { FiSearch } from "react-icons/fi"
 import usePagination from "../../../../hooks/usePagination"
@@ -31,8 +17,7 @@ import {
   approveInputAction,
   deleteInputAction,
 } from "../../../../store/actions/input"
-import { fetchData, getUser } from "../../../../utils"
-import { IoMdCheckmarkCircle, IoMdCloseCircle } from "react-icons/io"
+import { fetchData } from "../../../../utils"
 import { useQuery, useQueryClient } from "react-query"
 import InputForm from "./form"
 import EmptyResult from "../emptyResult"
@@ -40,7 +25,6 @@ import MobileList from "./mobileList"
 import DesktopList from "./desktopList"
 
 const AdminInputTable = () => {
-  const currentUser = useMemo(() => JSON.parse(getUser()!), [])
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ["inputs"],
     queryFn: async () => {
@@ -56,9 +40,8 @@ const AdminInputTable = () => {
   const [input, setInput] = useState<IInput>()
   const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(inputs)
-  const [_ctx, dispatch] = useContext(InputContext)
+  const [_ctx] = useContext(InputContext)
 
-  const navigate = useNavigate()
   const dispatchAction = useAppDispatch()
   // search
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -72,19 +55,6 @@ const AdminInputTable = () => {
     )
     setInputs(result)
   }
-
-  // set user context and navigate to edit user
-  const handleEdit = (cooperative: IInput) => {
-    dispatch(cooperative)
-    navigate("edit")
-  }
-  // open drawer with users details
-  // const toggleDrawer = (input?: IInput) => {
-  //   if (input) {
-  //     setInput(input)
-  //   }
-  //   setOpenDrawer(!openDrawer)
-  // }
 
   // open or close delete dialog
   const toggleDiaglog = (input?: IInput) => {
@@ -140,12 +110,6 @@ const AdminInputTable = () => {
             path="/dashboard/input-management/add"
           />
         }>
-        {/* <Button
-          onClick={(_) => navigate("/dashboard/input-management/add")}
-          className="bg-green-700 flex gap-1 justify-center items-center py-1 text-sm lg:text-base lg:py-2 mt-5">
-          <MdAdd className="text-[18px] lg:text-[30px]" /> Add Input
-        </Button> */}
-
         <Input
           type="search"
           leftIcon={<FiSearch size={24} />}
