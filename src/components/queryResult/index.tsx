@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react"
-import Loading from "./loading"
 import Error from "./error"
+import Loading from "../Loading"
 
 interface IProps {
   data: any
