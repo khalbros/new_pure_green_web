@@ -42,10 +42,10 @@ const MobileCard: React.FC<ICardProps> = ({ farmer }) => {
           onClick={() =>
             navigate("/dashboard/farmer-management/details", { state: farmer })
           }>
-          <div className="relative flex items-center capitalize tracking-wide font-bold">
+          <div className="flex-1 relative flex items-center capitalize tracking-wide font-bold">
             {farmer?.profile_img?.url ? (
               <Avatar
-                size="md"
+                size="sm"
                 src={farmer?.profile_img?.url}
                 className="mr-2"
               />
@@ -93,7 +93,7 @@ const MobileCard: React.FC<ICardProps> = ({ farmer }) => {
               )}
             </div>
           </div>
-          <div className="flex flex-col ite gap-1 px-1 pl-2">
+          <div className="flex-1 flex-col space-y-2 px-3">
             <span className="flex gap-1 items-center justify-between">
               <span className="text-[0.65rem] md:text-[0.77rem] uppercase">
                 Reg.

@@ -19,7 +19,6 @@ const WarehouseInputTable = lazy(
 const WarehouseInputForm = lazy(
   () => import("./pages/dashboard/input/warehouse/form")
 )
-const FarmerDetails = lazy(() => import("./pages/dashboard/account/details"))
 const PrivateLayout = lazy(() => import("./pages/account/private"))
 const AccountLayout = lazy(() => import("./pages/account"))
 const AccountAuthLayout = lazy(() => import("./pages/account/authLayout"))
@@ -108,6 +107,7 @@ const TransactionTradingTable = lazy(
 const FarmerManagement = lazy(() => import("./pages/dashboard/farmer/index"))
 const FarmerTable = lazy(() => import("./pages/dashboard/farmer/table"))
 const FarmerForm = lazy(() => import("./pages/dashboard/farmer/form"))
+const FarmerDetails = lazy(() => import("./pages/dashboard/farmer/details"))
 const DisbursementManagement = lazy(
   () => import("./pages/dashboard/disbursement")
 )

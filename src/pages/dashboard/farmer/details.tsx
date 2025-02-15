@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Dialog, DialogBody } from "@material-tailwind/react"
+import { Avatar, Dialog, DialogBody } from "@material-tailwind/react"
 import { useContext, useEffect, useMemo, useState } from "react"
 import {
   MdCancel,
@@ -14,7 +14,6 @@ import {
 import { useLocation, useNavigate } from "react-router-dom"
 import { FarmerContext } from "."
 import { ICooperative } from "../../../interfaces/cooperative"
-import Chart from "react-apexcharts"
 import { FaPhoneAlt, FaTransgender } from "react-icons/fa"
 import { FaCircleUser, FaLocationDot, FaUser } from "react-icons/fa6"
 import { BsFillCalendarDateFill } from "react-icons/bs"
@@ -47,6 +46,7 @@ const FarmerDetails = () => {
   const [image, setImage] = useState<string | undefined>(undefined)
   const [state, setFarmer] = useState<IFarmer>(location?.state)
 
+  console.log(state?.profile_img?.url)
   const currentUser = useMemo(() => JSON.parse(getUser()!), [])
   // const state: IFarmer = location.state
 
@@ -57,12 +57,6 @@ const FarmerDetails = () => {
   // open or close delete dialog
   const toggleDelete = () => {
     setOpenDelete(!openDelete)
-  }
-  const options = {
-    series: [44, 55, 13, 33],
-    chartOptions: {
-      labels: ["Apple", "Mango", "Orange", "Watermelon"],
-    },
   }
 
   function handleImageView(url?: string) {
@@ -84,6 +78,7 @@ const FarmerDetails = () => {
         (err) => toast.error(err)
       )
       .catch((err) => toast.error(err))
+    console.log(state)
   }, [openDialog])
 
   return (
@@ -140,13 +135,14 @@ const FarmerDetails = () => {
           {/* Profile */}
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 lg:gap-14 mb-4 md:mb-6">
             <div
-              className=" grid place-items-center border rounded-full w-full h-full max-h-36 max-w-36 md:max-w-40 md:max-h-40 lg:max-h-52  lg:max-w-52 object-contain bg-gray-50 hover:transform hover:scale-125 transition-transform duration-300 ease-linear overflow-hidden"
+              className="grid place-items-center border rounded-full w-36 h-36 max-h-36 max-w-36 md:max-w-40 md:max-h-40 lg:max-h-52  lg:max-w-52 object-contain bg-gray-400 hover:transform hover:scale-125 transition-transform duration-300 ease-linear overflow-hidden"
               onClick={() => handleImageView(state?.profile_img?.url)}>
               {state?.profile_img?.url ? (
-                <img
+                <Avatar
                   src={state?.profile_img?.url}
                   alt="id card"
-                  className="contain-size"
+                  size="xl"
+                  className="w-full h-full object-contain"
                 />
               ) : (
                 <FaCircleUser
@@ -236,14 +232,10 @@ const FarmerDetails = () => {
               <div className="flex gap-[11px] mb-4">
                 <p className="text-gray-700 flex-1">Project </p>
                 <select name="" id="">
-                  <option value="">2021</option>
-                  <option value="">2022</option>
                   <option value="">2023</option>
+                  <option value="">2024</option>
+                  <option value="">2025</option>
                 </select>
-              </div>
-
-              <div className="flex justify-center gap-[5px] mb-[30px]">
-                <Chart type="donut" options={options} />
               </div>
             </div>
           </div>
