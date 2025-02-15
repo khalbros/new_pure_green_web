@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChangeEvent, useContext, useEffect, useMemo, useState } from "react"
-import { Button, Dialog, DialogBody } from "@material-tailwind/react"
+import { Button } from "@material-tailwind/react"
 
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
 import AddUser from "../../../../assets/illustrations/no-data.png"
-import { MdAdd, MdCancel } from "react-icons/md"
-import DeleteUser from "../../../../assets/illustrations/thinking.png"
+import { MdAdd } from "react-icons/md"
 import { FiSearch } from "react-icons/fi"
 import usePagination from "../../../../hooks/usePagination"
 import Input from "../../../../components/form/input"
@@ -15,10 +14,6 @@ import { IWInput } from "../../../../interfaces/input"
 import { InputContext } from "../"
 import { IWarehouse } from "../../../../interfaces/warehouse"
 import { useAppDispatch } from "../../../../store"
-import {
-  approveWarehouseInputAction,
-  deleteInputAction,
-} from "../../../../store/actions/input"
 import { fetchData, getUser } from "../../../../utils"
 import { useQuery, useQueryClient } from "react-query"
 import EmptyResult from "./emptyResult"
@@ -36,10 +31,8 @@ const WarehouseInputTable = () => {
 
   const queryClient = useQueryClient()
 
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
-  const [openDelete, setOpenDelete] = useState<boolean>(false)
   const [inputs, setInputs] = useState<IWInput[]>(data)
-  const [input, setInput] = useState<IWInput>()
+
   const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(inputs)
   const [_ctx] = useContext(InputContext)
@@ -66,49 +59,12 @@ const WarehouseInputTable = () => {
     setInputs(result)
   }
 
-  // open or close delete dialog
-  const toggleDiaglog = (input?: IWInput) => {
-    if (input) {
-      setInput(input)
-    }
-    setOpenDialog(!openDialog)
-  }
-
-  // handle status
-  const handleStatus = (input: IWInput) => {
-    dispatchAction(
-      approveWarehouseInputAction({ ...input }, () => {
-        queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
-        setOpenDialog(!openDialog)
-      })
-    )
-  }
-
-  // open or close delete dialog
-  const toggleDeleteDialog = (Input?: IWInput) => {
-    if (Input) {
-      setInput(Input)
-    }
-    queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
-    setOpenDelete(!openDelete)
-  }
-  // handle delete
-  const handleDelete = (input: IWInput) => {
-    dispatchAction(
-      deleteInputAction({ ...input }, () => {
-        queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
-        queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
-        setOpenDelete(!openDelete)
-      })
-    )
-  }
-
   useEffect(() => {
     if (data) {
       setInputs(data)
     }
     queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
-  }, [data, dispatchAction, openDialog, openDelete])
+  }, [data, dispatchAction])
 
   return (
     <>
