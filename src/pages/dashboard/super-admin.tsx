@@ -113,6 +113,13 @@ function SuperAdminDashboard() {
     },
   })
 
+  const queryInput = useQuery({
+    queryKey: ["counts", "inputs"],
+    queryFn: async () => {
+      return fetchData("/input/count/total").then((res) => res.data)
+    },
+  })
+
   const data = {
     labels: [
       "Total Loan Repaid",
@@ -366,6 +373,15 @@ function SuperAdminDashboard() {
           title="Total Hectares Disbursed"
           count={disbursed_hectare.toLocaleString() + " Ha"}
           action={() => navigate("disbursement")}
+        />
+        <StatCard
+          color="green"
+          icon={
+            <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
+          }
+          title="Total Inputs"
+          count={(queryInput?.data ?? 0)?.toLocaleString()}
+          action={() => navigate("input-management")}
         />
         <GrainStatCard
           color="green"

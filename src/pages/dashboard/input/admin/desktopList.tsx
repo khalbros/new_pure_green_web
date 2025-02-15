@@ -40,7 +40,7 @@ const DesktopList: React.FC<IProps> = ({ inputs }) => {
           </thead>
           <tbody>
             {inputs?.map((input, key) => {
-              return <Table input={input} count={++key} />
+              return <Table input={input} count={++key} key={key} />
             })}
           </tbody>
         </table>
@@ -90,7 +90,7 @@ const Table: React.FC<ITProps> = ({ input, count }) => {
       />
 
       <tr key={count} className={`divide-y even:bg-[#FAFAFA]`}>
-        <td className="w-10 pl-3">{count + 1}</td>
+        <td className="w-10 pl-3">{count}</td>
         <td className="p-3 font-bold">{input?.name}</td>
         <td className="p-3">{input?.quantity ?? 0}</td>
 

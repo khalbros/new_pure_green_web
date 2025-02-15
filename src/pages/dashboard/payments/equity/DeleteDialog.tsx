@@ -1,35 +1,31 @@
 import { Button, Dialog, DialogBody } from "@material-tailwind/react"
 import confirmAction from "../../../../assets/illustrations/thinking.png"
 import { MdCancel } from "react-icons/md"
-import { deleteWarehouseInputAction } from "../../../../store/actions/input"
+import { IFarmer } from "../../../../interfaces/farmer"
+import { deleteFarmerAction } from "../../../../store/actions/farmer"
 import { useAppDispatch } from "../../../../store"
-import { IWInput } from "../../../../interfaces/input"
 import { useLocation, useNavigate } from "react-router-dom"
-import { useQueryClient } from "react-query"
 
 interface IProps {
   openDelete: boolean
   toggleDelete: () => void
   setOpenDelete: React.Dispatch<React.SetStateAction<boolean>>
-  input?: IWInput
+  farmer?: IFarmer
 }
 function DeleteDialog({
   openDelete,
   toggleDelete,
   setOpenDelete,
-  input,
+  farmer,
 }: IProps) {
-  const dispatchAction = useAppDispatch()
-  const location = useLocation()
   const navigate = useNavigate()
-
-  const queryClient = useQueryClient()
-  // Delete input
+  const location = useLocation()
+  const dispatchAction = useAppDispatch()
+  // Delete farmer
   const handleDelete = () => {
     dispatchAction(
-      deleteWarehouseInputAction({ ...input }, () => {
+      deleteFarmerAction({ ...farmer }, () => {
         setOpenDelete(!openDelete)
-        queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
         if (location.pathname.includes("/details")) {
           navigate(-1)
         }
@@ -50,14 +46,18 @@ function DeleteDialog({
         <img
           src={confirmAction}
           className="w-[120px] mx-auto mb-7 block"
-          alt="delete input"
+          alt="delete farmer"
         />
         <p className="mx-auto text-base text-center max-w-[300px] text-black mb-7">
-          Are you sure you want to DELETE “{input?.input?.name}”
+          Are you sure you want to DELETE “
+          {farmer?.first_name + " " + farmer?.other_name &&
+            farmer?.other_name + " " + farmer?.last_name}
+          ”
         </p>
         <Button
           onClick={() => handleDelete()}
-          className="bg-green-600 w-60p mx-auto block mb-16">
+          className="bg-green-600 w-60p mx-auto block mb-16"
+        >
           Delete
         </Button>
       </DialogBody>

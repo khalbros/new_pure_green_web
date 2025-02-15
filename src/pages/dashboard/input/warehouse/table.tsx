@@ -89,12 +89,14 @@ const WarehouseInputTable = () => {
     if (Input) {
       setInput(Input)
     }
+    queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
     setOpenDelete(!openDelete)
   }
   // handle delete
   const handleDelete = (input: IWInput) => {
     dispatchAction(
       deleteInputAction({ ...input }, () => {
+        queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
         queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
         setOpenDelete(!openDelete)
       })
@@ -106,7 +108,7 @@ const WarehouseInputTable = () => {
       setInputs(data)
     }
     queryClient.invalidateQueries(["inputs", "warehouse"], { exact: true })
-  }, [data, dispatchAction, openDialog, queryClient])
+  }, [data, dispatchAction, openDialog, openDelete])
 
   return (
     <>
@@ -180,64 +182,6 @@ const WarehouseInputTable = () => {
             </Button>
           </div>
         </>
-        <Dialog size="sm" open={openDialog} handler={toggleDiaglog}>
-          <DialogBody className="">
-            <div className="flex justify-end">
-              {" "}
-              <MdCancel
-                className="cursor-pointer"
-                size={20}
-                onClick={() => toggleDiaglog()}
-              />{" "}
-            </div>
-            <img
-              src={DeleteUser}
-              className="w-[140px] mx-auto mb-7 block"
-              alt="delete user"
-            />
-            <p className="mx-auto text-base text-center max-w-[300px] text-black mb-7">
-              Are you sure you want to{" "}
-              {input?.isApproved ? "disable" : "approve"} “{input?.input?.name}”
-            </p>
-            <Button
-              onClick={() =>
-                handleStatus({
-                  ...input,
-                  isApproved: input?.isApproved ? false : true,
-                })
-              }
-              className="bg-green-600 w-60p mx-auto block mb-16">
-              Confirm
-            </Button>
-          </DialogBody>
-        </Dialog>
-        {/* delete */}
-        <Dialog size="sm" open={openDelete} handler={toggleDeleteDialog}>
-          <DialogBody className="">
-            <div className="flex justify-end">
-              {" "}
-              <MdCancel
-                className="cursor-pointer"
-                size={20}
-                onClick={() => toggleDeleteDialog()}
-              />{" "}
-            </div>
-            <img
-              src={DeleteUser}
-              className="w-[120px] mx-auto mb-7 block"
-              alt="delete farmer"
-            />
-            <p className="mx-auto text-base text-center max-w-[300px] text-black mb-7">
-              Are you sure you want to DELETE “{input?.input?.name}”
-            </p>
-            <Button
-              onClick={() => handleDelete(input!)}
-              className="bg-green-600 w-60p mx-auto block mb-16">
-              Delete
-            </Button>
-          </DialogBody>
-        </Dialog>
-        {/* <Details user={user} open={openDrawer} close={toggleDrawer} /> */}
       </QueryResult>
     </>
   )

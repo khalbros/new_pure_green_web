@@ -107,6 +107,12 @@ function AreaSalesManagerDashboard() {
       )
     },
   })
+  const queryInput = useQuery({
+    queryKey: ["counts", "inputs"],
+    queryFn: async () => {
+      return fetchData("/input/warehouse/count/total").then((res) => res.data)
+    },
+  })
   const queryGrossweight = useQuery({
     queryKey: ["counts", "gross-weight"],
     queryFn: async () => {
@@ -312,6 +318,15 @@ function AreaSalesManagerDashboard() {
           title="Total Hectares Disbursed"
           count={(queryHectares?.data ?? 0)?.toLocaleString() + " Ha"}
           action={() => navigate("disbursement")}
+        />
+        <StatCard
+          color="green"
+          icon={
+            <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
+          }
+          title="Total Inputs"
+          count={(queryInput?.data ?? 0)?.toLocaleString()}
+          action={() => navigate("warehouse-input-management")}
         />
         <GrainStatCard
           color="green"
