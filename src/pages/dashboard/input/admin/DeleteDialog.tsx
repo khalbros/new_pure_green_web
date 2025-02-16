@@ -5,6 +5,7 @@ import { deleteInputAction } from "../../../../store/actions/input"
 import { useAppDispatch } from "../../../../store"
 import { IInput } from "../../../../interfaces/input"
 import { useLocation, useNavigate } from "react-router-dom"
+import { useQueryClient } from "react-query"
 
 interface IProps {
   openDelete: boolean
@@ -12,6 +13,7 @@ interface IProps {
   setOpenDelete: React.Dispatch<React.SetStateAction<boolean>>
   input?: IInput
 }
+
 function DeleteDialog({
   openDelete,
   toggleDelete,
@@ -21,11 +23,15 @@ function DeleteDialog({
   const dispatchAction = useAppDispatch()
   const location = useLocation()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   // Delete input
   const handleDelete = () => {
     dispatchAction(
       deleteInputAction({ ...input }, () => {
         setOpenDelete(!openDelete)
+        queryClient.invalidateQueries(["inputs"], {
+          exact: true,
+        })
         if (location.pathname.includes("/details")) {
           navigate(-1)
         }

@@ -4,24 +4,20 @@ import { MdCancel, MdCheckCircle, MdDeleteForever } from "react-icons/md"
 import { useLocation, useNavigate } from "react-router-dom"
 import { InputContext } from "../"
 import { fetchData, getUser } from "../../../../utils"
-import { toast } from "react-toastify"
 import { BiEdit } from "react-icons/bi"
 import ApprovalDialog from "./ApprovalDialog"
-import { IInput } from "../../../../interfaces/input"
-
 import DeleteDialog from "./DeleteDialog"
 import { useQuery } from "react-query"
 import { IProject } from "../../../../interfaces/project"
 
-const InputDetails: React.FC = () => {
+const AdminInputDetails: React.FC = () => {
   const currentUser = useMemo(() => JSON.parse(getUser()!), [])
   const { state } = useLocation()
   const navigate = useNavigate()
-  const [input, setInput] = useState<IInput>(state)
   const [_ctx, dispatch] = useContext(InputContext)
   const [openDelete, setOpenDelete] = useState<boolean>(false)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
-
+  const input = state
   const queryProject = useQuery({
     queryKey: ["project"],
     queryFn: async () => {
@@ -42,16 +38,7 @@ const InputDetails: React.FC = () => {
     navigate("/dashboard/input-management/edit")
   }
 
-  useEffect(() => {
-    fetchData(`/input/warehouse/${input?._id}`)
-      .then(
-        (res) => {
-          setInput(res.data)
-        },
-        (err) => toast.error(err)
-      )
-      .catch((err) => toast.error(err))
-  }, [openDialog])
+  useEffect(() => {}, [state, openDelete, openDialog])
 
   return (
     <div className="">
@@ -174,4 +161,4 @@ const InputDetails: React.FC = () => {
   )
 }
 
-export default InputDetails
+export default AdminInputDetails

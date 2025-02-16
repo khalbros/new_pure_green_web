@@ -5,6 +5,8 @@ import { IInput } from "../../../../interfaces/input"
 import { approveInputAction } from "../../../../store/actions/input"
 import { useAppDispatch } from "../../../../store"
 import React from "react"
+import { useQueryClient } from "react-query"
+import { useNavigate } from "react-router-dom"
 
 interface IProps {
   openDialog: boolean
@@ -19,7 +21,8 @@ function ApprovalDialog({
   input,
 }: IProps) {
   const dispatchAction = useAppDispatch()
-
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
   // handle input status
   const handleStatus = (input: IInput) => {
     dispatchAction(
@@ -28,7 +31,14 @@ function ApprovalDialog({
           ...input,
           isApproved: !input.isApproved,
         },
-        () => setOpenDialog(!openDialog)
+        () => {
+          queryClient.invalidateQueries(["inputs"], {
+            exact: true,
+          })
+
+          setOpenDialog(!openDialog)
+          navigate(-1)
+        }
       )
     )
   }
