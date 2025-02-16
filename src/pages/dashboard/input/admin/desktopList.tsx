@@ -12,6 +12,7 @@ import { InputContext } from "../"
 import DeleteDialog from "./DeleteDialog"
 import ApprovalDialog from "./ApprovalDialog"
 import { IInput } from "../../../../interfaces/input"
+import { FaEye } from "react-icons/fa"
 
 interface IProps {
   inputs?: IInput[]
@@ -115,6 +116,15 @@ const Table: React.FC<ITProps> = ({ input, count }) => {
               </span>
             </MenuHandler>
             <MenuList>
+              <MenuItem
+                className="border-b-2 inline-flex gap-2"
+                onClick={() =>
+                  navigate("/dashboard/input-management/details", {
+                    state: input,
+                  })
+                }>
+                <FaEye size={16} /> View details
+              </MenuItem>
               {currentUser?.role === "SUPER ADMIN" &&
                 (input?.isApproved ? (
                   <MenuItem

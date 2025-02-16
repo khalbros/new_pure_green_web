@@ -39,7 +39,7 @@ const MobileCard: React.FC<ICardProps> = ({ input }) => {
           variant="text"
           className={`flex flex-1 w-full justify-between divide-x-2 p-1 gap-2 cursor-pointer`}
           onClick={() =>
-            navigate("/dashboard/warehouse-input-management/details", {
+            navigate("/dashboard/input-management/details", {
               state: input,
             })
           }>

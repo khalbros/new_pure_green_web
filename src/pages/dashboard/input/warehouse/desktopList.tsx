@@ -13,6 +13,7 @@ import DeleteDialog from "./DeleteDialog"
 import ApprovalDialog from "./ApprovalDialog"
 import { IWInput } from "../../../../interfaces/input"
 import { IWarehouse } from "../../../../interfaces/warehouse"
+import { FaEye } from "react-icons/fa"
 
 interface IProps {
   inputs?: IWInput[]
@@ -136,6 +137,15 @@ const Table: React.FC<ITProps> = ({ input, count }) => {
               </span>
             </MenuHandler>
             <MenuList>
+              <MenuItem
+                className="border-b-2 inline-flex gap-2"
+                onClick={() =>
+                  navigate("/dashboard/warehouse-input-management/details", {
+                    state: input,
+                  })
+                }>
+                <FaEye size={16} /> View details
+              </MenuItem>
               {currentUser?.role === "AREA SALES MANAGER" &&
                 (input?.isApproved ? (
                   <MenuItem
