@@ -115,7 +115,7 @@ const Table: React.FC<ITProps> = ({ input, count }) => {
               </span>
             </MenuHandler>
             <MenuList>
-              {currentUser?.role === "AREA SALES MANAGER" &&
+              {currentUser?.role === "SUPER ADMIN" &&
                 (input?.isApproved ? (
                   <MenuItem
                     onClick={() => toggleDiaglog()}

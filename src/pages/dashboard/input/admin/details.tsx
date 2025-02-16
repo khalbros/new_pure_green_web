@@ -59,7 +59,7 @@ const InputDetails: React.FC = () => {
         {/* Action buttons */}
 
         <div className="fixed z-50 grid grid-rows-2 divide-y-2 bottom-4 right-4 gap-2 md:gap-4 place-content-center">
-          {currentUser?.role === "AREA SALES MANAGER" && (
+          {currentUser?.role === "SUPER ADMIN" && (
             <span
               className={`flex items-center gap-2 shadow-md md:shadow-lg text-white bg-${
                 input?.isApproved ? "red" : "green"
