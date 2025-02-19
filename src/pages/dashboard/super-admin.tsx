@@ -7,7 +7,6 @@ import {
   FcAreaChart,
   FcBarChart,
   FcComboChart,
-  FcDoughnutChart,
   FcFlowChart,
   FcPieChart,
   FcPositiveDynamic,
@@ -16,14 +15,7 @@ import {
 import { fetchData, getUser } from "../../utils"
 import { toast } from "react-toastify"
 import ReactApexChart from "react-apexcharts"
-import {
-  FaMoneyBillAlt,
-  FaMoneyBill,
-  FaUserCheck,
-  FaUserClock,
-  FaUserSlash,
-  FaUsers,
-} from "react-icons/fa"
+import { FaUserCheck, FaUserClock, FaUserSlash, FaUsers } from "react-icons/fa"
 import { Doughnut } from "react-chartjs-2"
 import { IInput } from "../../interfaces/input"
 import { ICommodity } from "../../interfaces/commodity"

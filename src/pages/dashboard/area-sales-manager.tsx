@@ -18,6 +18,11 @@ import { ICommodity } from "../../interfaces/commodity"
 import { IGrade } from "../../interfaces/grade"
 import { FaUsers } from "react-icons/fa"
 import { useQuery } from "react-query"
+import { Avatar } from "@material-tailwind/react"
+import maize_bag from "../../assets/icons/maize_bag.jpg"
+import naira_bag from "../../assets/icons/naira_bag.jpg"
+import naira_icon from "../../assets/icons/naira.png"
+import input_icon from "../../assets/icons/input.png"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -261,7 +266,7 @@ function AreaSalesManagerDashboard() {
         />
         <StatCard
           color="red"
-          icon={<FcComboChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={<Avatar src={naira_icon} size="sm" />}
           title="Total Cash Repaid"
           count={(queryCashRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -302,9 +307,7 @@ function AreaSalesManagerDashboard() {
         />
         <StatCard
           color="green"
-          icon={
-            <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
-          }
+          icon={<Avatar src={naira_bag} size="sm" />}
           title="Total Equity"
           count={(queryEquity?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -321,9 +324,7 @@ function AreaSalesManagerDashboard() {
         />
         <StatCard
           color="green"
-          icon={
-            <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
-          }
+          icon={<Avatar src={input_icon} size="sm" />}
           title="Total Inputs"
           count={(queryInput?.data ?? 0)?.toLocaleString()}
           action={() => navigate("warehouse-input-management")}
@@ -662,7 +663,9 @@ export const GrainStatCard: React.FC<IGrainProps> = (props) => {
       <div
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
         onClick={props.action}>
-        {props.icon && <div className={`flex`}>{props.icon}</div>}
+        <div className={`flex`}>
+          <Avatar src={maize_bag} size="sm" />
+        </div>
         <div className="flex flex-col flex-1 gap-2 items-end">
           <span className="flex items-center justify-end gap-1 w-full">
             <p className="flex text-indigo-600 font-extrabold lg:text-xl">

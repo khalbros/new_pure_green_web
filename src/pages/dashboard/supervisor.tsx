@@ -21,6 +21,9 @@ import { IFarmer } from "../../interfaces/farmer"
 import { ITeam } from "../../interfaces/team"
 import { useQuery } from "react-query"
 import { FaUserCheck, FaUserClock } from "react-icons/fa"
+import naira_bag from "../../assets/icons/naira_bag.jpg"
+
+import { Avatar } from "@material-tailwind/react"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -245,9 +248,7 @@ function SupervisorDashboard() {
         />
         <StatCard
           color="green"
-          icon={
-            <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
-          }
+          icon={<Avatar src={naira_bag} size="sm" />}
           title="Total Equity"
           count={(queryEquity?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
