@@ -27,11 +27,11 @@ function Header({
         <p
           className={`${
             open ? "w-full text-right" : ""
-          } text-xl lg:text-3xl text-gray-800 leading-10 font-extrabold`}>
-          PureGreen{" "}
-          <span className="text-green-600 font-bold italic">
+          } text-xl lg:text-3xl text-green-700 leading-10 font-extrabold`}>
+          Pure Green{" "}
+          <span className="text-gray-800 font-bold italic">
             {" "}
-            Agro-chemicals{" "}
+            Agrochemicals Nig Ltd
           </span>
         </p>
       </div>

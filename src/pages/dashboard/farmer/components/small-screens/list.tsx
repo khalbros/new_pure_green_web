@@ -96,7 +96,7 @@ const MobileCard: React.FC<ICardProps> = ({ farmer }) => {
           <div className="flex-1 flex-col space-y-2 px-3">
             <span className="flex gap-1 items-center justify-between">
               <span className="text-[0.65rem] md:text-[0.77rem] uppercase">
-                Reg.
+                Data Capture.
               </span>
               {Number(farmer?.reg_amount) > 0 ? (
                 <span className="text-green-400 uppercase tracking-wide text-[0.65rem] md:text-[0.77rem] px-2 rounded-full bg-green-100">

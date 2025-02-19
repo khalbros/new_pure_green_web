@@ -28,6 +28,11 @@ import { Doughnut } from "react-chartjs-2"
 import { IInput } from "../../interfaces/input"
 import { ICommodity } from "../../interfaces/commodity"
 import { useQuery } from "react-query"
+import { Avatar } from "@material-tailwind/react"
+import maize_bag from "../../assets/icons/maize_bag.jpg"
+import naira_bag from "../../assets/icons/naira_bag.jpg"
+import naira_icon from "../../assets/icons/naira.png"
+import input_icon from "../../assets/icons/input.png"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -117,6 +122,12 @@ function SuperAdminDashboard() {
     queryKey: ["counts", "inputs"],
     queryFn: async () => {
       return fetchData("/input/count/total").then((res) => res.data)
+    },
+  })
+  const queryRegFee = useQuery({
+    queryKey: ["payment", "registration"],
+    queryFn: async () => {
+      return fetchData("/payment/registration").then((res) => res.data)
     },
   })
 
@@ -282,6 +293,7 @@ function SuperAdminDashboard() {
           count={cooperativies.toLocaleString()}
           action={() => navigate("cooperative-management")}
         />
+
         <StatCard
           color="red"
           icon={
@@ -296,12 +308,7 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="red"
-          icon={
-            <FaMoneyBill
-              className="text-3xl md:text-5xl lg:text-6xl"
-              color="blue"
-            />
-          }
+          icon={<Avatar src={naira_bag} size="sm" />}
           title="Total Cash Repaid"
           count={(queryCashRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -342,9 +349,17 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="green"
-          icon={
-            <FcDoughnutChart className="text-3xl md:text-5xl lg:text-6xl" />
-          }
+          icon={<Avatar src={naira_icon} size="sm" />}
+          title="Data Captured Fee"
+          count={queryRegFee.data?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("disbursement")}
+        />
+        <StatCard
+          color="green"
+          icon={<Avatar src={naira_bag} size="sm" />}
           title="Total Equity Booked"
           count={total_equity.toLocaleString("en-NG", {
             style: "currency",
@@ -354,12 +369,7 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="red"
-          icon={
-            <FaMoneyBillAlt
-              className="text-3xl md:text-5xl lg:text-6xl"
-              color="blue"
-            />
-          }
+          icon={<Avatar src={naira_bag} size="sm" />}
           title="Total Equity Paid"
           action={() => navigate("payment/equity")}
           count={totalEquity.toLocaleString("en-NG", {
@@ -376,9 +386,7 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="green"
-          icon={
-            <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
-          }
+          icon={<Avatar src={input_icon} sizes="sm md lg" />}
           title="Total Inputs"
           count={(queryInput?.data ?? 0)?.toLocaleString()}
           action={() => navigate("input-management")}
@@ -541,7 +549,9 @@ export const GrainStatCard: React.FC<IGrainProps> = (props) => {
       <div
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
         onClick={props.action}>
-        {props.icon && <div className={`flex`}>{props.icon}</div>}
+        <div className={`flex`}>
+          <Avatar src={maize_bag} size="sm" />
+        </div>
         <div className="flex flex-col flex-1 gap-2 items-end">
           <span className="flex items-center justify-end gap-1 w-full">
             <p className="flex text-indigo-600 font-extrabold lg:text-xl">

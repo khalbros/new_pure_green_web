@@ -140,9 +140,16 @@ const UsersForm = () => {
     if (edit) {
       delete state.password
       dispatch(
-        updateUserAction({ ...state, profile_img: profileImg as never }, () => {
-          navigate(-1)
-        })
+        updateUserAction(
+          {
+            ...state,
+            profile_img: profileImg as never,
+            area_warehouse: selected_wh.flatMap((w) => w._id) as string[],
+          },
+          () => {
+            navigate(-1)
+          }
+        )
       )
       return
     }

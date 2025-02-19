@@ -1,5 +1,5 @@
 import React from "react"
-import {Outlet, useLocation} from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
 import Sidebar from "../../components/sidebar"
 import Header from "../../components/header"
 
@@ -17,6 +17,7 @@ const Layout = () => {
 
   React.useEffect(() => {
     const resize = () => setScreenSize(getScreenSize())
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     screenSize.width < 1024 ? setOpen(false) : setOpen(true)
 
     window.addEventListener("resize", resize)

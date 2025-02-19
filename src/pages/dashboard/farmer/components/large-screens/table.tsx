@@ -28,7 +28,7 @@ const DesktopList: React.FC<IProps> = ({ farmers }) => {
   return (
     <>
       <div className="w-full overflow-x-scroll rounded-lg">
-        <table className="w-full border-collapse border-spacing-y-1 shadow border-[0.5px] rounded-lg whitespace-nowrap">
+        <table className="w-full border-collapse border-spacing-y-1 shadow border-[0.5px] rounded-lg whitespace-pre-wrap">
           <thead className="bg-green-50">
             <tr>
               <th className="w-10"></th>
@@ -55,7 +55,7 @@ const DesktopList: React.FC<IProps> = ({ farmers }) => {
               </th>
 
               <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
-                Reg. Fee
+                Data Capture Fee
               </th>
               <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
                 Equity

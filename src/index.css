@@ -43,7 +43,7 @@
     font-feature-settings: "kern" !important;
     -webkit-font-smoothing: antialiased;
     letter-spacing: 0px;
-    line-height: 12px;
+    line-height: 15px;
 
     @apply text-[11.5px] md:text-[12.5px] lg:text-[14.5px] box-border;
   }

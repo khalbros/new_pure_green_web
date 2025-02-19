@@ -91,6 +91,7 @@ export const updateUserAction = (user: IUser, callback: () => void) => async (
   }
 
   dispatch(updateUser())
+  console.log(user)
 
   try {
     const respone = await http.patch(
