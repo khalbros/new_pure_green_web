@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Color } from "chart.js"
 import {
   FcAreaChart,
-  FcBarChart,
   FcComboChart,
   FcPieChart,
   FcFlowChart,
@@ -20,8 +19,12 @@ import { FaUsers } from "react-icons/fa"
 import { useQuery } from "react-query"
 import maize_bag from "../../assets/icons/maize_bag.jpg"
 import naira_bag from "../../assets/icons/naira_bag.jpg"
-
+import nairanote from "../../assets/icons/naira_note.png"
+import naira_icon from "../../assets/icons/naira.png"
 import input_icon from "../../assets/icons/input.png"
+import grain from "../../assets/icons/grain.jpeg"
+import datacapt from "../../assets/icons/pngkey.com-username-icon-png-2035339.png"
+
 import { Avatar } from "@material-tailwind/react"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -103,12 +106,24 @@ function WarehouseManagerDashboard() {
       )
     },
   })
-  const queryEquity = useQuery({
+  const queryEquityPaid = useQuery({
     queryKey: ["counts", "equity"],
+    queryFn: async () => {
+      return fetchData("/payment/count/equity").then((res) => res.data)
+    },
+  })
+  const queryEquity = useQuery({
+    queryKey: ["counts", "equity-disburse"],
     queryFn: async () => {
       return fetchData("/disbursement/count/equity-disburse").then(
         (res) => res.data
       )
+    },
+  })
+  const queryDataCapt = useQuery({
+    queryKey: ["counts", "registration"],
+    queryFn: async () => {
+      return fetchData("/payment/count/registration").then((res) => res.data)
     },
   })
   const queryGrossweight = useQuery({
@@ -250,6 +265,24 @@ function WarehouseManagerDashboard() {
           action={() => navigate("cooperative-management")}
         />
         <StatCard
+          color="green"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={datacapt}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
+          title="Data Capture Fee"
+          count={(queryDataCapt?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/registration")}
+        />
+        <StatCard
           color="red"
           icon={
             <FcPositiveDynamic className="text-4xl md:text-5xl lg:text-6xl" />
@@ -263,7 +296,15 @@ function WarehouseManagerDashboard() {
         />
         <StatCard
           color="red"
-          icon={<Avatar src={naira_bag} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={nairanote}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Cash Repaid"
           count={(queryCashRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -273,7 +314,15 @@ function WarehouseManagerDashboard() {
         />
         <StatCard
           color="red"
-          icon={<FcComboChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={grain}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Grain Repaid"
           count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -294,7 +343,15 @@ function WarehouseManagerDashboard() {
 
         <StatCard
           color="green"
-          icon={<FcBarChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={naira_icon}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Outstanding Loan"
           count={(queryOutstandingLoan?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -305,7 +362,17 @@ function WarehouseManagerDashboard() {
         <StatCard
           color="green"
           icon={<Avatar src={naira_bag} size="sm" />}
-          title="Total Equity"
+          title="Total Equity Paid"
+          count={(queryEquityPaid?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/equity")}
+        />
+        <StatCard
+          color="green"
+          icon={<Avatar src={naira_bag} size="sm" />}
+          title="Total Equity Booked"
           count={(queryEquity?.data ?? 0).toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
@@ -436,20 +503,7 @@ function WarehouseManagerDashboard() {
                 <h4 className="font-bold text-xl text-gray-900 text-center">
                   Storage
                 </h4>
-                {/* <p className="flex flex-col md:flex-row md:items-center md:justify-between w-full">
-                  <span className="text-lg">Qty sent</span>
-                  <span className="text-lg text-end font-bold tracking-wide">
-                    {Number(305500).toLocaleString()}{" "}
-                    <span className="text-xs text-gray-500">bags</span>
-                  </span>
-                </p>
-                <p className="flex flex-col md:flex-row md:items-center md:justify-between w-full">
-                  <span className="text-lg">Qty receive</span>
-                  <span className="text-lg text-end font-bold tracking-wide">
-                    {Number(305500).toLocaleString()}{" "}
-                    <span className="text-xs text-gray-500">bags</span>
-                  </span>
-                </p> */}
+
                 <div>
                   <ReactApexChart
                     options={{
@@ -661,7 +715,7 @@ export const GrainStatCard: React.FC<IGrainProps> = (props) => {
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
         onClick={props.action}>
         <div className={`flex`}>
-          <Avatar src={maize_bag} size="sm" />
+          {props.icon ?? <Avatar src={maize_bag} size="sm" />}
         </div>
         <div className="flex flex-col flex-1 gap-2 items-end">
           <span className="flex items-center justify-end gap-1 w-full">

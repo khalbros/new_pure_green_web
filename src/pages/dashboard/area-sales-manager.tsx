@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Color } from "chart.js"
 import {
   FcAreaChart,
-  FcBarChart,
   FcComboChart,
   FcPieChart,
   FcFlowChart,
@@ -21,8 +20,11 @@ import { useQuery } from "react-query"
 import { Avatar } from "@material-tailwind/react"
 import maize_bag from "../../assets/icons/maize_bag.jpg"
 import naira_bag from "../../assets/icons/naira_bag.jpg"
+import nairanote from "../../assets/icons/naira_note.png"
 import naira_icon from "../../assets/icons/naira.png"
 import input_icon from "../../assets/icons/input.png"
+import grain from "../../assets/icons/grain.jpeg"
+import datacapt from "../../assets/icons/pngkey.com-username-icon-png-2035339.png"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -104,8 +106,20 @@ function AreaSalesManagerDashboard() {
       )
     },
   })
-  const queryEquity = useQuery({
+  const queryEquityPaid = useQuery({
     queryKey: ["counts", "equity"],
+    queryFn: async () => {
+      return fetchData("/payment/count/equity").then((res) => res.data)
+    },
+  })
+  const queryDataCapt = useQuery({
+    queryKey: ["counts", "registration"],
+    queryFn: async () => {
+      return fetchData("/payment/count/registration").then((res) => res.data)
+    },
+  })
+  const queryEquity = useQuery({
+    queryKey: ["counts", "equity-disburse"],
     queryFn: async () => {
       return fetchData("/disbursement/count/equity-disburse").then(
         (res) => res.data
@@ -253,6 +267,24 @@ function AreaSalesManagerDashboard() {
           action={() => navigate("cooperative-management")}
         />
         <StatCard
+          color="green"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={datacapt}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
+          title="Data Capture Fee"
+          count={(queryDataCapt?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/registration")}
+        />
+        <StatCard
           color="red"
           icon={
             <FcPositiveDynamic className="text-4xl md:text-5xl lg:text-6xl" />
@@ -266,7 +298,15 @@ function AreaSalesManagerDashboard() {
         />
         <StatCard
           color="red"
-          icon={<Avatar src={naira_icon} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={nairanote}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Cash Repaid"
           count={(queryCashRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -276,7 +316,15 @@ function AreaSalesManagerDashboard() {
         />
         <StatCard
           color="red"
-          icon={<FcComboChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={grain}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Grain Repaid"
           count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -297,7 +345,15 @@ function AreaSalesManagerDashboard() {
 
         <StatCard
           color="green"
-          icon={<FcBarChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={naira_icon}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Outstanding Loan"
           count={(queryOutstandingLoan?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -308,7 +364,17 @@ function AreaSalesManagerDashboard() {
         <StatCard
           color="green"
           icon={<Avatar src={naira_bag} size="sm" />}
-          title="Total Equity"
+          title="Total Equity Paid"
+          count={(queryEquityPaid?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/equity")}
+        />
+        <StatCard
+          color="green"
+          icon={<Avatar src={naira_bag} size="sm" />}
+          title="Total Equity Booked"
           count={(queryEquity?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",

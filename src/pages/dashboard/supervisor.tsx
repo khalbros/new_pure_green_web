@@ -22,7 +22,7 @@ import { ITeam } from "../../interfaces/team"
 import { useQuery } from "react-query"
 import { FaUserCheck, FaUserClock } from "react-icons/fa"
 import naira_bag from "../../assets/icons/naira_bag.jpg"
-
+import datacapt from "../../assets/icons/pngkey.com-username-icon-png-2035339.png"
 import { Avatar } from "@material-tailwind/react"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -171,11 +171,23 @@ function SupervisorDashboard() {
     },
   })
   const queryEquity = useQuery({
-    queryKey: ["counts", "equity"],
+    queryKey: ["counts", "equity-disburse"],
     queryFn: async () => {
       return fetchData("/disbursement/count/equity-disburse").then(
         (res) => res.data
       )
+    },
+  })
+  const queryEquityPaid = useQuery({
+    queryKey: ["counts", "equity"],
+    queryFn: async () => {
+      return fetchData("/payment/count/equity").then((res) => res.data)
+    },
+  })
+  const queryDataCapt = useQuery({
+    queryKey: ["counts", "registration"],
+    queryFn: async () => {
+      return fetchData("/payment/count/registration").then((res) => res.data)
     },
   })
 
@@ -231,6 +243,24 @@ function SupervisorDashboard() {
         />
         <StatCard
           color="green"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={datacapt}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
+          title="Data Capture Fee"
+          count={(queryDataCapt?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/registration")}
+        />
+        <StatCard
+          color="green"
           icon={<FcAreaChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Hectares Disbursed"
           count={Number(totalHectares ?? 0)?.toLocaleString() + " Ha"}
@@ -249,7 +279,17 @@ function SupervisorDashboard() {
         <StatCard
           color="green"
           icon={<Avatar src={naira_bag} size="sm" />}
-          title="Total Equity"
+          title="Total Equity Paid"
+          count={(queryEquityPaid?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/equity")}
+        />
+        <StatCard
+          color="green"
+          icon={<Avatar src={naira_bag} size="sm" />}
+          title="Total Equity Booked"
           count={(queryEquity?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",

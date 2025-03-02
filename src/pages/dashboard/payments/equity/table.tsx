@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {ChangeEvent, useContext, useEffect, useRef, useState} from "react"
+import {
+  ChangeEvent,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import {
   Button,
   Dialog,
@@ -9,50 +16,45 @@ import {
   MenuItem,
   MenuList,
 } from "@material-tailwind/react"
-import {FaEye} from "react-icons/fa"
-import {TfiMore} from "react-icons/tfi"
+import { FaEye } from "react-icons/fa"
+import { TfiMore } from "react-icons/tfi"
 import {
   AiFillEdit,
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
 } from "react-icons/ai"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import AddUser from "../../../../assets/illustrations/no-data.png"
-import {
-  MdAdd,
-  MdCancel,
-  MdDeleteForever,
-  MdOutlineKeyboardBackspace,
-} from "react-icons/md"
+import { MdAdd, MdCancel, MdDeleteForever } from "react-icons/md"
 import DeleteUser from "../../../../assets/illustrations/thinking.png"
-import {FiSearch} from "react-icons/fi"
-import {IEquity as IPayment} from "../../../../interfaces/equity"
+import { FiSearch } from "react-icons/fi"
+import { IEquity as IPayment } from "../../../../interfaces/equity"
 import usePagination from "../../../../hooks/usePagination"
-import useFetch from "../../../../hooks/useFetch"
 import QueryResult from "../../../../components/queryResult"
-import EmptyResult from "../../../../components/queryResult/emptyResult"
+import EmptyResult from "../emptyResult"
 import Input from "../../../../components/form/input"
-import {IFarmer} from "../../../../interfaces/farmer"
+import { IFarmer } from "../../../../interfaces/farmer"
 import PaymentDetails from "./details"
-import {useReactToPrint} from "react-to-print"
-import {IoMdPrint} from "react-icons/io"
+import { useReactToPrint } from "react-to-print"
+import { IoMdPrint } from "react-icons/io"
 import Receipt from "../receipt"
 import {
   fetchData,
   generateExcelFile,
+  getUser,
   shortDateFormatter,
 } from "../../../../utils"
-import {useAppDispatch, useAppSelector} from "../../../../store"
-import {equitySelector} from "../../../../store/slices/finance/equity"
-import {deleteEquityPaymentAction} from "../../../../store/actions/finance"
-import {toast} from "react-toastify"
-import {HiDocumentDownload} from "react-icons/hi"
-import {IUser} from "../../../../interfaces/user"
-import {ICooperative} from "../../../../interfaces/cooperative"
-import {IWarehouse} from "../../../../interfaces/warehouse"
-import {EquityContext} from "."
+import { useAppDispatch } from "../../../../store"
+import { deleteEquityPaymentAction } from "../../../../store/actions/finance"
+import { HiDocumentDownload } from "react-icons/hi"
+import { IUser } from "../../../../interfaces/user"
+import { ICooperative } from "../../../../interfaces/cooperative"
+import { IWarehouse } from "../../../../interfaces/warehouse"
+import { EquityContext } from "."
+import { useQuery, useQueryClient } from "react-query"
 
 const PaymentEquityTable = () => {
+  const currentUser = useMemo(() => JSON.parse(getUser()!), [])
   const [openDrawer, setOpenDrawer] = useState<boolean>(false)
 
   const [openDelete, setOpenDelete] = useState<boolean>(false)
@@ -61,18 +63,20 @@ const PaymentEquityTable = () => {
   const [payment, setPayment] = useState<IPayment>()
   const [_ctx, dispatch] = useContext(EquityContext)
   const navigate = useNavigate()
-  const {data, error, loading, message} = useFetch(`/payment/list/equity`)
-  const {currentItems, currentPage, pages, nextPage, prevPage, changePage} =
+  const queryClient = useQueryClient()
+
+  const { data, error, isLoading, isError } = useQuery({
+    queryKey: ["equity", "list"],
+    queryFn: async () => {
+      return fetchData("/payment/all/equity").then((res) => res.data)
+    },
+  })
+  const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(payments)
 
   const [open, setOpen] = useState<boolean>(false)
   const dispatchAction = useAppDispatch()
 
-  const paymentState = useAppSelector(equitySelector)
-
-  const handleGoBack = () => {
-    navigate(-1)
-  }
   // export data handler
   const exportTableData = () => {
     return payments?.map((payment) => ({
@@ -108,7 +112,7 @@ const PaymentEquityTable = () => {
 
   // search
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target
+    const { value } = e.target
     if (!value) {
       setPayments(data)
       return
@@ -161,7 +165,10 @@ const PaymentEquityTable = () => {
   // handle delete
   const handleDelete = (payment: IPayment) => {
     dispatchAction(
-      deleteEquityPaymentAction({...payment}, () => setOpenDelete(!openDelete))
+      deleteEquityPaymentAction({ ...payment }, () => {
+        queryClient.invalidateQueries(["equity", "list"], { exact: true })
+        setOpenDelete(!openDelete)
+      })
     )
     setRefresh(!refresh)
   }
@@ -183,35 +190,29 @@ const PaymentEquityTable = () => {
   }
 
   useEffect(() => {
-    fetchData("/payment/list/equity")
-      .then((res) => {
-        if (res.data) setPayments(res.data)
-      })
-      .catch((err) => toast.error(err.message))
-  }, [data, dispatchAction, paymentState.isLoading, refresh])
-
+    if (data) {
+      setPayments(data)
+    }
+    queryClient.invalidateQueries(["equity", "list"], { exact: true })
+  }, [data, dispatchAction])
   return (
     <>
       <QueryResult
         data={data}
-        loading={loading}
-        error={error ? message : ""}
+        loading={isLoading}
+        error={isError ? String(error) : ""}
         emptyResult={<EmptyResult item="Payment" image={AddUser} path="add" />}>
         <div className="flex items-center md:m-6 m-4">
-          <span onClick={handleGoBack}>
-            <MdOutlineKeyboardBackspace
-              size={24}
-              className="mr-3 cursor-pointer text-green-500"
-            />
-          </span>
-          <h4 className="text-xl lg:text-2xl text-green-500">Equity List</h4>
+          <h4 className="text-xl lg:text-2xl text-green-500">Equity Paid</h4>
         </div>
         <div className="flex items-center gap-2">
-          <Button
-            onClick={() => navigate("add")}
-            className="bg-green-700 flex gap-1 justify-center items-center py-1 text-sm lg:text-base lg:py-2 mt-5">
-            <MdAdd className="text-[18px] lg:text-[30px]" /> Pay Now
-          </Button>
+          {currentUser.role === "FINANCIAL OFFICER" && (
+            <Button
+              onClick={() => navigate("add")}
+              className="bg-green-700 flex gap-1 justify-center items-center py-1 text-sm lg:text-base lg:py-2 mt-5">
+              <MdAdd className="text-[18px] lg:text-[30px]" /> Pay Now
+            </Button>
+          )}
           <Button
             onClick={() => generateExcelFile(exportTableData(), "equitys")}
             className="bg-blue-700 flex gap-1 justify-center items-center py-1 text-sm lg:text-base lg:py-2 mt-5">
@@ -232,15 +233,9 @@ const PaymentEquityTable = () => {
             <table className="w-full border-collapse border-spacing-y-1 shadow border-[0.5px] rounded-lg whitespace-nowrap capitalize">
               <thead className="bg-green-50">
                 <tr>
-                  <th className="w-10">
-                    S/N
-                    {/* <input type="checkbox" /> */}
-                  </th>
+                  <th className="w-10"></th>
                   <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
-                    Farmer's Name
-                  </th>
-                  <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
-                    Farmer's ID
+                    Farmer
                   </th>
 
                   <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
@@ -276,29 +271,24 @@ const PaymentEquityTable = () => {
                       {key + 1}
                       {/* <input type="checkbox" /> */}
                     </td>
-                    <td className="p-3 flex flex-col flex-wrap gap-1 md:gap-2 items-start capitalize tracking-wide font-bold">
-                      <span> {(payments?.farmer as IFarmer)?.first_name}</span>
-                    </td>
-                    <td className="p-3">
+                    <td className="p-3 flex flex-col flex-wrap gap-1 md:gap-2 items-start capitalize tracking-wide ">
+                      <span className="font-bold">
+                        {" "}
+                        {(payments?.farmer as IFarmer)?.first_name +
+                          " " +
+                          (!(payments?.farmer as IFarmer)?.other_name
+                            ? (payments?.farmer as IFarmer)?.other_name + " "
+                            : "") +
+                          (payments?.farmer as IFarmer)?.last_name}
+                      </span>
                       {(payments?.farmer as IFarmer)?.farmer_id}
                     </td>
+
                     <td className="p-3">
-                      {
-                        (
-                          (payments?.farmer as IFarmer)
-                            ?.cooperative as ICooperative
-                        )?.name
-                      }
+                      {(payments?.cooperative as ICooperative)?.name}
                     </td>
                     <td className="p-3">
-                      {
-                        (
-                          (
-                            (payments?.farmer as IFarmer)
-                              ?.field_officer as IUser
-                          )?.warehouse as IWarehouse
-                        )?.name
-                      }
+                      {(payments?.warehouse as IWarehouse)?.name}
                     </td>
                     <td className="p-3 font-bold tracking-wide">
                       {Number(payments?.amount_paid).toLocaleString("en-NG", {
@@ -331,28 +321,34 @@ const PaymentEquityTable = () => {
                             onClick={() => toggleDrawer(payments)}>
                             <FaEye size={16} /> View details
                           </MenuItem>
-                          <MenuItem
-                            onClick={() => handleEdit(payments)}
-                            className="inline-flex gap-2 border-b-2">
-                            <AiFillEdit size={16} /> Edit
-                          </MenuItem>
-
-                          <MenuItem
-                            onClick={() => togglePrint(payments)}
-                            className="inline-flex gap-2 border-b-2">
-                            <IoMdPrint size={16} className="text-green-400" />
-                            Print
-                          </MenuItem>
-
-                          <MenuItem
-                            onClick={() => toggleDeleteDialog(payments)}
-                            className="inline-flex gap-2 border-b-2">
-                            <MdDeleteForever
-                              size={16}
-                              className="text-red-400"
-                            />{" "}
-                            Delete
-                          </MenuItem>
+                          {currentUser.role === "FINANCIAL OFFICER" && (
+                            <>
+                              {" "}
+                              <MenuItem
+                                onClick={() => handleEdit(payments)}
+                                className="inline-flex gap-2 border-b-2">
+                                <AiFillEdit size={16} /> Edit
+                              </MenuItem>
+                              <MenuItem
+                                onClick={() => togglePrint(payments)}
+                                className="inline-flex gap-2 border-b-2">
+                                <IoMdPrint
+                                  size={16}
+                                  className="text-green-400"
+                                />
+                                Print
+                              </MenuItem>
+                              <MenuItem
+                                onClick={() => toggleDeleteDialog(payments)}
+                                className="inline-flex gap-2 border-b-2">
+                                <MdDeleteForever
+                                  size={16}
+                                  className="text-red-400"
+                                />{" "}
+                                Delete
+                              </MenuItem>
+                            </>
+                          )}
                         </MenuList>
                       </Menu>
                     </td>

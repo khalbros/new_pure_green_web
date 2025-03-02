@@ -1,10 +1,12 @@
 export interface IEquity {
   _id?: string
   farmer?: string
+  warehouse?: string
   cooperative?: string
   amount_paid?: number
   amount_per_hectare?: number
   hectares?: number
+  hectares_used?: number
   status?: boolean
   paid_by?: string
   createdAt?: string

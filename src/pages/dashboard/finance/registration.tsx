@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react"
-import { MdOutlineKeyboardBackspace } from "react-icons/md"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Button } from "@material-tailwind/react"
 
@@ -34,10 +33,6 @@ const RegisterPaymentForm = () => {
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-
-  const handleGoBack = () => {
-    navigate(-1)
-  }
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -95,14 +90,8 @@ const RegisterPaymentForm = () => {
   return (
     <div className="h-full w-full lg:pr-5 py-4 lg:py-8">
       <div className="flex items-center md:mb-12 mb-6">
-        <span onClick={handleGoBack}>
-          <MdOutlineKeyboardBackspace
-            size={24}
-            className="mr-3 cursor-pointer text-green-500"
-          />
-        </span>
         <h4 className="text-xl lg:text-2xl text-green-500">
-          Registration Payment Form
+          Data Capture Payment Form
         </h4>
       </div>
 
@@ -131,7 +120,11 @@ const RegisterPaymentForm = () => {
                     key={index}
                     className="w-full"
                     value={farmer.farmer_id}
-                    children={farmer.first_name}
+                    children={
+                      farmer?.first_name +
+                      ` ${farmer?.other_name && farmer?.other_name} ` +
+                      farmer?.last_name
+                    }
                   />
                 )
               })}
@@ -139,11 +132,21 @@ const RegisterPaymentForm = () => {
           </>
           {farmer && (
             <>
-              <Input label="Farmer name" value={farmer?.first_name} />
-              <Input label="Phone number" value={farmer?.phone} />
+              <Input
+                label="Farmer name"
+                value={
+                  farmer?.first_name +
+                  ` ${farmer?.other_name && farmer?.other_name} ` +
+                  farmer?.last_name
+                }
+                readOnly
+              />
+
+              <Input label="Phone number" value={farmer?.phone} readOnly />
               <Input
                 label="Cooperative"
                 value={(farmer?.cooperative as ICooperative).name}
+                readOnly
               />
             </>
           )}

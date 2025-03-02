@@ -55,7 +55,12 @@ const EquityDetails: React.FC<IProps> = (props) => {
             </p>
             <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize">
               <span className="text-gray-600">Farmer:</span>
-              {(props.payment?.farmer as IFarmer)?.first_name}
+              {(props.payment?.farmer as IFarmer)?.first_name +
+                " " +
+                ((props.payment?.farmer as IFarmer)?.other_name
+                  ? (props.payment?.farmer as IFarmer)?.other_name + " "
+                  : "") +
+                (props.payment?.farmer as IFarmer)?.last_name}
             </p>
             <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize">
               <span className="text-gray-600">Farmer ID:</span>

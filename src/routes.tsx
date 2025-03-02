@@ -13,8 +13,6 @@ import { TiChartBarOutline } from "react-icons/ti"
 import {
   FaCalendarCheck,
   FaLayerGroup,
-  FaMoneyBill,
-  FaMoneyBillWave,
   FaPiggyBank,
   FaShieldAlt,
   FaUserAlt,
@@ -23,8 +21,10 @@ import {
 import { FiUsers } from "react-icons/fi"
 import { HiOutlineUserGroup } from "react-icons/hi"
 import { AiOutlineSchedule } from "react-icons/ai"
-import { IoIosCash } from "react-icons/io"
-
+import dataCapt from "../src/assets/icons/pngkey.com-username-icon-png-2035339.png"
+import nairabag from "../src/assets/icons/naira_bag.jpg"
+import nairanote from "../src/assets/icons/naira_note.png"
+import cert1 from "../src/assets/icons/cert1.png"
 export interface IRoute {
   name: string
   path: string
@@ -488,25 +488,57 @@ export const routes: IRoute[] = [
         name: "data capture fees",
         path: "/dashboard/payment/registration",
         layout: "financial officer",
-        icon: <IoIosCash className="text-2xl md:text3xl" />,
+        icon: (
+          <div className="object-contain w-6 h-6">
+            <img
+              src={dataCapt}
+              className="text-3xl md:text-5xl lg:text-6xl"
+              color="green"
+            />
+          </div>
+        ),
       },
       {
         name: "certificate fees",
         path: "/dashboard/payment/certificate_fees",
         layout: "financial officer",
-        icon: <FaMoneyBill className="text-2xl md:text3xl" />,
+        icon: (
+          <div className="object-contain w-6 h-6">
+            <img
+              src={cert1}
+              className="text-3xl md:text-5xl lg:text-6xl"
+              color="green"
+            />
+          </div>
+        ),
       },
       {
         name: "equity payment",
         path: "/dashboard/payment/equity",
         layout: "financial officer",
-        icon: <FaMoneyBillWave className="text-2xl md:text3xl" />,
+        icon: (
+          <div className="object-contain w-6">
+            <img
+              src={nairabag}
+              className="text-3xl md:text-5xl lg:text-6xl"
+              color="green"
+            />
+          </div>
+        ),
       },
       {
         name: "Cash LRP",
         path: "/dashboard/payment/loan",
         layout: "financial officer",
-        icon: <IoIosCash className="text-2xl md:text3xl" />,
+        icon: (
+          <div className="object-contain w-6 h-6">
+            <img
+              src={nairanote}
+              className="text-3xl md:text-5xl lg:text-6xl"
+              color="green"
+            />
+          </div>
+        ),
       },
       {
         name: "account",

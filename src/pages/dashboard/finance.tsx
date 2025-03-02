@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import {ReactNode, useEffect, useState} from "react"
-import {useLocation, useNavigate} from "react-router-dom"
-import {Chart as ChartJS, ArcElement, Tooltip, Legend, Color} from "chart.js"
-
-import {FaMoneyBill, FaMoneyBillAlt} from "react-icons/fa"
-import {fetchData} from "../../utils"
-import {toast} from "react-toastify"
-import {IoIosCash} from "react-icons/io"
+import { ReactNode, useEffect, useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Color } from "chart.js"
+import { fetchData } from "../../utils"
+import { toast } from "react-toastify"
+import nairabag from "../../assets/icons/naira_bag.jpg"
+import nairanote from "../../assets/icons/naira_note.png"
+import cert1 from "../../assets/icons/cert1.png"
+import datacapt from "../../assets/icons/pngkey.com-username-icon-png-2035339.png"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -19,12 +18,12 @@ function FinanceOfficerDashboard() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetchData("/payment/registration")
+    fetchData("/payment/count/registration")
       .then((res) => {
         if (res.data) setTotalRegistered(res.data)
       })
       .catch((err) => toast.error(err.message))
-    fetchData("/payment/equity")
+    fetchData("/payment/count/equity")
       .then((res) => {
         if (res.data) setTotalEquity(res.data)
       })
@@ -42,10 +41,49 @@ function FinanceOfficerDashboard() {
         <StatCard
           color="red"
           icon={
-            <IoIosCash
-              className="text-3xl md:text-5xl lg:text-6xl"
-              color="red"
-            />
+            <div className="object-contain w-10 h-10">
+              <img
+                src={datacapt}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
+          title="Total Data Capture Fee"
+          count={totalRegistered.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/registration")}
+        />
+        <StatCard
+          color="red"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={cert1}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
+          title="Total Certificate Paid"
+          count={totalCash.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/loan")}
+        />
+        <StatCard
+          color="red"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={nairanote}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
           }
           title="Total Cash Loan Repaid"
           count={totalCash.toLocaleString("en-NG", {
@@ -57,26 +95,13 @@ function FinanceOfficerDashboard() {
         <StatCard
           color="red"
           icon={
-            <FaMoneyBill
-              className="text-3xl md:text-5xl lg:text-6xl"
-              color="green"
-            />
-          }
-          title="Total Registration Paid"
-          count={totalRegistered.toLocaleString("en-NG", {
-            style: "currency",
-            currency: "NGN",
-          })}
-          action={() => navigate("payment/registration")}
-        />
-
-        <StatCard
-          color="red"
-          icon={
-            <FaMoneyBillAlt
-              className="text-3xl md:text-5xl lg:text-6xl"
-              color="blue"
-            />
+            <div className="object-contain w-10 h-10">
+              <img
+                src={nairabag}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
           }
           title="Total Equity Paid"
           count={totalEquity.toLocaleString("en-NG", {
@@ -85,78 +110,6 @@ function FinanceOfficerDashboard() {
           })}
           action={() => navigate("payment/equity")}
         />
-      </div>
-      <div className="grid grid-flow-row md:grid-cols-2 items-stretch gap-2 md:gap-3 lg:gap-4">
-        <div className="flex bg-white p-4 place-content-center"></div>
-        {/* <div className="bg-white p-4 space-y-2 md:space-y-3 lg:space-y-4 shadow-xl border">
-          <div>
-            <h3 className="font-bold text-xl md:text-2xl lg:text-3xl text-green-600 text-center my-2">
-              Recent Farmers
-            </h3>
-          </div>
-          <div className="grid grid-flow-cols items-stretch gap-4 md:gap-5 lg:gap-6">
-            <div className="bg-gray-50 border">
-              <h3 className="font-bold text-lg md:text-xl lg:text-2xl text-purple-600 text-center my-2">
-                Equity
-              </h3>
-              <table className="w-full">
-                <thead className="bg-purple-100">
-                  <th className="text-start p-2 md:p-3">Name</th>
-
-                  <th className="text-center p-2 md:p-3">Cooperative</th>
-                  <th className="text-end p-2 md:p-3">Role</th>
-                </thead>
-                <tbody className="divide-y">
-                  {verifiedFarmers?.slice(0, 5).map((farmer) =>
-                    farmer ? (
-                      <tr className="p-2 even:bg-indigo-50">
-                        <td className="text-start p-2 md:p-3 capitalize">
-                          {farmer?.name}
-                        </td>
-                        <td className="text-center p-2 md:p-3 capitalize">
-                          {(farmer?.cooperative as ICooperative)?.name}
-                        </td>
-                        <td className="text-end p-2 md:p-3 capitalize">
-                          {farmer?.role}
-                        </td>
-                      </tr>
-                    ) : null
-                  )}
-                </tbody>
-              </table>
-            </div>
-            <div className="bg-gray-50 border">
-              <h3 className="font-bold text-lg md:text-xl lg:text-2xl text-indigo-600 text-center my-2">
-                Unverified
-              </h3>
-              <table className="w-full">
-                <thead className="bg-indigo-100">
-                  <th className="text-start p-2 md:p-3">Name</th>
-
-                  <th className="text-center p-2 md:p-3">Cooperative</th>
-                  <th className="text-end p-2 md:p-3">Role</th>
-                </thead>
-                <tbody className="divide-y">
-                  {unEquityFarmers?.slice(0, 5).map((farmer) =>
-                    farmer ? (
-                      <tr className="p-2 even:bg-indigo-50">
-                        <td className="text-start p-2 md:p-3 capitalize">
-                          {farmer?.name}
-                        </td>
-                        <td className="text-center p-2 md:p-3 capitalize">
-                          {(farmer?.cooperative as ICooperative)?.name}
-                        </td>
-                        <td className="text-end p-2 md:p-3 capitalize">
-                          {farmer?.role}
-                        </td>
-                      </tr>
-                    ) : null
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   )

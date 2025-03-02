@@ -5,9 +5,9 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Color } from "chart.js"
 import {
   FcAreaChart,
-  FcBarChart,
   FcComboChart,
   FcFlowChart,
+  FcManager,
   FcPieChart,
   FcPositiveDynamic,
 } from "react-icons/fc"
@@ -22,9 +22,13 @@ import { ICommodity } from "../../interfaces/commodity"
 import { useQuery } from "react-query"
 import { Avatar } from "@material-tailwind/react"
 import maize_bag from "../../assets/icons/maize_bag.jpg"
-import naira_bag from "../../assets/icons/naira_bag.jpg"
-import naira_icon from "../../assets/icons/naira.png"
+import grain from "../../assets/icons/grain.jpeg"
+import nairabag from "../../assets/icons/naira_bag.jpg"
+import nairanote from "../../assets/icons/naira_note.png"
+import cert1 from "../../assets/icons/certification.png"
+import datacapt from "../../assets/icons/pngkey.com-username-icon-png-2035339.png"
 import input_icon from "../../assets/icons/input.png"
+import naira_icon from "../../assets/icons/naira.png"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -68,7 +72,7 @@ function SuperAdminDashboard() {
 
   const [cooperativies, _setTotalCooperativies] = useState<number>(0)
   const [clients, _setTotalClients] = useState<number>(0)
-  const [totalEquity, setTotalEquity] = useState(0)
+
   const [_inputs, setInputs] = useState<IInput[]>()
   const [_commodities, setCommodities] = useState<ICommodities[]>()
 
@@ -119,7 +123,25 @@ function SuperAdminDashboard() {
   const queryRegFee = useQuery({
     queryKey: ["payment", "registration"],
     queryFn: async () => {
-      return fetchData("/payment/registration").then((res) => res.data)
+      return fetchData("/payment/count/registration").then((res) => res.data)
+    },
+  })
+  const queryCertFee = useQuery({
+    queryKey: ["payment", "certicate"],
+    queryFn: async () => {
+      return fetchData("/payment/count/certificate").then((res) => res.data)
+    },
+  })
+  const queryEquity = useQuery({
+    queryKey: ["payment", "equity"],
+    queryFn: async () => {
+      return fetchData("/payment/count/equity").then((res) => res.data)
+    },
+  })
+  const queryUsers = useQuery({
+    queryKey: ["count", "users"],
+    queryFn: async () => {
+      return fetchData("/users/count").then((res) => res.data)
     },
   })
 
@@ -221,17 +243,39 @@ function SuperAdminDashboard() {
         if (res.data) _setTotalClients(() => res.data)
       })
       .catch((err) => toast.error(err.message))
-
-    fetchData("/payment/equity")
-      .then((res) => {
-        if (res.data) setTotalEquity(res.data)
-      })
-      .catch((err) => toast.error(err.message))
   }, [location.pathname])
 
   return (
     <div className="h-fit w-full lg:m-2 space-y-4 max-w-[95vw] lg:max-w-[100vw]">
       <div className="grid grid-flow-row grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 items-stretch">
+        <StatCard
+          color="red"
+          icon={
+            <FcManager
+              className="text-3xl md:text-5xl lg:text-6xl"
+              color="blue"
+            />
+          }
+          title="Total Staff"
+          count={queryUsers.data?.toLocaleString()}
+          action={() => navigate("user-management")}
+        />
+        <StatCard
+          color="red"
+          icon={
+            <FaUsers className="text-3xl md:text-5xl lg:text-6xl text-cyan-500" />
+          }
+          title="Total Clients"
+          count={clients.toLocaleString()}
+          action={() => navigate("client-management")}
+        />
+        <StatCard
+          color="red"
+          icon={<FcFlowChart className="text-3xl md:text-5xl lg:text-6xl" />}
+          title="Total Cooperativies"
+          count={cooperativies.toLocaleString()}
+          action={() => navigate("cooperative-management")}
+        />
         <StatCard
           color="red"
           icon={
@@ -244,6 +288,7 @@ function SuperAdminDashboard() {
           count={queryRegisteredFarmer.data?.toLocaleString()}
           action={() => navigate("farmer-management")}
         />
+
         <StatCard
           color="red"
           icon={
@@ -272,23 +317,6 @@ function SuperAdminDashboard() {
         <StatCard
           color="red"
           icon={
-            <FaUsers className="text-3xl md:text-5xl lg:text-6xl text-cyan-500" />
-          }
-          title="Total Clients"
-          count={clients.toLocaleString()}
-          action={() => navigate("client-management")}
-        />
-        <StatCard
-          color="red"
-          icon={<FcFlowChart className="text-3xl md:text-5xl lg:text-6xl" />}
-          title="Total Cooperativies"
-          count={cooperativies.toLocaleString()}
-          action={() => navigate("cooperative-management")}
-        />
-
-        <StatCard
-          color="red"
-          icon={
             <FcPositiveDynamic className="text-3xl md:text-5xl lg:text-6xl" />
           }
           title="Total Loan Disburse"
@@ -300,7 +328,15 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="red"
-          icon={<Avatar src={naira_bag} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={nairanote}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Cash Repaid"
           count={(queryCashRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -310,7 +346,15 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="red"
-          icon={<FcComboChart className="text-3xl md:text-5xl lg:text-6xl" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={grain}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Grain Repaid"
           count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -331,7 +375,15 @@ function SuperAdminDashboard() {
 
         <StatCard
           color="green"
-          icon={<FcBarChart className="text-3xl md:text-5xl lg:text-6xl" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={naira_icon}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Outstanding Loan"
           count={total_outstanding.toLocaleString("en-NG", {
             style: "currency",
@@ -341,17 +393,43 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="green"
-          icon={<Avatar src={naira_icon} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={datacapt}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Data Captured Fee"
-          count={queryRegFee.data?.toLocaleString("en-NG", {
+          count={(queryRegFee.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement")}
+          action={() => navigate("payment/registration")}
         />
         <StatCard
           color="green"
-          icon={<Avatar src={naira_bag} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={cert1}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
+          title="Certificate Fee"
+          count={(queryCertFee.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/certificate")}
+        />
+        <StatCard
+          color="green"
+          icon={<Avatar src={nairabag} size="sm" />}
           title="Total Equity Booked"
           count={total_equity.toLocaleString("en-NG", {
             style: "currency",
@@ -361,10 +439,10 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="red"
-          icon={<Avatar src={naira_bag} size="sm" />}
+          icon={<Avatar src={nairabag} size="sm" />}
           title="Total Equity Paid"
           action={() => navigate("payment/equity")}
-          count={totalEquity.toLocaleString("en-NG", {
+          count={(queryEquity?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}

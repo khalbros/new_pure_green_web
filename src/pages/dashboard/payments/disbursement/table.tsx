@@ -15,14 +15,14 @@ import {
   MenuItem,
   MenuList,
 } from "@material-tailwind/react"
-import {FaEye} from "react-icons/fa"
-import {TfiMore} from "react-icons/tfi"
+import { FaEye } from "react-icons/fa"
+import { TfiMore } from "react-icons/tfi"
 import {
   AiFillEdit,
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
 } from "react-icons/ai"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import AddUser from "../../../../assets/illustrations/no-data.png"
 import {
   MdAdd,
@@ -30,38 +30,38 @@ import {
   MdDeleteForever,
   MdOutlineKeyboardBackspace,
 } from "react-icons/md"
-import {FiSearch} from "react-icons/fi"
+import { FiSearch } from "react-icons/fi"
 import usePagination from "../../../../hooks/usePagination"
 import Input from "../../../../components/form/input"
 import QueryResult from "../../../../components/queryResult"
-import EmptyResult from "../../../../components/queryResult/emptyResult"
+import EmptyResult from "../emptyResult"
 import useFetch from "../../../../hooks/useFetch"
-import {DisbursementContext} from "./"
+import { DisbursementContext } from "./"
 import {
   fetchData,
   generateExcelFile,
   getUser,
   shortDateFormatter,
 } from "../../../../utils"
-import {useAppDispatch, useAppSelector} from "../../../../store"
+import { useAppDispatch, useAppSelector } from "../../../../store"
 import DisbursementDetails from "./details"
-import {toast} from "react-toastify"
-import {disbursementSelector} from "../../../../store/slices/disbursement/index"
-import {IFarmer} from "../../../../interfaces/farmer"
-import {IBundle} from "../../../../interfaces/bundle"
+import { toast } from "react-toastify"
+import { disbursementSelector } from "../../../../store/slices/disbursement/index"
+import { IFarmer } from "../../../../interfaces/farmer"
+import { IBundle } from "../../../../interfaces/bundle"
 import confirmAction from "../../../../assets/illustrations/thinking.png"
-import {Dialog} from "@material-tailwind/react"
+import { Dialog } from "@material-tailwind/react"
 import Receipt from "./receipt"
-import {useReactToPrint} from "react-to-print"
-import {IoMdPrint} from "react-icons/io"
-import {IWarehouse} from "../../../../interfaces/warehouse"
-import {IUser} from "../../../../interfaces/user"
-import {HiDocumentDownload} from "react-icons/hi"
-import {IProject} from "../../../../interfaces/project"
-import {ICooperative} from "../../../../interfaces/cooperative"
-import {ICashLRP} from "../../../../interfaces/cashLRP"
-import {IDisbursement} from "../../../../interfaces/disbursement"
-import {deleteCashLRPAction} from "../../../../store/actions/disbursement"
+import { useReactToPrint } from "react-to-print"
+import { IoMdPrint } from "react-icons/io"
+import { IWarehouse } from "../../../../interfaces/warehouse"
+import { IUser } from "../../../../interfaces/user"
+import { HiDocumentDownload } from "react-icons/hi"
+import { IProject } from "../../../../interfaces/project"
+import { ICooperative } from "../../../../interfaces/cooperative"
+import { ICashLRP } from "../../../../interfaces/cashLRP"
+import { IDisbursement } from "../../../../interfaces/disbursement"
+import { deleteCashLRPAction } from "../../../../store/actions/disbursement"
 
 const CashDisbursementTable = () => {
   const currentUser = useMemo(() => JSON.parse(getUser()!), [])
@@ -70,10 +70,10 @@ const CashDisbursementTable = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [disbursements, setDisbursements] = useState<ICashLRP[]>()
   const [disbursement, setDisbursement] = useState<ICashLRP>()
-  const {currentItems, currentPage, pages, nextPage, prevPage, changePage} =
+  const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(disbursements)
   const [_ctx, dispatch] = useContext(DisbursementContext)
-  const {data, error, loading, message} = useFetch(`/disbursement/cash`)
+  const { data, error, loading, message } = useFetch(`/disbursement/cash`)
   const navigate = useNavigate()
   const dispatchAction = useAppDispatch()
   const disbursementState = useAppSelector(disbursementSelector)
@@ -138,7 +138,7 @@ const CashDisbursementTable = () => {
 
   // search
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target
+    const { value } = e.target
     if (!value) {
       setDisbursements(data)
       return

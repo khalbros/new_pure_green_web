@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ChangeEvent, useContext, useEffect, useRef, useState } from "react"
+import {
+  ChangeEvent,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import {
   Button,
   Dialog,
@@ -18,20 +25,14 @@ import {
 } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
 import AddUser from "../../../../assets/illustrations/no-data.png"
-import {
-  MdAdd,
-  MdCancel,
-  MdDeleteForever,
-  MdOutlineKeyboardBackspace,
-} from "react-icons/md"
+import { MdAdd, MdCancel, MdDeleteForever } from "react-icons/md"
 import DeleteUser from "../../../../assets/illustrations/thinking.png"
 import { FiSearch } from "react-icons/fi"
 import { IEquity as IPayment } from "../../../../interfaces/equity"
 import usePagination from "../../../../hooks/usePagination"
 import { RegistrationContext } from "."
-import useFetch from "../../../../hooks/useFetch"
 import QueryResult from "../../../../components/queryResult"
-import EmptyResult from "../../../../components/queryResult/emptyResult"
+
 import Input from "../../../../components/form/input"
 import { IFarmer } from "../../../../interfaces/farmer"
 import PaymentDetails from "./details"
@@ -41,6 +42,7 @@ import Receipt from "../receipt"
 import {
   fetchData,
   generateExcelFile,
+  getUser,
   shortDateFormatter,
 } from "../../../../utils"
 import { useAppDispatch, useAppSelector } from "../../../../store"
@@ -51,8 +53,11 @@ import { HiDocumentDownload } from "react-icons/hi"
 import { IUser } from "../../../../interfaces/user"
 import { ICooperative } from "../../../../interfaces/cooperative"
 import { IWarehouse } from "../../../../interfaces/warehouse"
+import { useQuery, useQueryClient } from "react-query"
+import EmptyResult from "../emptyResult"
 
 const PaymentRegTable = () => {
+  const currentUser = useMemo(() => JSON.parse(getUser()!), [])
   const [openDrawer, setOpenDrawer] = useState<boolean>(false)
   const [refresh, setRefresh] = useState<boolean>(false)
   const [openDelete, setOpenDelete] = useState<boolean>(false)
@@ -60,9 +65,13 @@ const PaymentRegTable = () => {
   const [payment, setPayment] = useState<IPayment>()
   const [_ctx, dispatch] = useContext(RegistrationContext)
   const navigate = useNavigate()
-  const { data, error, loading, message } = useFetch(
-    `/payment/list/registration`
-  )
+  const queryClient = useQueryClient()
+  const { data, error, isLoading, isError } = useQuery({
+    queryKey: ["payment", "registration"],
+    queryFn: async () => {
+      return fetchData("/payment/list/registration").then((res) => res.data)
+    },
+  })
   const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(payments)
 
@@ -70,10 +79,6 @@ const PaymentRegTable = () => {
   const dispatchAction = useAppDispatch()
 
   const paymentState = useAppSelector(registrationSelector)
-
-  const handleGoBack = () => {
-    navigate(-1)
-  }
 
   // export data handler
   const exportTableData = () => {
@@ -163,9 +168,12 @@ const PaymentRegTable = () => {
   // handle delete
   const handleDelete = (payment: IPayment) => {
     dispatchAction(
-      deleteRegistrationPaymentAction({ ...payment }, () =>
+      deleteRegistrationPaymentAction({ ...payment }, () => {
+        queryClient.invalidateQueries(["payment", "registration"], {
+          exact: true,
+        })
         setOpenDelete(!openDelete)
-      )
+      })
     )
     setRefresh(!refresh)
   }
@@ -198,26 +206,20 @@ const PaymentRegTable = () => {
     <>
       <QueryResult
         data={data}
-        loading={loading}
-        error={error ? message : ""}
+        loading={isLoading}
+        error={isError ? String(error) : ""}
         emptyResult={<EmptyResult item="Payment" image={AddUser} path="add" />}>
-        <div className="flex items-center md:m-6 m-4">
-          <span onClick={handleGoBack}>
-            <MdOutlineKeyboardBackspace
-              size={24}
-              className="mr-3 cursor-pointer text-green-500"
-            />
-          </span>
-          <h4 className="text-xl lg:text-2xl text-green-500">
-            Registered Farmers
-          </h4>
+        <div className="flex items-center m-4">
+          <h4 className="text-xl lg:text-2xl text-green-500">Data Captured</h4>
         </div>
         <div className="flex items-center gap-2">
-          <Button
-            onClick={() => navigate("add")}
-            className="bg-green-700 flex gap-1 justify-center items-center py-1 text-sm lg:text-base lg:py-2 mt-5">
-            <MdAdd className="text-[18px] lg:text-[30px]" /> Pay Now
-          </Button>
+          {currentUser.role === "FINANCIAL OFFICER" && (
+            <Button
+              onClick={() => navigate("add")}
+              className="bg-green-700 flex gap-1 justify-center items-center py-1 text-sm lg:text-base lg:py-2 mt-5">
+              <MdAdd className="text-[18px] lg:text-[30px]" /> Pay Now
+            </Button>
+          )}
           <Button
             onClick={() =>
               generateExcelFile(exportTableData(), "registrations")
@@ -240,15 +242,9 @@ const PaymentRegTable = () => {
             <table className="w-full border-collapse border-spacing-y-1 shadow border-[0.5px] rounded-lg whitespace-nowrap capitalize">
               <thead className="bg-green-50">
                 <tr>
-                  <th className="w-10">
-                    S/N
-                    {/* <input type="checkbox" /> */}
-                  </th>
+                  <th className="w-10">{/* <input type="checkbox" /> */}</th>
                   <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
-                    Farmer's Name
-                  </th>
-                  <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
-                    Farmer's ID
+                    Farmer
                   </th>
 
                   <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
@@ -276,34 +272,29 @@ const PaymentRegTable = () => {
                 {currentItems?.map((payments, key) => (
                   <tr
                     key={key}
-                    className={`divide-y even:bg-[#FAFAFA] place-items-center`}>
+                    className={`flex-wrap divide-y even:bg-[#FAFAFA] place-items-center`}>
                     <td className="w-10 pl-3">
                       {key + 1}
                       {/* <input type="checkbox" /> */}
                     </td>
-                    <td className="p-3 flex flex-col flex-wrap gap-1 md:gap-2 items-start capitalize tracking-wide font-bold">
-                      <span> {(payments?.farmer as IFarmer)?.first_name}</span>
+                    <td className="p-3 flex flex-col flex-wrap gap-1 md:gap-2 items-start capitalize tracking-wide ">
+                      <span className="font-bold">
+                        {" "}
+                        {(payments?.farmer as IFarmer)?.first_name +
+                          " " +
+                          ((payments?.farmer as IFarmer)?.other_name
+                            ? (payments?.farmer as IFarmer)?.other_name + " "
+                            : "") +
+                          (payments?.farmer as IFarmer)?.last_name}
+                      </span>
+                      <span>{(payments?.farmer as IFarmer)?.farmer_id}</span>
+                    </td>
+
+                    <td className="p-3">
+                      {(payments?.cooperative as ICooperative)?.name}
                     </td>
                     <td className="p-3">
-                      {(payments?.farmer as IFarmer)?.farmer_id}
-                    </td>
-                    <td className="p-3">
-                      {
-                        (
-                          (payments?.farmer as IFarmer)
-                            ?.cooperative as ICooperative
-                        )?.name
-                      }
-                    </td>
-                    <td className="p-3">
-                      {
-                        (
-                          (
-                            (payments?.farmer as IFarmer)
-                              ?.field_officer as IUser
-                          )?.warehouse as IWarehouse
-                        )?.name
-                      }
+                      {(payments.warehouse as IWarehouse)?.name}
                     </td>
 
                     <td className="p-3 font-bold tracking-wide">
@@ -334,28 +325,35 @@ const PaymentRegTable = () => {
                             onClick={() => toggleDrawer(payments)}>
                             <FaEye size={16} /> View details
                           </MenuItem>
-                          <MenuItem
-                            onClick={() => handleEdit(payments)}
-                            className="inline-flex gap-2 border-b-2">
-                            <AiFillEdit size={16} /> Edit
-                          </MenuItem>
+                          {currentUser.role === "FINANCIAL OFFICER" && (
+                            <>
+                              <MenuItem
+                                onClick={() => handleEdit(payments)}
+                                className="inline-flex gap-2 border-b-2">
+                                <AiFillEdit size={16} /> Edit
+                              </MenuItem>
 
-                          <MenuItem
-                            onClick={() => togglePrint(payments)}
-                            className="inline-flex gap-2 border-b-2">
-                            <IoMdPrint size={16} className="text-green-400" />
-                            Print
-                          </MenuItem>
+                              <MenuItem
+                                onClick={() => togglePrint(payments)}
+                                className="inline-flex gap-2 border-b-2">
+                                <IoMdPrint
+                                  size={16}
+                                  className="text-green-400"
+                                />
+                                Print
+                              </MenuItem>
 
-                          <MenuItem
-                            onClick={() => toggleDeleteDialog(payments)}
-                            className="inline-flex gap-2 border-b-2">
-                            <MdDeleteForever
-                              size={16}
-                              className="text-red-400"
-                            />{" "}
-                            Delete
-                          </MenuItem>
+                              <MenuItem
+                                onClick={() => toggleDeleteDialog(payments)}
+                                className="inline-flex gap-2 border-b-2">
+                                <MdDeleteForever
+                                  size={16}
+                                  className="text-red-400"
+                                />{" "}
+                                Delete
+                              </MenuItem>
+                            </>
+                          )}
                         </MenuList>
                       </Menu>
                     </td>

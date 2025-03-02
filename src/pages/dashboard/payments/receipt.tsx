@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IFarmer } from "../../../interfaces/farmer"
 import logo from "../../../assets/puregreen-logo.png"
 import { IUser } from "../../../interfaces/user"
@@ -39,7 +38,14 @@ function Receipt(props: IPayment) {
         </div>
         <div className="flex items-ceter justify-between">
           <span>Farmer</span>
-          <span>{(props.farmer as IFarmer)?.first_name}</span>
+          <span>
+            {(props?.farmer as IFarmer)?.first_name +
+              " " +
+              ((props?.farmer as IFarmer)?.other_name
+                ? (props?.farmer as IFarmer)?.other_name + " "
+                : "") +
+              (props?.farmer as IFarmer)?.last_name}
+          </span>
         </div>
         {props.farmer && (
           <div className="flex items-ceter justify-between">
@@ -59,14 +65,7 @@ function Receipt(props: IPayment) {
         </div>
         <div className="flex items-ceter justify-between">
           <span>Warehouse</span>
-          <span>
-            {
-              (
-                ((props.farmer as IFarmer)?.field_officer as IUser)
-                  ?.warehouse as IWarehouse
-              )?.name
-            }
-          </span>
+          <span>{(props.warehouse as IWarehouse)?.name}</span>
         </div>
         <div className="flex items-ceter justify-between">
           <span>Paid By</span>
