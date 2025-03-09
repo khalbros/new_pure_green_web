@@ -64,6 +64,10 @@ function Receipt(props: IPayment) {
           </span>
         </div>
         <div className="flex items-ceter justify-between">
+          <span>Hectares</span>
+          <span>{Number(props.hectares)} Ha</span>
+        </div>
+        <div className="flex items-ceter justify-between">
           <span>Warehouse</span>
           <span>{(props.warehouse as IWarehouse)?.name}</span>
         </div>

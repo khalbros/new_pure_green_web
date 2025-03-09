@@ -1,32 +1,41 @@
-import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react"
+import {
+  ChangeEvent,
+  FormEvent,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Button } from "@material-tailwind/react"
 
-import { useAppDispatch, useAppSelector } from "../../../store"
-import { fetchData } from "../../../utils"
-import { ICooperative } from "../../../interfaces/cooperative"
-import Input from "../../../components/form/input"
-import { IFarmer } from "../../../interfaces/farmer"
+import { useAppDispatch, useAppSelector } from "../../../../store"
+import { fetchData } from "../../../../utils"
+import { ICooperative } from "../../../../interfaces/cooperative"
+import Input from "../../../../components/form/input"
+import { IFarmer } from "../../../../interfaces/farmer"
 import { toast } from "react-toastify"
-import { IEquity } from "../../../interfaces/equity"
+import { IEquity } from "../../../../interfaces/equity"
 import {
   registrationSelector,
   reset,
-} from "../../../store/slices/finance/registration"
+} from "../../../../store/slices/finance/registration"
 import {
   registrationPaymentAction,
   updateRegistrationPaymentAction,
-} from "../../../store/actions/finance"
+} from "../../../../store/actions/finance"
+import { RegistrationContext } from "."
 
 const RegisterPaymentForm = () => {
   const [state, setState] = useState<IEquity>({})
+  const [existingReg, clearReg] = useContext(RegistrationContext)
   const location = useLocation()
   const edit = useMemo(() => location.pathname.includes("/edit"), [location])
   const [farmers, setFarmerSuggestion] = useState<IFarmer[]>()
 
   const farmer = useMemo(
     () => farmers?.find((farmer) => farmer.farmer_id === state?.farmer),
-    [state?.farmer]
+    [state?.farmer, existingReg, edit]
   )
   // const inputRef = useRef<HTMLInputElement>(null)
   const registrationState = useAppSelector(registrationSelector)
@@ -50,11 +59,19 @@ const RegisterPaymentForm = () => {
     const data = new FormData(form)
 
     if (edit) {
+      const { ...rest } = existingReg
+
       dispatch(
-        updateRegistrationPaymentAction(state, () => {
-          toast.success(`Payment Updated!`)
-          navigate(-1)
-        })
+        updateRegistrationPaymentAction(
+          {
+            ...state,
+            farmer: rest.farmer?._id,
+          },
+          () => {
+            toast.success(`Payment Updated!`)
+            navigate(-1)
+          }
+        )
       )
       return
     }
@@ -69,6 +86,10 @@ const RegisterPaymentForm = () => {
   }
 
   useEffect(() => {
+    if (existingReg) {
+      const { ...rest } = existingReg
+      setState({ ...rest, farmer: rest?.farmer?.farmer_id })
+    }
     fetchData("/farmer")
       .then((res) => {
         if (res.data) setFarmerSuggestion(res.data)
@@ -84,6 +105,13 @@ const RegisterPaymentForm = () => {
   useEffect(() => {
     if (location.pathname.includes("/add")) {
       setState({})
+      clearReg({})
+      dispatch(reset())
+    }
+    return () => {
+      setState({})
+      clearReg({})
+      dispatch(reset())
     }
   }, [location.pathname])
 
@@ -151,6 +179,13 @@ const RegisterPaymentForm = () => {
             </>
           )}
 
+          <Input
+            label="Hectares"
+            name="hectares"
+            type="number"
+            onChange={handleChange}
+            value={state.hectares}
+          />
           <Input
             label="Amount"
             name="amount_paid"

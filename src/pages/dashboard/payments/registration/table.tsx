@@ -93,6 +93,7 @@ const PaymentRegTable = () => {
           ?.warehouse as IWarehouse
       )?.name,
       "Amount Paid": payment?.amount_paid,
+      Hectares: payment?.hectares,
       Status: payment?.status ? "PAID" : "NOT PAID",
       "Paid By": (payment?.paid_by as IUser).name,
       Date: payment?.updatedAt && shortDateFormatter(payment?.updatedAt),
@@ -256,6 +257,9 @@ const PaymentRegTable = () => {
                   <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
                     Amount Paid
                   </th>
+                  <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
+                    Hectares
+                  </th>
 
                   <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
                     Paid By
@@ -303,7 +307,9 @@ const PaymentRegTable = () => {
                         currency: "NGN",
                       })}
                     </td>
-
+                    <td className="p-3 font-bold tracking-wide">
+                      {Number(payments?.hectares)}
+                    </td>
                     <td className="p-3">
                       {(payments?.paid_by as IUser)?.name}
                     </td>

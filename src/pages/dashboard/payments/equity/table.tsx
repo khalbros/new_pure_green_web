@@ -90,6 +90,7 @@ const PaymentEquityTable = () => {
           ?.warehouse as IWarehouse
       )?.name,
       "Amount Paid": payment?.amount_paid,
+      Hectares: payment?.hectares,
       Status: payment?.status ? "PAID" : "NOT PAID",
       "Paid By": (payment?.paid_by as IUser).name,
       Date: payment?.updatedAt && shortDateFormatter(payment?.updatedAt),

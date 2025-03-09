@@ -9,6 +9,8 @@ import ApprovalDialog from "./ApprovalDialog"
 import DeleteDialog from "./DeleteDialog"
 import { useQuery } from "react-query"
 import { IProject } from "../../../../interfaces/project"
+import { toast } from "react-toastify"
+import { IWInput } from "../../../../interfaces/input"
 
 const AdminInputDetails: React.FC = () => {
   const currentUser = useMemo(() => JSON.parse(getUser()!), [])
@@ -17,7 +19,8 @@ const AdminInputDetails: React.FC = () => {
   const [_ctx, dispatch] = useContext(InputContext)
   const [openDelete, setOpenDelete] = useState<boolean>(false)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
-  const input = state
+  const [input, setInput] = useState<IWInput>()
+
   const queryProject = useQuery({
     queryKey: ["project"],
     queryFn: async () => {
@@ -38,7 +41,16 @@ const AdminInputDetails: React.FC = () => {
     navigate("/dashboard/input-management/edit")
   }
 
-  useEffect(() => {}, [state, openDelete, openDialog])
+  useEffect(() => {
+    if (state._id)
+      fetchData(`/input/by-warehouse/${state?._id}`)
+        .then(
+          (res) => setInput(res.data),
+          (err) => toast.error(err)
+        )
+        .catch((err) => toast.error(err))
+  }, [state, openDelete, openDialog])
+  console.log(input)
 
   return (
     <div className="">
@@ -82,7 +94,7 @@ const AdminInputDetails: React.FC = () => {
           <div className="flex items-center gap-4 md:gap-8 lg:gap-14 mb-4 md:mb-6">
             <div className="w-full">
               <div className="flex flex-wrap w-full gap-x-2 md:gap-4 items-center font-bold text-lg md:text-xl lg:text-3xl capitalize mb-3">
-                {input?.name}
+                {input?.input?.name}
                 <p
                   className={`flex flex-col rounded-full px-4 bg-${
                     !input?.isApproved ? "red" : "green"

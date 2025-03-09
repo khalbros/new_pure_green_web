@@ -146,7 +146,7 @@ const DisbursementTable = lazy(
   () => import("./pages/dashboard/disbursement/table")
 )
 const RegisterPaymentForm = lazy(
-  () => import("./pages/dashboard/finance/registration")
+  () => import("./pages/dashboard/payments/registration/registration")
 )
 const EquityPaymentForm = lazy(
   () => import("./pages/dashboard/payments/equity/equity")
