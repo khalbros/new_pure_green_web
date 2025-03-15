@@ -54,7 +54,15 @@ const FarmerDetails = () => {
       return fetchData(`/project`).then((res) => res.data)
     },
   })
-  console.log(state?.profile_img?.url)
+  const queryEquity = useQuery({
+    queryKey: ["farmer", "equity", `${state?._id}`],
+    queryFn: async () => {
+      return fetchData(`/payment/all/equity?farmer=${state?._id}`).then(
+        (res) => res.data
+      )
+    },
+  })
+
   const currentUser = useMemo(() => JSON.parse(getUser()!), [])
   // const state: IFarmer = location.state
 
@@ -86,7 +94,6 @@ const FarmerDetails = () => {
         (err) => toast.error(err)
       )
       .catch((err) => toast.error(err))
-    console.log(state)
   }, [openDialog])
 
   return (
@@ -243,7 +250,7 @@ const FarmerDetails = () => {
                   name="project"
                   id="project"
                   className="px-3 rounded shadow cursor-pointer">
-                  {(queryProject.data as IProject[])?.map((proj, key) => (
+                  {(queryProject?.data as IProject[])?.map((proj, key) => (
                     <option value={proj._id} key={key}>
                       {proj.name}
                     </option>
@@ -256,7 +263,7 @@ const FarmerDetails = () => {
                   <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
                     Data Capture Fee:
                   </span>
-                  {Number(state?.reg_amount ?? 0).toLocaleString("en-NG", {
+                  {Number(state?.reg_amount ?? 0)?.toLocaleString("en-NG", {
                     style: "currency",
                     currency: "NGN",
                   })}
@@ -265,7 +272,7 @@ const FarmerDetails = () => {
                   <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
                     Equity Paid :
                   </span>
-                  {Number(state?.equity_amount ?? 0).toLocaleString("en-NG", {
+                  {Number(state?.equity_amount ?? 0)?.toLocaleString("en-NG", {
                     style: "currency",
                     currency: "NGN",
                   })}
@@ -274,7 +281,10 @@ const FarmerDetails = () => {
                   <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
                     Hectares:
                   </span>
-                  {Number(50).toLocaleString("en-NG")}
+                  {queryEquity.data &&
+                    Number(queryEquity?.data[0]?.hectares ?? 0)?.toLocaleString(
+                      "en-NG"
+                    )}
                 </p>
               </div>
               <hr />
@@ -283,13 +293,13 @@ const FarmerDetails = () => {
                   <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
                     Boundle:
                   </span>
-                  Kofan Galadima Boundle
+                  None
                 </p>
                 <p className="flex flex-col w-full tracking-wide">
                   <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
                     Total Loan Value :
                   </span>
-                  {Number(state?.equity_amount ?? 0).toLocaleString("en-NG", {
+                  {Number(0).toLocaleString("en-NG", {
                     style: "currency",
                     currency: "NGN",
                   })}
@@ -298,7 +308,7 @@ const FarmerDetails = () => {
                   <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
                     Total Loan Repaid :
                   </span>
-                  {Number(state?.equity_amount ?? 0).toLocaleString("en-NG", {
+                  {Number(0).toLocaleString("en-NG", {
                     style: "currency",
                     currency: "NGN",
                   })}
@@ -307,7 +317,7 @@ const FarmerDetails = () => {
                   <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
                     Total Outstanding:
                   </span>
-                  {Number(state?.reg_amount ?? 0).toLocaleString("en-NG", {
+                  {Number(0).toLocaleString("en-NG", {
                     style: "currency",
                     currency: "NGN",
                   })}
@@ -315,9 +325,9 @@ const FarmerDetails = () => {
               </div>
               <hr />
               <div className="relative w-full h-5 md:h-6 p-2  rounded-full bg-gray-200 cursor-pointer my-2">
-                <div className="absolute top-0 left-0 z-10 w-[50%] bg-gradient-to-r from-orange-600 to-green-600 rounded-full shadow-black shadow-sm text-white text-end italic items-center text-xs md:text-sm pr-2 tracking-widest hover:transition-transform hover:scale-105 ease-linear">
-                  {" "}
-                  50%
+                <div
+                  className={`absolute top-0 left-0 z-10 w-[${0}%] bg-gradient-to-r from-orange-600 to-green-600 rounded-full shadow-black shadow-sm text-white text-end italic items-center text-xs md:text-sm pr-2 tracking-widest hover:transition-transform hover:scale-105 ease-linear`}>
+                  0%
                 </div>
               </div>
             </div>

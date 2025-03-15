@@ -25,6 +25,8 @@ import naira_icon from "../../assets/icons/naira.png"
 import input_icon from "../../assets/icons/input.png"
 import grain from "../../assets/icons/grain.jpeg"
 import datacapt from "../../assets/icons/pngkey.com-username-icon-png-2035339.png"
+import cert1 from "../../assets/icons/cert1.png"
+import { CertStatCard } from "./finance"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -116,6 +118,20 @@ function AreaSalesManagerDashboard() {
     queryKey: ["counts", "registration"],
     queryFn: async () => {
       return fetchData("/payment/count/registration").then((res) => res.data)
+    },
+  })
+  const queryCert = useQuery({
+    queryKey: ["counts", "certificates"],
+    queryFn: async () => {
+      return fetchData("/payment/count/certificate").then((res) => res.data)
+    },
+  })
+  const queryCertPaid = useQuery({
+    queryKey: ["counts", "certificates", "paid"],
+    queryFn: async () => {
+      return fetchData("/payment/count/certificate/paid").then(
+        (res) => res.data
+      )
     },
   })
   const queryEquity = useQuery({
@@ -283,6 +299,25 @@ function AreaSalesManagerDashboard() {
             currency: "NGN",
           })}
           action={() => navigate("payment/registration")}
+        />
+        <CertStatCard
+          color="red"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={cert1}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
+          title="Total Certificate Paid"
+          count={(queryCert?.data ?? 0)?.toLocaleString("en-NG")}
+          amount={(queryCertPaid?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/certificate")}
         />
         <StatCard
           color="red"
