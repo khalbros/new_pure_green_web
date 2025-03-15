@@ -500,7 +500,7 @@ export const routes: IRoute[] = [
       },
       {
         name: "certificate fees",
-        path: "/dashboard/payment/certificate_fees",
+        path: "/dashboard/payment/certificate",
         layout: "financial officer",
         icon: (
           <div className="object-contain w-6 h-6">

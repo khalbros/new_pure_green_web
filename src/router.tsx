@@ -3,6 +3,9 @@ import React, { lazy, Suspense } from "react"
 import { Navigate, createBrowserRouter } from "react-router-dom"
 import Loading from "./components/Loading"
 import ErrorPage from "./pages/404"
+import CertPayment from "./pages/dashboard/payments/certificate"
+import PaymentCertTable from "./pages/dashboard/payments/certificate/table"
+import CertificatePaymentForm from "./pages/dashboard/payments/certificate/form"
 
 const InputDetails = lazy(
   () => import("./pages/dashboard/input/warehouse/details")
@@ -1160,6 +1163,44 @@ export const router = createBrowserRouter([
                 element: (
                   <Suspense fallback={<Loading />}>
                     <EquityPaymentForm />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "detail",
+                element: <React.Fragment></React.Fragment>,
+              },
+            ],
+          },
+          {
+            path: "certificate",
+            element: (
+              <Suspense fallback={<Loading />}>
+                <CertPayment />
+              </Suspense>
+            ),
+            children: [
+              {
+                path: "",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <PaymentCertTable />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "add",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <CertificatePaymentForm />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "edit",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <CertificatePaymentForm />
                   </Suspense>
                 ),
               },

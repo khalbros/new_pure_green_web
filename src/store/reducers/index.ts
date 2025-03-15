@@ -19,6 +19,7 @@ import visitationSlice from "../slices/visitation/index"
 import overageSlice from "../slices/finance/overage"
 import paymentSlice from "../slices/finance/payment"
 import equitySlice from "../slices/finance/equity"
+import certificateSlice from "../slices/finance/certificate"
 import registrationSlice from "../slices/finance/registration"
 import farmer_authSlice from "../slices/farmer_auth.slice"
 
@@ -44,6 +45,7 @@ export const rootReducer = combineReducers({
   overage: overageSlice,
   payment: paymentSlice,
   equity: equitySlice,
+  certificate: certificateSlice,
   registration: registrationSlice,
 })
 

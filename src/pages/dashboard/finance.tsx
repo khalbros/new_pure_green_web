@@ -13,6 +13,8 @@ ChartJS.register(ArcElement, Tooltip, Legend)
 function FinanceOfficerDashboard() {
   const [totalRegistered, setTotalRegistered] = useState(0)
   const [totalEquity, setTotalEquity] = useState(0)
+  const [totalCert, setTotalCert] = useState(0)
+  const [totalCertPaid, setTotalCertPaid] = useState(0)
   const [totalCash, setTotalCash] = useState(0)
   const location = useLocation()
   const navigate = useNavigate()
@@ -26,6 +28,16 @@ function FinanceOfficerDashboard() {
     fetchData("/payment/count/equity")
       .then((res) => {
         if (res.data) setTotalEquity(res.data)
+      })
+      .catch((err) => toast.error(err.message))
+    fetchData("/payment/count/certificate/paid")
+      .then((res) => {
+        if (res.data) setTotalCertPaid(res.data)
+      })
+      .catch((err) => toast.error(err.message))
+    fetchData("/payment/count/certificate")
+      .then((res) => {
+        if (res.data) setTotalCert(res.data)
       })
       .catch((err) => toast.error(err.message))
     fetchData("/disbursement/count/recovered-cash")
@@ -56,7 +68,7 @@ function FinanceOfficerDashboard() {
           })}
           action={() => navigate("payment/registration")}
         />
-        <StatCard
+        <CertStatCard
           color="red"
           icon={
             <div className="object-contain w-10 h-10">
@@ -68,11 +80,12 @@ function FinanceOfficerDashboard() {
             </div>
           }
           title="Total Certificate Paid"
-          count={totalCash.toLocaleString("en-NG", {
+          count={totalCert.toLocaleString("en-NG")}
+          amount={totalCertPaid.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("payment/loan")}
+          action={() => navigate("payment/certificate")}
         />
         <StatCard
           color="red"
@@ -136,6 +149,41 @@ export const StatCard: React.FC<IProps> = (props) => {
             {props.count.toLocaleString()}
           </p>
           <p className="flex text-cyan-500 text-sm lg:text-lg text-right">
+            {props.title}
+          </p>
+        </div>
+      </div>
+    </>
+  )
+}
+
+interface ICertProps {
+  count: number | string
+  amount: number | string
+  title: string
+  icon: ReactNode
+  color: Color
+  action?: VoidFunction
+}
+export const CertStatCard: React.FC<ICertProps> = (props) => {
+  return (
+    <>
+      <div
+        className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
+        onClick={props.action}>
+        <div className={`flex`}>{props.icon}</div>
+        <div className="flex flex-col flex-1 items-end">
+          <span className="flex items-center justify-end gap-1 w-full">
+            <p className="flex text-indigo-600 font-extrabold lg:text-xl">
+              {props.count + " cert."}
+            </p>
+          </span>
+          <span className="flex items-center justify-end gap-1 w-full">
+            <p className="flex text-indigo-600 font-extrabold lg:text-xl">
+              {props.amount}
+            </p>
+          </span>
+          <p className="flex text-cyan-500 font-bold lg:text-lg text-right">
             {props.title}
           </p>
         </div>

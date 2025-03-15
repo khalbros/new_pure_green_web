@@ -35,6 +35,8 @@ import { toast } from "react-toastify"
 import DeleteDialog from "./components/DeleteDialog"
 import { IUser } from "../../../interfaces/user"
 import { GrUserAdmin } from "react-icons/gr"
+import { useQuery } from "react-query"
+import { IProject } from "../../../interfaces/project"
 
 const FarmerDetails = () => {
   const navigate = useNavigate()
@@ -46,6 +48,12 @@ const FarmerDetails = () => {
   const [image, setImage] = useState<string | undefined>(undefined)
   const [state, setFarmer] = useState<IFarmer>(location?.state)
 
+  const queryProject = useQuery({
+    queryKey: ["project"],
+    queryFn: async () => {
+      return fetchData(`/project`).then((res) => res.data)
+    },
+  })
   console.log(state?.profile_img?.url)
   const currentUser = useMemo(() => JSON.parse(getUser()!), [])
   // const state: IFarmer = location.state
@@ -224,18 +232,93 @@ const FarmerDetails = () => {
           </div>
 
           {/* Farmer activity */}
-          <div className="px-6 py-4 flex flex-col gap-6 text-sm lg:text-xl">
+          <div className="p-2 flex flex-col gap-6 text-sm lg:text-xl">
             <h4 className="font-bold text-base lg:text-xl uppercase tracking-wide text-gray-500">
               Farmer's Loan Details
             </h4>
-            <div className="p-4 w-full border rounded-lg">
-              <div className="flex gap-[11px] mb-4">
+            <div className="p-2 w-full border rounded-lg">
+              <div className="flex gap-[10px] mb-4">
                 <p className="text-gray-700 flex-1">Project </p>
-                <select name="" id="">
-                  <option value="">2023</option>
-                  <option value="">2024</option>
-                  <option value="">2025</option>
+                <select
+                  name="project"
+                  id="project"
+                  className="px-3 rounded shadow cursor-pointer">
+                  {(queryProject.data as IProject[])?.map((proj, key) => (
+                    <option value={proj._id} key={key}>
+                      {proj.name}
+                    </option>
+                  ))}
                 </select>
+              </div>
+              <hr />
+              <div className="flex justify-center gap-[5px] py-2 mt-1 divide-x-2">
+                <p className="flex flex-col w-full tracking-wide">
+                  <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
+                    Data Capture Fee:
+                  </span>
+                  {Number(state?.reg_amount ?? 0).toLocaleString("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                  })}
+                </p>
+                <p className="flex flex-col w-full tracking-wide">
+                  <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
+                    Equity Paid :
+                  </span>
+                  {Number(state?.equity_amount ?? 0).toLocaleString("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                  })}
+                </p>
+                <p className="flex flex-col w-full tracking-wide">
+                  <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
+                    Hectares:
+                  </span>
+                  {Number(50).toLocaleString("en-NG")}
+                </p>
+              </div>
+              <hr />
+              <div className="flex justify-center gap-[5px] mb-[10px] mt-1">
+                <p className="flex flex-col w-full tracking-wide">
+                  <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
+                    Boundle:
+                  </span>
+                  Kofan Galadima Boundle
+                </p>
+                <p className="flex flex-col w-full tracking-wide">
+                  <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
+                    Total Loan Value :
+                  </span>
+                  {Number(state?.equity_amount ?? 0).toLocaleString("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                  })}
+                </p>
+                <p className="flex flex-col w-full tracking-wide">
+                  <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
+                    Total Loan Repaid :
+                  </span>
+                  {Number(state?.equity_amount ?? 0).toLocaleString("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                  })}
+                </p>
+                <p className="flex flex-col w-full tracking-wide">
+                  <span className="text-gray-600 uppercase text-xs md:text-sm lg:text-base font-bold">
+                    Total Outstanding:
+                  </span>
+                  {Number(state?.reg_amount ?? 0).toLocaleString("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                  })}
+                </p>
+              </div>
+              <hr />
+              <div className="relative w-full h-5 md:h-6 p-2  rounded-full bg-gray-200 cursor-pointer my-2">
+                <div className="absolute top-0 left-0 z-10 w-[50%] bg-gradient-to-r from-orange-600 to-green-600 rounded-full shadow-black shadow-sm text-white text-end italic items-center text-xs md:text-sm pr-2 tracking-widest hover:transition-transform hover:scale-105 ease-linear">
+                  {" "}
+                  50%
+                </div>
               </div>
             </div>
           </div>
