@@ -12,6 +12,7 @@ import { IFarmer } from "../../../interfaces/farmer"
 
 function CertificatePage() {
   const { state } = useLocation()
+  const [coop, setCoop] = useState<ICooperative | undefined>(undefined)
   const [cooperative, setCooperative] = useState<ICooperative | undefined>(
     undefined
   )
@@ -40,11 +41,14 @@ function CertificatePage() {
   ) => {
     const { name, value } = e.target
     if (name === "cooperative") {
-      setCooperative(() => state?.find((c: ICooperative) => c.name === value))
+      setCoop(() => state?.find((c: ICooperative) => c.name === value))
       return setFarmers(undefined)
     }
   }
-  const handleGeanerate = () => refetch()
+  const handleGeanerate = () => {
+    refetch()
+    setCooperative(coop)
+  }
 
   return (
     <div className="flex flex-col gap-3 md:gap-7 text-sm lg:text-xl">
@@ -77,11 +81,16 @@ function CertificatePage() {
 
       {isLoading ? (
         <Loading />
+      ) : cooperative && cooperative.isCertified && farmers ? (
+        <div className="overflow-scroll w-full border">
+          <Certificate cooperative={cooperative} Farmers={farmers} />
+        </div>
       ) : (
         cooperative &&
-        farmers && (
-          <div className="overflow-scroll w-full border">
-            <Certificate cooperative={cooperative} Farmers={farmers} />
+        cooperative?._id === coop?._id &&
+        cooperative?.isCertified !== true && (
+          <div className="flex justify-center items-center font-bold text-red-500">
+            Please make certificate payment first
           </div>
         )
       )}

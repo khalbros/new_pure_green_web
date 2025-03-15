@@ -1,31 +1,17 @@
 import logo from "../../../../assets/puregreen-logo.png"
 import { ICooperative } from "../../../../interfaces/cooperative"
 import { IFarmer } from "../../../../interfaces/farmer"
-import { fetchData, shortDateFormatter } from "../../../../utils"
+import { shortDateFormatter } from "../../../../utils"
 import { IWarehouse } from "../../../../interfaces/warehouse"
 import { useRef } from "react"
 import { useReactToPrint } from "react-to-print"
 import { Button } from "@material-tailwind/react"
-import { toast } from "react-toastify"
-import { useQuery } from "react-query"
 
 interface ICertificateProps {
   cooperative?: ICooperative
   Farmers?: IFarmer[]
 }
 function Certificate(props: ICertificateProps) {
-  const certNum = useQuery({
-    queryKey: ["certificate", "number"],
-    queryFn: async () => {
-      return fetchData("/cooperative/certificate/number")
-        .then(
-          (res) => res.data,
-          (err) => toast.error(err)
-        )
-        .catch((err) => toast.error(err))
-    },
-  })
-
   // printing handlers
   const componentRef = useRef(null)
   const handlePrint = useReactToPrint({
@@ -68,7 +54,7 @@ function Certificate(props: ICertificateProps) {
           <div className="flex gap-x-3 items-baseline">
             <p className="flex font-black capitalize">Registration Number:</p>
             <p className="flex flex-1 border-b-[0.5px] border-black px-5 font-serif -ml-2 -mt-2 tracking-wider">
-              {certNum.isLoading ? "generating..." : certNum.data}
+              {props.cooperative?.certificate_number}
             </p>
             <p className="font-black capitalize">Date Of Registration:</p>
             <p className="flex flex-1 border-b-[0.5px] border-black px-5 -ml-2 -mt-2">
