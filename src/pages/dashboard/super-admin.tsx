@@ -29,6 +29,7 @@ import cert1 from "../../assets/icons/certification.png"
 import datacapt from "../../assets/icons/pngkey.com-username-icon-png-2035339.png"
 import input_icon from "../../assets/icons/input.png"
 import naira_icon from "../../assets/icons/naira.png"
+import { CertStatCard } from "./finance"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -127,6 +128,14 @@ function SuperAdminDashboard() {
     },
   })
   const queryCertFee = useQuery({
+    queryKey: ["payment", "certicate"],
+    queryFn: async () => {
+      return fetchData("/payment/count/certificate/paid").then(
+        (res) => res.data
+      )
+    },
+  })
+  const queryCert = useQuery({
     queryKey: ["payment", "certicate"],
     queryFn: async () => {
       return fetchData("/payment/count/certificate").then((res) => res.data)
@@ -409,8 +418,8 @@ function SuperAdminDashboard() {
           })}
           action={() => navigate("payment/registration")}
         />
-        <StatCard
-          color="green"
+        <CertStatCard
+          color="red"
           icon={
             <div className="object-contain w-10 h-10">
               <img
@@ -420,8 +429,9 @@ function SuperAdminDashboard() {
               />
             </div>
           }
-          title="Certificate Fee"
-          count={(queryCertFee.data ?? 0)?.toLocaleString("en-NG", {
+          title="Total Certificate Paid"
+          count={(queryCert?.data ?? 0)?.toLocaleString("en-NG")}
+          amount={(queryCertFee?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
