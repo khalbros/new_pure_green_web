@@ -6,29 +6,29 @@ import {
   useReducer,
   useState,
 } from "react"
-import {MdCancel, MdOutlineKeyboardBackspace} from "react-icons/md"
-import {useLocation, useNavigate} from "react-router-dom"
-import {Button, Dialog, DialogBody} from "@material-tailwind/react"
-import {IDisbursement} from "../../../interfaces/disbursement"
-import {useAppDispatch, useAppSelector} from "../../../store"
-import {disbursementSelector} from "../../../store/slices/disbursement"
+import { MdCancel, MdOutlineKeyboardBackspace } from "react-icons/md"
+import { useLocation, useNavigate } from "react-router-dom"
+import { Button, Dialog, DialogBody } from "@material-tailwind/react"
+import { IDisbursement } from "../../../../interfaces/disbursement"
+import { useAppDispatch, useAppSelector } from "../../../../store"
+import { disbursementSelector } from "../../../../store/slices/disbursement"
 import {
   repaymentDisbursementAction,
   updateDisbursementAction,
-} from "../../../store/actions/disbursement"
-import {reset} from "../../../store/slices/disbursement"
-import {fetchData} from "../../../utils"
-import {IBundle} from "../../../interfaces/bundle"
-import Input from "../../../components/form/input"
-import {IFarmer} from "../../../interfaces/farmer"
+} from "../../../../store/actions/disbursement"
+import { reset } from "../../../../store/slices/disbursement"
+import { fetchData } from "../../../../utils"
+import { IBundle } from "../../../../interfaces/bundle"
+import Input from "../../../../components/form/input"
+import { IFarmer } from "../../../../interfaces/farmer"
 import React from "react"
-import {ICommodity} from "../../../interfaces/commodity"
-import {IGrade} from "../../../interfaces/grade"
-import Select from "../../../components/form/select"
-import {useRef} from "react"
-import {useReactToPrint} from "react-to-print"
+import { ICommodity } from "../../../../interfaces/commodity"
+import { IGrade } from "../../../../interfaces/grade"
+import Select from "../../../../components/form/select"
+import { useRef } from "react"
+import { useReactToPrint } from "react-to-print"
 import Receipt from "./receipt"
-import {IGrainFormData} from "../../../interfaces/grainLRP"
+import { IGrainFormData } from "../../../../interfaces/grainLRP"
 
 const initialState: IGrainFormData = {
   commodities: [
@@ -103,7 +103,7 @@ const DisbursementRepaymentForm = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const {name, value} = e.target
+    const { name, value } = e.target
     if (name === "processing_fee" || name === "logistics_fee") {
       if (outstanding_loan < 0) {
         overage = payableAmount + Number(value)
@@ -123,7 +123,7 @@ const DisbursementRepaymentForm = () => {
       })
       return
     }
-    setState({...state, [name]: value})
+    setState({ ...state, [name]: value })
     return
   }
 
@@ -131,7 +131,7 @@ const DisbursementRepaymentForm = () => {
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     index: number
   ) => {
-    const {name, value} = e.target
+    const { name, value } = e.target
     const commoditySelected = commoditySuggestion?.find(
       (con) => con._id === value
     )
@@ -271,7 +271,7 @@ const DisbursementRepaymentForm = () => {
     outstanding_loan = Number(disbursement?.outstanding_loan) - payableAmount
 
     overage = payableAmount - Number(disbursement?.outstanding_loan)
-    return {payableAmount, outstanding_loan, overage}
+    return { payableAmount, outstanding_loan, overage }
   }
 
   useEffect(() => {

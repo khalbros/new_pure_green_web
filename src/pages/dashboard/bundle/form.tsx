@@ -8,32 +8,33 @@ import React, {
   useReducer,
   useState,
 } from "react"
-import {MdCancel, MdOutlineKeyboardBackspace} from "react-icons/md"
-import {useLocation, useNavigate} from "react-router-dom"
-import {Button} from "@material-tailwind/react"
+import { MdCancel, MdOutlineKeyboardBackspace } from "react-icons/md"
+import { useLocation, useNavigate } from "react-router-dom"
+import { Button } from "@material-tailwind/react"
 import Input from "../../../components/form/input"
-import {IBundle} from "../../../interfaces/bundle"
+import { IBundle } from "../../../interfaces/bundle"
 import Select from "../../../components/form/select"
-import {useAppDispatch, useAppSelector} from "../../../store"
-import {BundleContext} from "."
-import {bundleSelector} from "../../../store/slices/bundle"
+import { useAppDispatch, useAppSelector } from "../../../store"
+import { BundleContext } from "."
+import { bundleSelector } from "../../../store/slices/bundle"
 import {
   createBundleAction,
   updateBundleAction,
 } from "../../../store/actions/bundle"
-import {reset} from "../../../store/slices/warehouse"
-import {fetchData} from "../../../utils"
-import {toast} from "react-toastify"
+import { reset } from "../../../store/slices/warehouse"
+import { fetchData } from "../../../utils"
+import { toast } from "react-toastify"
 import useFetch from "../../../hooks/useFetch"
+import { IInput } from "../../../interfaces/input"
 
 const initialState: IBundle = {
   name: undefined,
-  inputs: [{input: "", quantity: ""}],
+  inputs: [{ input: "", quantity: "" }],
   total: undefined,
 }
 
-const inputFields: {input: string; quantity: string}[] = [
-  {input: "", quantity: ""},
+const inputFields: { input: string; quantity: string }[] = [
+  { input: "", quantity: "" },
 ]
 
 const bundleReducer = (prev: IBundle, next: IBundle) => ({
@@ -42,10 +43,13 @@ const bundleReducer = (prev: IBundle, next: IBundle) => ({
 })
 
 const BundleForm = () => {
-  const {data} = useFetch("/input/names")
+  const { data } = useFetch("/input/isapproved")
   const [state, setState] = useReducer(bundleReducer, initialState)
   const [existingBundle, clearBundle] = useContext(BundleContext)
-  const [inputs, setInputs] = useState<string[]>(data)
+
+  const [inputs, setInputs] = useState<string[]>(
+    data?.map((input: IInput) => input.name)
+  )
   const location = useLocation()
   const edit = useMemo(() => location.pathname.includes("/edit"), [location])
   const bundleState = useAppSelector(bundleSelector)
@@ -60,20 +64,20 @@ const BundleForm = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const {name, value} = e.target
+    const { name, value } = e.target
 
-    setState({...state, [name]: value})
+    setState({ ...state, [name]: value })
   }
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     index: number
   ) => {
-    const {name, value} = e.target
+    const { name, value } = e.target
 
     setState({
       ...state,
       inputs: state.inputs?.map((input, i) =>
-        i === index ? {...input, [name]: value} : input
+        i === index ? { ...input, [name]: value } : input
       ),
     })
   }
@@ -104,12 +108,12 @@ const BundleForm = () => {
 
   useEffect(() => {
     if (existingBundle) {
-      const {password, ...rest} = existingBundle
+      const { password, ...rest } = existingBundle
       setState(rest)
     }
-    fetchData("/input/names")
+    fetchData("/input/isapproved")
       .then((res) => {
-        if (res.data) setInputs(res.data)
+        if (res.data) setInputs(res.data?.map((value: IInput) => value.name))
       })
       .catch((err) => toast.error(err))
     return () => {
@@ -220,7 +224,7 @@ const BundleForm = () => {
             onClick={() =>
               setState({
                 ...state,
-                inputs: [...state.inputs!, {input: "", quantity: ""}],
+                inputs: [...state.inputs!, { input: "", quantity: "" }],
               })
             }>
             add more

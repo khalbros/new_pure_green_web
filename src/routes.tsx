@@ -94,29 +94,41 @@ export const routes: IRoute[] = [
       {
         name: "inputs",
         path: "/dashboard/input-management",
-        layout: "data analyst",
+        layout: "super admin",
         icon: <TbPackage className="text-2xl md:text3xl" />,
       },
       // bundles
       {
         name: "bundles",
         path: "/dashboard/bundle-management",
-        layout: "data analyst",
+        layout: "super admin",
         icon: <FaLayerGroup className="text-2xl md:text3xl" />,
       },
       // grade
       {
         name: "grades",
         path: "/dashboard/grade-management",
-        layout: "data analyst",
+        layout: "super admin",
         icon: <TiChartBarOutline className="text-2xl md:text3xl" />,
       },
       // disbursement
       {
-        name: "disbursed loans",
+        name: "disbursement",
         path: "/dashboard/disbursement",
-        layout: "data analyst",
+        layout: "super admin",
         icon: <TbPackageExport className="text-2xl md:text3xl" />,
+        children: [
+          {
+            name: "input loan",
+            path: "/dashboard/disbursement/input-loan",
+            layout: "super admin",
+          },
+          {
+            name: "cash loan",
+            path: "/dashboard/disbursement/cash-loan",
+            layout: "super admin",
+          },
+        ],
       },
       // dispatch
       {
@@ -187,10 +199,22 @@ export const routes: IRoute[] = [
         icon: <HiOutlineUserGroup className="text-2xl md:text3xl" />,
       },
       {
-        name: "disbursed loans",
+        name: "disbursement",
         path: "/dashboard/disbursement",
         layout: "data analyst",
         icon: <TbPackageExport className="text-2xl md:text3xl" />,
+        children: [
+          {
+            name: "input loan",
+            path: "/dashboard/disbursement/input-loan",
+            layout: "data analyst",
+          },
+          {
+            name: "cash loan",
+            path: "/dashboard/disbursement/cash-loan",
+            layout: "data analyst",
+          },
+        ],
       },
       {
         name: "transaction",
@@ -295,10 +319,22 @@ export const routes: IRoute[] = [
       },
       // disburse
       {
-        name: "disbursed farmers",
+        name: "disbursement",
         path: "/dashboard/disbursement",
         layout: "area sales manager",
         icon: <TbPackageExport className="text-2xl md:text3xl" />,
+        children: [
+          {
+            name: "input loan",
+            path: "/dashboard/disbursement/input-loan",
+            layout: "area sales manager",
+          },
+          {
+            name: "cash loan",
+            path: "/dashboard/disbursement/cash-loan",
+            layout: "area sales manager",
+          },
+        ],
       },
       // repayment
       {
@@ -368,7 +404,7 @@ export const routes: IRoute[] = [
       {
         name: "commodities",
         path: "/dashboard/warehouse-commodity-management",
-        layout: "super admin",
+        layout: "warearea manager",
         icon: <TbPackages className="text-2xl md:text3xl" />,
       },
       // inputs
@@ -380,10 +416,22 @@ export const routes: IRoute[] = [
       },
       // disburse
       {
-        name: "disbursed farmers",
+        name: "disbursement",
         path: "/dashboard/disbursement",
-        layout: "warehouse admin",
+        layout: "wareahouse manager",
         icon: <TbPackageExport className="text-2xl md:text3xl" />,
+        children: [
+          {
+            name: "input loan",
+            path: "/dashboard/disbursement/input-loan",
+            layout: "wareahouse manager",
+          },
+          {
+            name: "cash loan",
+            path: "/dashboard/disbursement/cash-loan",
+            layout: "wareahouse manager",
+          },
+        ],
       },
       // repayment
       {
@@ -391,6 +439,18 @@ export const routes: IRoute[] = [
         path: "/dashboard/disbursement/repayment",
         layout: "warehouse manager",
         icon: <TbPackageImport className="text-2xl md:text3xl" />,
+        children: [
+          {
+            name: "grains loan repayment",
+            path: "/dashboard/disbursement/repayment/grains",
+            layout: "wareahouse manager",
+          },
+          {
+            name: "cash loan repayment",
+            path: "/dashboard/disbursement/repayment/cash-loan",
+            layout: "wareahouse manager",
+          },
+        ],
       },
       // transactions
       {
@@ -445,6 +505,18 @@ export const routes: IRoute[] = [
         path: "/dashboard/disbursement",
         layout: "warehouse admin",
         icon: <TbPackageExport className="text-2xl md:text3xl" />,
+        children: [
+          {
+            name: "input loan",
+            path: "/dashboard/disbursement/input-loan",
+            layout: "wareahouse admin",
+          },
+          {
+            name: "cash loan",
+            path: "/dashboard/disbursement/cash-loan",
+            layout: "wareahouse admin",
+          },
+        ],
       },
       {
         name: "visitations",

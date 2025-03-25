@@ -9,7 +9,6 @@ import {
 } from "react"
 import {
   Button,
-  Chip,
   DialogBody,
   Menu,
   MenuHandler,
@@ -19,58 +18,67 @@ import {
 import { FaEye } from "react-icons/fa"
 import { TfiMore } from "react-icons/tfi"
 import {
+  AiFillCheckCircle,
   AiFillEdit,
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
 } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
-import AddUser from "../../../assets/illustrations/no-data.png"
+import AddUser from "../../../../assets/illustrations/no-data.png"
 import { MdAdd, MdCancel, MdDeleteForever } from "react-icons/md"
 import { FiSearch } from "react-icons/fi"
-import usePagination from "../../../hooks/usePagination"
-import Input from "../../../components/form/input"
-import QueryResult from "../../../components/queryResult"
-import EmptyResult from "../../../components/queryResult/emptyResult"
-import { IGrainLRPPayload } from "../../../interfaces/grainLRP"
-import useFetch from "../../../hooks/useFetch"
-import { DisbursementContext } from "."
+import usePagination from "../../../../hooks/usePagination"
+import Input from "../../../../components/form/input"
+import QueryResult from "../../../../components/queryResult"
+
+import { IDisbursement } from "../../../../interfaces/disbursement"
+import { DisbursementContext } from "./"
 import {
   fetchData,
   generateExcelFile,
   getUser,
   shortDateFormatter,
-} from "../../../utils"
-import { useAppDispatch, useAppSelector } from "../../../store"
+} from "../../../../utils"
+import { useAppDispatch, useAppSelector } from "../../../../store"
 import DisbursementDetails from "./details"
 import { toast } from "react-toastify"
-import { disbursementSelector } from "../../../store/slices/disbursement/index"
-import { IFarmer } from "../../../interfaces/farmer"
-import { IBundle } from "../../../interfaces/bundle"
-import confirmAction from "../../../assets/illustrations/thinking.png"
+import { disbursementSelector } from "../../../../store/slices/disbursement/index"
+import { IFarmer } from "../../../../interfaces/farmer"
+import { IBundle } from "../../../../interfaces/bundle"
+import confirmAction from "../../../../assets/illustrations/thinking.png"
 import { Dialog } from "@material-tailwind/react"
-import { deleteGrainLRPAction } from "../../../store/actions/disbursement"
-import Receipt from "./repaymentReceipt"
+import {
+  approveDisbursementAction,
+  deleteDisbursementAction,
+} from "../../../../store/actions/disbursement"
+import Receipt from "./receipt"
 import { useReactToPrint } from "react-to-print"
 import { IoMdPrint } from "react-icons/io"
-import { IWarehouse } from "../../../interfaces/warehouse"
-import { IUser } from "../../../interfaces/user"
+import { IWarehouse } from "../../../../interfaces/warehouse"
+import { IUser } from "../../../../interfaces/user"
 import { HiDocumentDownload } from "react-icons/hi"
-import { IProject } from "../../../interfaces/project"
-import { ICooperative } from "../../../interfaces/cooperative"
-import { ICommodity } from "../../../interfaces/commodity"
+import { IProject } from "../../../../interfaces/project"
+import { ICooperative } from "../../../../interfaces/cooperative"
+import { useQuery } from "react-query"
+import EmptyResult from "../emptyResult"
 
-const RepaymentTable = () => {
+const DisbursementTable = () => {
+  const { data, error, isLoading, isError } = useQuery({
+    queryKey: ["disbursement"],
+    queryFn: async () => {
+      return fetchData("/disbursement").then((res) => res.data)
+    },
+  })
   const currentUser = useMemo(() => JSON.parse(getUser()!), [])
   const [openDrawer, setOpenDrawer] = useState<boolean>(false)
-
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [openDelete, setOpenDelete] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
-  const [disbursements, setDisbursements] = useState<IGrainLRPPayload[]>()
-  const [disbursement, setDisbursement] = useState<IGrainLRPPayload>()
+  const [disbursements, setDisbursements] = useState<IDisbursement[]>(data)
+  const [disbursement, setDisbursement] = useState<IDisbursement>()
   const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(disbursements)
   const [_ctx, dispatch] = useContext(DisbursementContext)
-  const { data, error, loading, message } = useFetch(`/disbursement/grain`)
   const navigate = useNavigate()
   const dispatchAction = useAppDispatch()
   const disbursementState = useAppSelector(disbursementSelector)
@@ -79,35 +87,21 @@ const RepaymentTable = () => {
   const exportTableData = () => {
     return disbursements?.map((disbursement) => ({
       "Referance ID": disbursement.ref_id,
-      "Farmer Name": (disbursement.disbursement?.farmer as IFarmer)?.first_name,
-      "Farmer ID": (disbursement.disbursement?.farmer as IFarmer)?.farmer_id,
+      "Farmer Name": (disbursement.farmer as IFarmer)?.first_name,
+      "Farmer ID": (disbursement.farmer as IFarmer)?.farmer_id,
       Cooperative: (
-        (disbursement.disbursement?.farmer as IFarmer)
-          ?.cooperative as ICooperative
+        (disbursement.farmer as IFarmer)?.cooperative as ICooperative
       )?.name,
-      Warehouse: (disbursement.disbursement?.warehouse as IWarehouse)?.name,
-      "Hectare(s)": disbursement.disbursement?.hectares,
-      Bundle: (disbursement.disbursement?.bundle as IBundle)?.name,
-      "Loan Amount": disbursement.disbursement?.loan_amount,
-      Equity: disbursement.disbursement?.equity,
-      "Repayment Amount": disbursement.disbursement?.repayment_amount,
-      Commodities: disbursement.commodities?.map(
-        (com) =>
-          `${(com.commodity as ICommodity)?.name} ${com.gross_weight}(kg) ${
-            com.quantity
-          } (bags)`
-      ),
-      "Gross Weight": disbursement.gross_weight,
-      "Net Weight": disbursement.net_weight,
-      "Number Of Bags": disbursement.num_bags,
-      "Amount Payable": disbursement.payable_amount,
-      "Logistics Fee": disbursement.logistics_fee,
-      "Processing Fee": disbursement.processing_fee,
-      "Outstanding Amount": disbursement.disbursement?.outstanding_loan,
-      "Overage Amount": disbursement.disbursement?.overage,
-      "Disbursed By": (disbursement.disbursement?.disbursedBy as IUser)?.name,
-      "Repaid By": (disbursement.repayedBy as IUser)?.name,
-      Project: (disbursement.disbursement?.project as IProject)?.name,
+      Warehouse: (disbursement.warehouse as IWarehouse)?.name,
+      "Hectare(s)": disbursement.hectares,
+      Bundle: (disbursement.bundle as IBundle)?.name,
+      "Loan Amount": disbursement.loan_amount,
+      Equity: disbursement.equity,
+      "Repayment Amount": disbursement.repayment_amount,
+      "Outstanding Amount": disbursement.outstanding_loan,
+      "Overage Amount": disbursement.overage,
+      "Booked By": (disbursement.disbursedBy as IUser)?.name,
+      Project: (disbursement.project as IProject)?.name,
       Status: disbursement.status,
     }))
   }
@@ -118,6 +112,7 @@ const RepaymentTable = () => {
     content: () => componentRef.current,
     onAfterPrint() {
       setOpen(false)
+      navigate(-1)
     },
   })
 
@@ -128,39 +123,45 @@ const RepaymentTable = () => {
       setDisbursements(data)
       return
     }
-    const result = (data as IGrainLRPPayload[])?.filter(
+
+    const result = (data as IDisbursement[])?.filter(
       (disbursement) =>
-        (disbursement.disbursement?.farmer as IFarmer)?.first_name
+        (disbursement.farmer as IFarmer)?.first_name
           ?.toLowerCase()
           .includes(value.toLowerCase()) ||
-        (disbursement.disbursement?.farmer as IFarmer)?.farmer_id
+        (disbursement.farmer as IFarmer)?.farmer_id
           ?.toLowerCase()
-          .includes(value.toLowerCase()) ||
-        String(disbursement.payable_amount)
-          ?.toLowerCase()
-          .includes(value.toLowerCase()) ||
-        disbursement.repayedBy?.name
-          ?.toLowerCase()
-          ?.includes(value.toLowerCase())
+          .includes(value.toLowerCase())
     )
     setDisbursements(result)
   }
 
   // set user context and navigate to edit user
-  const handleEdit = (disbursement: IGrainLRPPayload) => {
+  const handleEdit = (disbursement: IDisbursement) => {
     dispatch(disbursement)
     navigate("edit")
   }
 
   // handle delete
-  const handleDelete = (disbursement: IGrainLRPPayload) => {
+  const handleDelete = (disbursement: IDisbursement) => {
     dispatchAction(
-      deleteGrainLRPAction(disbursement, () => setOpenDelete(!openDelete))
+      deleteDisbursementAction({ ...disbursement }, () =>
+        setOpenDelete(!openDelete)
+      )
+    )
+  }
+  // handle status
+  const handleStatus = (disbursement: IDisbursement) => {
+    dispatchAction(
+      approveDisbursementAction(
+        { ...disbursement, isApproved: disbursement.isApproved ? false : true },
+        () => setOpenDialog(!openDialog)
+      )
     )
   }
 
   // open drawer with users details
-  const toggleDrawer = (disbursement?: IGrainLRPPayload) => {
+  const toggleDrawer = (disbursement?: IDisbursement) => {
     if (disbursement) {
       setDisbursement(disbursement)
     }
@@ -168,14 +169,21 @@ const RepaymentTable = () => {
   }
 
   // open or close delete dialog
-  const toggleDeleteDialog = (disbursement?: IGrainLRPPayload) => {
+  const toggleDeleteDialog = (disbursement?: IDisbursement) => {
     if (disbursement) {
       setDisbursement(disbursement)
     }
     setOpenDelete(!openDelete)
   }
+  // open or close status dialog
+  const toggleDialog = (disbursement?: IDisbursement) => {
+    if (disbursement) {
+      setDisbursement(disbursement)
+    }
+    setOpenDialog(!openDialog)
+  }
 
-  const togglePrint = (disbursement?: IGrainLRPPayload) => {
+  const togglePrint = (disbursement?: IDisbursement) => {
     if (disbursement) {
       setDisbursement(disbursement)
     }
@@ -185,7 +193,7 @@ const RepaymentTable = () => {
 
   useEffect(() => {
     return () => {
-      fetchData("/disbursement/grain")
+      fetchData("/disbursement")
         .then((res) => {
           if (res.data) setDisbursements(() => res.data)
         })
@@ -197,23 +205,23 @@ const RepaymentTable = () => {
     <>
       <QueryResult
         data={data}
-        loading={loading}
-        error={error ? message : ""}
+        loading={isLoading}
+        error={isError ? String(error) : ""}
         emptyResult={
           <EmptyResult
-            item="Disbursement"
+            item="Loan Booking"
             image={AddUser}
-            path="/dashboard/disbursement/repayment/add"
+            path="/dashboard/disbursement/input-loan/booking"
           />
         }>
         <div className="flex items-center gap-2">
-          {(currentUser?.role === "SUPER ADMIN" ||
-            currentUser.role === "DATA ANALYST" ||
-            currentUser.role === "WAREHOUSE MANAGER") && (
+          {currentUser.role === "WAREHOUSE ADMIN" && (
             <Button
-              onClick={() => navigate("/dashboard/disbursement/repayment/add")}
+              onClick={() =>
+                navigate("/dashboard/disbursement/input-loan/booking")
+              }
               className="bg-green-700 flex gap-1 justify-center items-center py-1 text-sm lg:text-base lg:py-2 mt-5">
-              <MdAdd className="text-[18px] lg:text-[30px]" /> New Repayment
+              <MdAdd className="text-[18px] lg:text-[30px]" /> Book Loan
             </Button>
           )}
           <Button
@@ -233,6 +241,7 @@ const RepaymentTable = () => {
           onChange={handleSearch}
         />
         <>
+          <h3>input loan</h3>
           <div className="w-full overflow-x-scroll rounded-lg">
             <table className="w-full border-collapse border-spacing-y-1 shadow border-[0.5px] rounded-lg capitalize whitespace-nowrap">
               <thead className="bg-green-50 text-[14px] lg:text-[17px]">
@@ -266,12 +275,6 @@ const RepaymentTable = () => {
                     Repayment amount
                   </th>
                   <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
-                    Amount payable
-                  </th>
-                  <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
-                    Commodities
-                  </th>
-                  <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
                     Outstanding
                   </th>
                   <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
@@ -299,105 +302,64 @@ const RepaymentTable = () => {
                     <td className="p-3 text-[14px] lg:text-[17px] font-bold">
                       <div className="flex flex-col">
                         <span>
-                          {
-                            (disbursement?.disbursement?.farmer as IFarmer)
-                              ?.first_name
-                          }
+                          {`${(disbursement?.farmer as IFarmer)?.first_name} ${
+                            (disbursement?.farmer as IFarmer)?.other_name ?? ""
+                          } ${(disbursement?.farmer as IFarmer)?.last_name}`}
                         </span>
                         <span className="text-gray-500 tracking-wider font-bold text-[10px] md:text-sm">
-                          {
-                            (disbursement?.disbursement?.farmer as IFarmer)
-                              ?.farmer_id
-                          }
+                          {(disbursement?.farmer as IFarmer)?.farmer_id}
                         </span>
                       </div>
                     </td>
                     <td className="p-3 text-[14px] lg:text-[17px]">
-                      {
-                        (
-                          (disbursement.disbursement?.farmer as IFarmer)
-                            ?.cooperative as ICooperative
-                        )?.name
-                      }
+                      {(disbursement?.cooperative as ICooperative)?.name}
                     </td>
                     <td className="p-3 text-[14px] lg:text-[17px]">
-                      {disbursement.disbursement?.hectares}
+                      {disbursement.hectares}
                     </td>
                     <td className="p-3 text-[14px] lg:text-[17px]">
-                      {(disbursement.disbursement?.bundle as IBundle)?.name}
+                      {(disbursement.bundle as IBundle)?.name}
                     </td>
                     <td className="p-3 text-[14px] lg:text-[17px]">
-                      {
-                        (disbursement.disbursement?.warehouse as IWarehouse)
-                          ?.name
-                      }
+                      {(disbursement.warehouse as IWarehouse)?.name}
                     </td>
                     <td className="p-3 text-[14px] lg:text-[17px] tracking-wider">
-                      {disbursement?.disbursement?.loan_amount?.toLocaleString(
-                        "en-NG",
-                        {
-                          style: "currency",
-                          currency: "NGN",
-                        }
-                      )}
-                    </td>
-                    <td className="p-3 text-[14px] lg:text-[17px] tracking-wider">
-                      {disbursement?.disbursement?.equity?.toLocaleString(
-                        "en-NG",
-                        {
-                          style: "currency",
-                          currency: "NGN",
-                        }
-                      )}
-                    </td>
-                    <td className="p-3 text-[14px] lg:text-[17px] tracking-wider">
-                      {disbursement?.disbursement?.repayment_amount?.toLocaleString(
-                        "en-NG",
-                        {
-                          style: "currency",
-                          currency: "NGN",
-                        }
-                      )}
-                    </td>
-                    <td className="p-3 text-[14px] lg:text-[17px] tracking-wider">
-                      {disbursement?.payable_amount?.toLocaleString("en-NG", {
+                      {disbursement.loan_amount?.toLocaleString("en-NG", {
                         style: "currency",
                         currency: "NGN",
                       })}
                     </td>
-                    <td className="p-3 flex flex-wrap gap-2 text-[14px] lg:text-[17px]">
-                      {disbursement.commodities?.map((com) => (
-                        <Chip
-                          key={(com.commodity as ICommodity)?._id}
-                          value={`${(com.commodity as ICommodity)?.name} ${
-                            com.gross_weight
-                          }(kg) ${com.quantity} (bags)`}
-                          className="rounded-full w-fit"
-                          color="light-green"
-                        />
-                      ))}
+                    <td className="p-3 text-[14px] lg:text-[17px] tracking-wider">
+                      {disbursement.equity?.toLocaleString("en-NG", {
+                        style: "currency",
+                        currency: "NGN",
+                      })}
                     </td>
                     <td className="p-3 text-[14px] lg:text-[17px] tracking-wider">
-                      {disbursement?.disbursement?.outstanding_loan?.toLocaleString(
-                        "en-NG",
-                        {
-                          style: "currency",
-                          currency: "NGN",
-                        }
-                      )}
+                      {disbursement.repayment_amount?.toLocaleString("en-NG", {
+                        style: "currency",
+                        currency: "NGN",
+                      })}
                     </td>
                     <td className="p-3 text-[14px] lg:text-[17px] tracking-wider">
-                      {disbursement?.disbursement?.overage?.toLocaleString(
-                        "en-NG",
-                        {
-                          style: "currency",
-                          currency: "NGN",
-                        }
-                      )}
+                      {disbursement.outstanding_loan?.toLocaleString("en-NG", {
+                        style: "currency",
+                        currency: "NGN",
+                      })}
+                    </td>
+                    <td className="p-3 text-[14px] lg:text-[17px] tracking-wider">
+                      {disbursement.overage?.toLocaleString("en-NG", {
+                        style: "currency",
+                        currency: "NGN",
+                      })}
                     </td>
                     <td
-                      className={`p-3 text-[14px] lg:text-[17px] uppercase font-bold tracking-wider text-green-700`}>
-                      Grains
+                      className={`p-3 text-[14px] lg:text-[17px] uppercase font-bold tracking-wider ${
+                        disbursement?.repayment_type === "Grains"
+                          ? "text-green-700"
+                          : "text-blue-800"
+                      }`}>
+                      {disbursement.repayment_type}
                     </td>
                     <td className="p-3 text-[14px] lg:text-[17px]">
                       {shortDateFormatter(disbursement.createdAt!)}
@@ -407,11 +369,13 @@ const RepaymentTable = () => {
                         className={`${
                           disbursement.status === "PAID"
                             ? "bg-green-400"
-                            : disbursement.status === "PART PAYMENT"
-                            ? "bg-blue-500"
+                            : !disbursement?.isApproved
+                            ? "bg-gray-500"
                             : "bg-red-500"
                         } whitespace-nowrap px-4 py-1 text-center text-white uppercase rounded-full cursor-pointer`}>
-                        {disbursement?.status}
+                        {!disbursement?.isApproved
+                          ? "PENDING"
+                          : disbursement?.status}
                       </span>
                     </td>
 
@@ -432,24 +396,73 @@ const RepaymentTable = () => {
                           {(currentUser?.role === "SUPER ADMIN" ||
                             currentUser?.role === "DATA ANALYST" ||
                             currentUser?.role === "FINANCIAL OFFICER" ||
-                            currentUser?.role === "WAREHOUSE MANAGER") && (
+                            currentUser?.role === "WAREHOUSE MANAGER" ||
+                            currentUser?.role === "WAREHOUSE ADMIN") &&
+                            !disbursement?.isApproved && (
+                              <MenuItem
+                                onClick={() => handleEdit(disbursement)}
+                                className="inline-flex gap-2 border-b-2">
+                                <AiFillEdit size={16} /> Edit
+                              </MenuItem>
+                            )}
+
+                          {disbursement?.isApproved && (
                             <MenuItem
-                              onClick={() => handleEdit(disbursement)}
+                              onClick={() => togglePrint(disbursement)}
                               className="inline-flex gap-2 border-b-2">
-                              <AiFillEdit size={16} /> Edit
+                              <IoMdPrint size={16} className="text-blue-500" />
+                              Print
                             </MenuItem>
                           )}
-                          <MenuItem
-                            onClick={() => togglePrint(disbursement)}
-                            className="inline-flex gap-2 border-b-2">
-                            <IoMdPrint size={16} className="text-blue-500" />
-                            Print
-                          </MenuItem>
 
                           {(currentUser?.role === "SUPER ADMIN" ||
                             currentUser?.role === "DATA ANALYST" ||
                             currentUser?.role === "FINANCIAL OFFICER" ||
-                            currentUser?.role === "WAREHOUSE MANAGER") && (
+                            currentUser?.role === "WAREHOUSE MANAGER") &&
+                          disbursement?.isApproved ? (
+                            <>
+                              {(disbursement?.status === "PENDING" ||
+                                disbursement?.status === "NOT PAID") && (
+                                <MenuItem
+                                  onClick={() => toggleDialog(disbursement)}
+                                  className="inline-flex gap-2 border-b-2">
+                                  <AiFillCheckCircle size={16} color="red" />{" "}
+                                  Reject
+                                </MenuItem>
+                              )}
+                              <MenuItem
+                                onClick={() => toggleDeleteDialog(disbursement)}
+                                className="inline-flex gap-2 border-b-2">
+                                <MdDeleteForever
+                                  size={16}
+                                  className="text-red-400"
+                                />
+                                Delete
+                              </MenuItem>
+                            </>
+                          ) : (currentUser?.role === "SUPER ADMIN" ||
+                              currentUser?.role === "DATA ANALYST" ||
+                              currentUser?.role === "FINANCIAL OFFICER" ||
+                              currentUser?.role === "WAREHOUSE MANAGER") &&
+                            !disbursement?.isApproved ? (
+                            <>
+                              <MenuItem
+                                onClick={() => toggleDialog(disbursement)}
+                                className="inline-flex gap-2 border-b-2">
+                                <AiFillCheckCircle size={16} color="green" />{" "}
+                                Approve
+                              </MenuItem>
+                              <MenuItem
+                                onClick={() => toggleDeleteDialog(disbursement)}
+                                className="inline-flex gap-2 border-b-2">
+                                <MdDeleteForever
+                                  size={16}
+                                  className="text-red-400"
+                                />{" "}
+                                Delete
+                              </MenuItem>
+                            </>
+                          ) : (
                             <>
                               <MenuItem
                                 onClick={() => toggleDeleteDialog(disbursement)}
@@ -504,6 +517,35 @@ const RepaymentTable = () => {
           </div>
         </>
 
+        {/* action */}
+        <Dialog size="sm" open={openDialog} handler={toggleDialog}>
+          <DialogBody className="">
+            <div className="flex justify-end">
+              {" "}
+              <MdCancel
+                className="cursor-pointer"
+                size={20}
+                onClick={() => toggleDialog()}
+              />{" "}
+            </div>
+            <img
+              src={confirmAction}
+              className="w-[120px] mx-auto mb-7 block"
+              alt="delete disbursement"
+            />
+            <p className="mx-auto text-base text-center max-w-[300px] text-black mb-7">
+              Are you sure you want to{" "}
+              {disbursement?.isApproved ? "reject" : "approve"} this
+              disbursement
+            </p>
+            <Button
+              onClick={() => handleStatus(disbursement!)}
+              className="bg-green-600 w-60p mx-auto block mb-16">
+              Confirm
+            </Button>
+          </DialogBody>
+        </Dialog>
+
         {/* delete */}
         <Dialog size="sm" open={openDelete} handler={toggleDeleteDialog}>
           <DialogBody className="">
@@ -522,7 +564,7 @@ const RepaymentTable = () => {
             />
             <p className="mx-auto text-base text-center max-w-[300px] text-black mb-7">
               Are you sure you want to DELETE disbursement for “
-              {(disbursement?.disbursement?.farmer as IFarmer)?.first_name}”
+              {(disbursement?.farmer as IFarmer)?.first_name}”
             </p>
             <Button
               onClick={() => handleDelete(disbursement!)}
@@ -532,7 +574,7 @@ const RepaymentTable = () => {
           </DialogBody>
         </Dialog>
         <DisbursementDetails
-          disbursement={disbursement?.disbursement}
+          disbursement={disbursement}
           open={openDrawer}
           close={toggleDrawer}
         />
@@ -552,7 +594,7 @@ const RepaymentTable = () => {
                 onClick={() => setOpen(!open)}
               />{" "}
             </div>
-            <div ref={componentRef} className="">
+            <div ref={componentRef}>
               <Receipt {...disbursement} />
             </div>
             <Button
@@ -567,4 +609,4 @@ const RepaymentTable = () => {
   )
 }
 
-export default RepaymentTable
+export default DisbursementTable

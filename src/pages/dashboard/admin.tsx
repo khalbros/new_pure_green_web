@@ -132,17 +132,17 @@ function AdminDashboard() {
         if (res.data) setCommodities(res.data)
       })
       .catch((err) => toast.error(err.message))
-    fetchData("/disbursement/count/hectares-disburse")
+    fetchData("/disbursement/count/hectares-disbursed")
       .then((res) => {
         if (res.data) _setDisbursedHectare(() => res.data)
       })
       .catch((err) => toast.error(err.message))
-    fetchData("/disbursement/count/equity-disburse")
+    fetchData("/disbursement/count/equity-disbursed")
       .then((res) => {
         if (res.data) _setTotalEquity(() => res.data)
       })
       .catch((err) => toast.error(err.message))
-    fetchData("/disbursement/count/loan-disburse")
+    fetchData("/disbursement/count/loan-disbursed")
       .then((res) => {
         if (res.data) _setTotalLoan(() => res.data)
       })
@@ -281,7 +281,7 @@ function AdminDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
         <StatCard
           color="red"
@@ -322,7 +322,7 @@ function AdminDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement/outstanding")}
+          action={() => navigate("disbursement/input-loan/outstanding")}
         />
         <StatCard
           color="green"
@@ -334,7 +334,7 @@ function AdminDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
 
         <StatCard
@@ -357,7 +357,7 @@ function AdminDashboard() {
           icon={<FcAreaChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Hectares Disbursed"
           count={disbursed_hectare.toLocaleString() + " Ha"}
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
 
         <GrainStatCard
@@ -488,8 +488,7 @@ export const StatCard: React.FC<IProps> = (props) => {
     <>
       <div
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
-        onClick={props.action}
-      >
+        onClick={props.action}>
         <div className={`flex`}>{props.icon}</div>
         <div className="flex flex-col flex-1 gap-2 items-end">
           <p className="flex text-indigo-600 font-extrabold text-xl">
@@ -518,8 +517,7 @@ export const GrainStatCard: React.FC<IGrainProps> = (props) => {
     <>
       <div
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear gap-2"
-        onClick={props.action}
-      >
+        onClick={props.action}>
         {props.icon && <div className={`flex`}>{props.icon}</div>}
         <div className="flex flex-col flex-1 gap-2 items-end">
           <span className="flex items-center justify-end gap-1 w-full">

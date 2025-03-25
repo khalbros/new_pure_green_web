@@ -7,27 +7,27 @@ import {
   useReducer,
   useState,
 } from "react"
-import {MdOutlineKeyboardBackspace} from "react-icons/md"
-import {useLocation, useNavigate} from "react-router-dom"
-import {Button, Chip} from "@material-tailwind/react"
-import {IDisbursement} from "../../../interfaces/disbursement"
-import {useAppDispatch, useAppSelector} from "../../../store"
-import Select from "../../../components/form/select"
-import {disbursementSelector} from "../../../store/slices/disbursement"
+
+import { useLocation, useNavigate } from "react-router-dom"
+import { Button, Chip } from "@material-tailwind/react"
+import { IDisbursement } from "../../../../interfaces/disbursement"
+import { useAppDispatch, useAppSelector } from "../../../../store"
+import Select from "../../../../components/form/select"
+import { disbursementSelector } from "../../../../store/slices/disbursement"
 import {
   loanDisbursementAction,
   updateDisbursementAction,
-} from "../../../store/actions/disbursement"
-import {reset} from "../../../store/slices/disbursement"
-import {fetchData} from "../../../utils"
-import {ICooperative} from "../../../interfaces/cooperative"
-import {IBundle} from "../../../interfaces/bundle"
-import Input from "../../../components/form/input"
-import {IFarmer} from "../../../interfaces/farmer"
-import {toast} from "react-toastify"
+} from "../../../../store/actions/disbursement"
+import { reset } from "../../../../store/slices/disbursement"
+import { fetchData } from "../../../../utils"
+import { ICooperative } from "../../../../interfaces/cooperative"
+import { IBundle } from "../../../../interfaces/bundle"
+import Input from "../../../../components/form/input"
+import { IFarmer } from "../../../../interfaces/farmer"
+import { toast } from "react-toastify"
 
-import {DisbursementContext} from "."
-import {IEquity} from "../../../interfaces/equity"
+import { DisbursementContext } from "."
+import { IEquity } from "../../../../interfaces/equity"
 
 const initialState: IDisbursement = {}
 const disbursementReducer = (prev: IDisbursement, next: IDisbursement) => ({
@@ -49,22 +49,19 @@ const DisbursementLoanForm = () => {
     () => farmers?.find((farmer) => farmer.farmer_id === state.farmer),
     [state.farmer]
   )
+
   // const inputRef = useRef<HTMLInputElement>(null)
   const disbursementState = useAppSelector(disbursementSelector)
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const handleGoBack = () => {
-    navigate(-1)
-  }
-
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const {name, value} = e.target
+    const { name, value } = e.target
 
-    setState({...state, [name]: value})
+    setState({ ...state, [name]: value })
     if (name === "bundle") {
       setSelectedBundle(bundle?.find((b) => b._id === value))
     }
@@ -119,7 +116,7 @@ const DisbursementLoanForm = () => {
     const repayment =
       Number(selectedBundle?.total) * Number(state?.hectares) - Number(equity)
 
-    return {equity, totalLoan, repayment}
+    return { equity, totalLoan, repayment }
   }
 
   useEffect(() => {
@@ -135,7 +132,7 @@ const DisbursementLoanForm = () => {
       .catch((err) => console.log(err))
 
     if (existingbursement) {
-      const {...rest} = existingbursement
+      const { ...rest } = existingbursement
       setState(rest)
     }
     return () => {
@@ -146,9 +143,12 @@ const DisbursementLoanForm = () => {
   }, [])
 
   useEffect(() => {
-    fetchData(`/payment/list/equity?farmer=${farmer?._id}`)
+    fetchData(`/payment/all/equity?farmer=${farmer?._id}`)
       .then((res) => {
-        if (res.data) setFarmerEquity(res.data)
+        if (res.data)
+          setFarmerEquity(
+            res.data.find((equity: IEquity) => equity.status === "PAID")
+          )
       })
       .catch((err) => console.log(err))
     return () => {
@@ -165,14 +165,8 @@ const DisbursementLoanForm = () => {
   return (
     <div className="h-full w-full lg:pr-5 py-4 lg:py-8">
       <div className="flex items-center md:mb-12 mb-6">
-        <span onClick={handleGoBack}>
-          <MdOutlineKeyboardBackspace
-            size={24}
-            className="mr-3 cursor-pointer text-green-500"
-          />
-        </span>
-        <h4 className="text-xl lg:text-2xl text-green-500">
-          Loan Disbursement Form
+        <h4 className="text-xl lg:text-2xl text-green-500 uppercase">
+          Input Loan Disbursement Form
         </h4>
       </div>
 
@@ -203,14 +197,16 @@ const DisbursementLoanForm = () => {
                     key={index}
                     className="w-full"
                     value={farmer.farmer_id}
-                    children={farmer.first_name}
+                    children={`${farmer?.first_name} ${
+                      farmer?.other_name ?? ""
+                    } ${farmer?.last_name}`}
                   />
                 )
               })}
             </datalist>
           </>
           {farmer ? (
-            farmerEquity?.status ? (
+            farmerEquity ? (
               <>
                 <Input label="Farmer name" value={farmer?.first_name} />
                 <Input label="Phone number" value={farmer?.phone} />

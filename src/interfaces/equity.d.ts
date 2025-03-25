@@ -7,7 +7,7 @@ export interface IEquity {
   amount_per_hectare?: number
   hectares?: number
   hectares_used?: number
-  status?: boolean
+  status?: string
   paid_by?: string
   createdAt?: string
   updatedAt?: string

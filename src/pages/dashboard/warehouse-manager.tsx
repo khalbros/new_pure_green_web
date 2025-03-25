@@ -62,7 +62,7 @@ function WarehouseManagerDashboard() {
   const queryToatalLoan = useQuery({
     queryKey: ["counts", "total-loan"],
     queryFn: async () => {
-      return fetchData("/disbursement/count/loan-disburse").then(
+      return fetchData("/disbursement/count/loan-disbursed").then(
         (res) => res.data
       )
     },
@@ -102,7 +102,7 @@ function WarehouseManagerDashboard() {
   const queryHectares = useQuery({
     queryKey: ["counts", "hectares"],
     queryFn: async () => {
-      return fetchData("/disbursement/count/hectares-disburse").then(
+      return fetchData("/disbursement/count/hectares-disbursed").then(
         (res) => res.data
       )
     },
@@ -114,9 +114,9 @@ function WarehouseManagerDashboard() {
     },
   })
   const queryEquity = useQuery({
-    queryKey: ["counts", "equity-disburse"],
+    queryKey: ["counts", "equity-disbursed"],
     queryFn: async () => {
-      return fetchData("/disbursement/count/equity-disburse").then(
+      return fetchData("/disbursement/count/equity-disbursed").then(
         (res) => res.data
       )
     },
@@ -326,7 +326,7 @@ function WarehouseManagerDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
         <StatCard
           color="red"
@@ -391,7 +391,7 @@ function WarehouseManagerDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement/outstanding")}
+          action={() => navigate("disbursement/input-loan/outstanding")}
         />
         <StatCard
           color="green"
@@ -411,14 +411,14 @@ function WarehouseManagerDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
         <StatCard
           color="green"
           icon={<FcAreaChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Hectares Disbursed"
           count={queryHectares?.data?.toLocaleString() ?? 0 + " Ha"}
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
         <StatCard
           color="green"
@@ -486,7 +486,7 @@ function WarehouseManagerDashboard() {
                 )?.toFixed(2) + " %"
               : "0 %"
           }
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
       </div>
       <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-3 items-stretch">

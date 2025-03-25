@@ -1,6 +1,7 @@
 export interface IDisbursement {
   _id?: string
   farmer?: string
+  cooperative?: string
   ref_id?: string
   hectares?: number
   bundle?: string

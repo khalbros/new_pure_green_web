@@ -3,9 +3,17 @@ import React, { lazy, Suspense } from "react"
 import { Navigate, createBrowserRouter } from "react-router-dom"
 import Loading from "./components/Loading"
 import ErrorPage from "./pages/404"
-import CertPayment from "./pages/dashboard/payments/certificate"
-import PaymentCertTable from "./pages/dashboard/payments/certificate/table"
-import CertificatePaymentForm from "./pages/dashboard/payments/certificate/form"
+const InputLoan = lazy(() => import("./pages/dashboard/disbursement/input"))
+const RegistrationPayment = lazy(
+  () => import("./pages/dashboard/payments/registration")
+)
+const CertPayment = lazy(() => import("./pages/dashboard/payments/certificate"))
+const PaymentCertTable = lazy(
+  () => import("./pages/dashboard/payments/certificate/table")
+)
+const CertificatePaymentForm = lazy(
+  () => import("./pages/dashboard/payments/certificate/form")
+)
 
 const InputDetails = lazy(
   () => import("./pages/dashboard/input/warehouse/details")
@@ -119,10 +127,10 @@ const DisbursementManagement = lazy(
   () => import("./pages/dashboard/disbursement")
 )
 const DisbursementLoanForm = lazy(
-  () => import("./pages/dashboard/disbursement/loan")
+  () => import("./pages/dashboard/disbursement/input/loan")
 )
 const DisbursementRepaymentForm = lazy(
-  () => import("./pages/dashboard/disbursement/repayment")
+  () => import("./pages/dashboard/disbursement/input/repayment")
 )
 const ProjectManagement = lazy(() => import("./pages/dashboard/project"))
 const ProjectTable = lazy(() => import("./pages/dashboard/project/table"))
@@ -146,7 +154,7 @@ const ProfileForm = lazy(
   () => import("./pages/dashboard/settings/profile/form")
 )
 const DisbursementTable = lazy(
-  () => import("./pages/dashboard/disbursement/table")
+  () => import("./pages/dashboard/disbursement/input/table")
 )
 const RegisterPaymentForm = lazy(
   () => import("./pages/dashboard/payments/registration/registration")
@@ -170,11 +178,9 @@ const CashRepaymentForm = lazy(
   () => import("./pages/dashboard/payments/disbursement/repayment")
 )
 const EquityPayment = lazy(() => import("./pages/dashboard/payments/equity"))
-const RegistrationPayment = lazy(
-  () => import("./pages/dashboard/payments/registration")
-)
+
 const RepaymentTable = lazy(
-  () => import("./pages/dashboard/disbursement/repaymentTable ")
+  () => import("./pages/dashboard/disbursement/input/repaymentTable ")
 )
 
 export const router = createBrowserRouter([
@@ -890,30 +896,85 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
         children: [
+          // input loans
           {
-            path: "",
+            path: "input-loan",
             element: (
               <Suspense fallback={<Loading />}>
-                <DisbursementTable />
+                <InputLoan />
               </Suspense>
             ),
+            children: [
+              {
+                path: "",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <DisbursementTable />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "outstanding",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <DisbursementTable />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "booking",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <DisbursementLoanForm />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "edit",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <DisbursementLoanForm />
+                  </Suspense>
+                ),
+              },
+            ],
           },
+          // cash loan
           {
-            path: "loan",
+            path: "cash-loan",
             element: (
               <Suspense fallback={<Loading />}>
-                <DisbursementLoanForm />
+                <InputLoan />
               </Suspense>
             ),
+            children: [
+              {
+                path: "",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <DisbursementTable />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "booking",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <DisbursementLoanForm />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "edit",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <DisbursementLoanForm />
+                  </Suspense>
+                ),
+              },
+            ],
           },
-          {
-            path: "edit",
-            element: (
-              <Suspense fallback={<Loading />}>
-                <DisbursementLoanForm />
-              </Suspense>
-            ),
-          },
+
           {
             path: "repayment",
             children: [

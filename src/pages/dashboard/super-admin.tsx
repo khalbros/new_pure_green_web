@@ -128,7 +128,7 @@ function SuperAdminDashboard() {
     },
   })
   const queryCertFee = useQuery({
-    queryKey: ["payment", "certicate"],
+    queryKey: ["counts", "certificates", "paid"],
     queryFn: async () => {
       return fetchData("/payment/count/certificate/paid").then(
         (res) => res.data
@@ -136,7 +136,7 @@ function SuperAdminDashboard() {
     },
   })
   const queryCert = useQuery({
-    queryKey: ["payment", "certicate"],
+    queryKey: ["counts", "certicates"],
     queryFn: async () => {
       return fetchData("/payment/count/certificate").then((res) => res.data)
     },
@@ -191,17 +191,17 @@ function SuperAdminDashboard() {
         if (res.data) setCommodities(res.data)
       })
       .catch((err) => toast.error(err.message))
-    fetchData("/disbursement/count/hectares-disburse")
+    fetchData("/disbursement/count/hectares-disbursed")
       .then((res) => {
         if (res.data) _setDisbursedHectare(() => res.data)
       })
       .catch((err) => toast.error(err.message))
-    fetchData("/disbursement/count/equity-disburse")
+    fetchData("/disbursement/count/equity-disbursed")
       .then((res) => {
         if (res.data) _setTotalEquity(() => res.data)
       })
       .catch((err) => toast.error(err.message))
-    fetchData("/disbursement/count/loan-disburse")
+    fetchData("/disbursement/count/loan-disbursed")
       .then((res) => {
         if (res.data) _setTotalLoan(() => res.data)
       })
@@ -333,7 +333,7 @@ function SuperAdminDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
         <StatCard
           color="red"
@@ -398,7 +398,7 @@ function SuperAdminDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement/outstanding")}
+          action={() => navigate("disbursement/input-loan/outstanding")}
         />
         <StatCard
           color="green"
@@ -445,7 +445,7 @@ function SuperAdminDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
         <StatCard
           color="red"
@@ -462,7 +462,7 @@ function SuperAdminDashboard() {
           icon={<FcAreaChart className="text-3xl md:text-5xl lg:text-6xl" />}
           title="Total Hectares Disbursed"
           count={disbursed_hectare.toLocaleString() + " Ha"}
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
         <StatCard
           color="green"

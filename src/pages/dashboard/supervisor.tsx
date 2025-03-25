@@ -83,7 +83,7 @@ function SupervisorDashboard() {
         if (res.data) setTotalCooperativies(() => res.data)
       })
       .catch((err) => toast.error(err.message))
-    fetchData("/disbursement/count/hectares-disburse")
+    fetchData("/disbursement/count/hectares-disbursed")
       .then((res) => {
         if (res.data) setTotalHectares(() => res.data)
       })
@@ -98,7 +98,7 @@ function SupervisorDashboard() {
         if (res.data) setTotalRecovered(() => res.data)
       })
       .catch((err) => toast.error(err.message))
-    fetchData("/disbursement/count/loan-disburse")
+    fetchData("/disbursement/count/loan-disbursed")
       .then((res) => {
         if (res.data) setTotalLoanDisburse(() => res.data)
       })
@@ -171,9 +171,9 @@ function SupervisorDashboard() {
     },
   })
   const queryEquity = useQuery({
-    queryKey: ["counts", "equity-disburse"],
+    queryKey: ["counts", "equity-disbursed"],
     queryFn: async () => {
-      return fetchData("/disbursement/count/equity-disburse").then(
+      return fetchData("/disbursement/count/equity-disbursed").then(
         (res) => res.data
       )
     },
@@ -264,7 +264,7 @@ function SupervisorDashboard() {
           icon={<FcAreaChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Hectares Disbursed"
           count={Number(totalHectares ?? 0)?.toLocaleString() + " Ha"}
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
         <StatCard
           color="red"
@@ -274,7 +274,7 @@ function SupervisorDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
         <StatCard
           color="green"
@@ -294,7 +294,7 @@ function SupervisorDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
         <StatCard
           color="red"
@@ -314,7 +314,7 @@ function SupervisorDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement/outstanding")}
+          action={() => navigate("disbursement/input-loan/outstanding")}
         />
         <StatCard
           color="green"
@@ -331,7 +331,7 @@ function SupervisorDashboard() {
                 ).toFixed(2) + " %"
               : "0 %"
           }
-          action={() => navigate("disbursement")}
+          action={() => navigate("disbursement/input-loan")}
         />
       </div>
       <div className="grid grid-flow-row md:grid-cols-2 items-stretch gap-2 md:gap-3 lg:gap-4">
