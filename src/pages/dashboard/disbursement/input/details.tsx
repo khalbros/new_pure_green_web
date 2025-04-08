@@ -73,7 +73,9 @@ const DisbursementDetails: React.FC<IProps> = (props) => {
             </p>
             <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize font-bold">
               <span className="text-gray-600">Farmer Name:</span>
-              {(props.disbursement?.farmer as IFarmer)?.first_name}
+              {`${(props.disbursement?.farmer as IFarmer)?.first_name} ${
+                (props.disbursement?.farmer as IFarmer)?.other_name ?? ""
+              } ${(props.disbursement?.farmer as IFarmer)?.last_name}`}
             </p>
             <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize">
               <span className="text-gray-600">Hectares:</span>

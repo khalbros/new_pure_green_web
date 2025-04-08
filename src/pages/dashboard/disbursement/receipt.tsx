@@ -18,7 +18,7 @@ function Receipt(props: IDisbursement) {
         />
       </div>
       <p className="capitalize text-sm text-center">
-        Pure Green Agro-chemicals nig ltd
+        Pure Green Agrochemicals nig ltd
       </p>
       <div className="flex flex-col divide-y mt-4">
         <div className="flex items-ceter justify-between">
@@ -40,9 +40,7 @@ function Receipt(props: IDisbursement) {
         </div>
         <div className="flex items-ceter justify-between">
           <span>Cooperative</span>
-          <span>
-            {((props.farmer as IFarmer)?.cooperative as ICooperative)?.name}
-          </span>
+          <span>{(props.cooperative as ICooperative)?.name}</span>
         </div>
         <div className="flex items-ceter justify-between">
           <span>Warehouse</span>

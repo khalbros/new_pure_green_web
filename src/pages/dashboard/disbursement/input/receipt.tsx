@@ -18,12 +18,12 @@ function Receipt(props: IDisbursement) {
         />
       </div>
       <p className="capitalize text-sm text-center">
-        Pure Green Agro-chemicals nig ltd
+        Pure Green Agrochemicals nig ltd
       </p>
       <div className="flex flex-col divide-y mt-4">
         <div className="flex items-ceter justify-between">
           <span>Purpose</span>
-          <span>Loan Disbursement</span>
+          <span>Input Loan booking</span>
         </div>
         <div className="flex items-ceter justify-between">
           <span>Reference ID</span>
@@ -31,7 +31,9 @@ function Receipt(props: IDisbursement) {
         </div>
         <div className="flex items-ceter justify-between">
           <span>Farmer</span>
-          <span>{(props.farmer as IFarmer)?.first_name}</span>
+          <span>{`${(props?.farmer as IFarmer)?.first_name} ${
+            (props?.farmer as IFarmer)?.other_name ?? ""
+          } ${(props?.farmer as IFarmer)?.last_name}`}</span>
         </div>
 
         <div className="flex items-ceter justify-between">
@@ -40,9 +42,7 @@ function Receipt(props: IDisbursement) {
         </div>
         <div className="flex items-ceter justify-between">
           <span>Cooperative</span>
-          <span>
-            {((props.farmer as IFarmer)?.cooperative as ICooperative)?.name}
-          </span>
+          <span>{(props.cooperative as ICooperative)?.name}</span>
         </div>
         <div className="flex items-ceter justify-between">
           <span>Warehouse</span>
@@ -155,7 +155,7 @@ function Receipt(props: IDisbursement) {
             <span>{(props.repayedBy as IUser)?.name}</span>
           </div>
         )}
-        {props.repayment_type && (
+        {props.repayment_type && props.repayment_type?.length > 0 && (
           <div className="flex items-ceter justify-between">
             <span>Payment Type</span>
             <span>{props.repayment_type}</span>
