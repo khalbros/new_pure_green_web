@@ -24,7 +24,7 @@ import {
   AiOutlineArrowRight,
 } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
-import AddUser from "../../../assets/illustrations/no-data.png"
+import AddUser from "../../../../assets/illustrations/no-data.png"
 import { MdAdd, MdCancel, MdDeleteForever } from "react-icons/md"
 import { FiSearch } from "react-icons/fi"
 import usePagination from "../../../../hooks/usePagination"
