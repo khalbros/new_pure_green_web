@@ -240,7 +240,11 @@ const DisbursementLoanForm = () => {
                     <div className="flex flex-wrap w-full gap-2 mt-4">
                       {selectedBundle?.inputs?.map((input, index) => (
                         <Chip
-                          value={`${input.input}  ( ${input.quantity} )`}
+                          value={`${input.input}  ( ${
+                            state.hectares
+                              ? Number(input.quantity) * Number(state.hectares)
+                              : Number(input.quantity)
+                          } )`}
                           className="w-fit text-sm md:text-base"
                           key={index}
                           color="light-green"
