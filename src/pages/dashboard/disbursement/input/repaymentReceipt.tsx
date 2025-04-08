@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import logo from "../../../assets/puregreen-logo.png"
+import logo from "../../../../assets/puregreen-logo.png"
 import { IUser } from "../../../../interfaces/user"
 // import {IGrade} from "../../../interfaces/grade"
 // import {ICommodity} from "../../../interfaces/commodity"
