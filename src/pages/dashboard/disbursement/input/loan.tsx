@@ -208,7 +208,12 @@ const DisbursementLoanForm = () => {
           {farmer ? (
             farmerEquity ? (
               <>
-                <Input label="Farmer name" value={farmer?.first_name} />
+                <Input
+                  label="Farmer name"
+                  value={`${farmer?.first_name} ${farmer?.other_name ?? ""} ${
+                    farmer?.last_name
+                  }`}
+                />
                 <Input label="Phone number" value={farmer?.phone} />
                 <Input
                   label="Cooperative"
