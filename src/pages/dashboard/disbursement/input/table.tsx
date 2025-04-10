@@ -61,6 +61,7 @@ import { IProject } from "../../../../interfaces/project"
 import { ICooperative } from "../../../../interfaces/cooperative"
 import { useQuery } from "react-query"
 import EmptyResult from "../emptyResult"
+import FarmerAffidavit from "./Affidavit"
 
 const DisbursementTable = () => {
   const { data, error, isLoading, isError } = useQuery({
@@ -393,10 +394,7 @@ const DisbursementTable = () => {
                             <FaEye size={16} /> View details
                           </MenuItem>
 
-                          {(currentUser?.role === "SUPER ADMIN" ||
-                            currentUser?.role === "DATA ANALYST" ||
-                            currentUser?.role === "FINANCIAL OFFICER" ||
-                            currentUser?.role === "WAREHOUSE MANAGER" ||
+                          {(currentUser?.role === "WAREHOUSE MANAGER" ||
                             currentUser?.role === "WAREHOUSE ADMIN") &&
                             !disbursement?.isApproved && (
                               <MenuItem
@@ -406,18 +404,37 @@ const DisbursementTable = () => {
                               </MenuItem>
                             )}
 
+                          {currentUser?.role === "AREA SALES MANAGER" &&
+                            disbursement?.isApproved && (
+                              <MenuItem
+                                onClick={() =>
+                                  navigate(
+                                    "/dashboard/disbursement/input-loan/affidavit",
+                                    {
+                                      state: disbursement,
+                                    }
+                                  )
+                                }
+                                className="inline-flex gap-2 border-b-2">
+                                <IoMdPrint
+                                  size={16}
+                                  className="text-green-500"
+                                />
+                                Affidavit
+                              </MenuItem>
+                            )}
+
                           {disbursement?.isApproved && (
                             <MenuItem
                               onClick={() => togglePrint(disbursement)}
                               className="inline-flex gap-2 border-b-2">
                               <IoMdPrint size={16} className="text-blue-500" />
-                              Print
+                              Print Receipt
                             </MenuItem>
                           )}
 
                           {(currentUser?.role === "SUPER ADMIN" ||
                             currentUser?.role === "DATA ANALYST" ||
-                            currentUser?.role === "FINANCIAL OFFICER" ||
                             currentUser?.role === "WAREHOUSE MANAGER") &&
                           disbursement?.isApproved ? (
                             <>
@@ -442,7 +459,6 @@ const DisbursementTable = () => {
                             </>
                           ) : (currentUser?.role === "SUPER ADMIN" ||
                               currentUser?.role === "DATA ANALYST" ||
-                              currentUser?.role === "FINANCIAL OFFICER" ||
                               currentUser?.role === "WAREHOUSE MANAGER") &&
                             !disbursement?.isApproved ? (
                             <>

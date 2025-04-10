@@ -3,6 +3,7 @@ import React, { lazy, Suspense } from "react"
 import { Navigate, createBrowserRouter } from "react-router-dom"
 import Loading from "./components/Loading"
 import ErrorPage from "./pages/404"
+import FarmerAffidavit from "./pages/dashboard/disbursement/input/Affidavit"
 const InputLoan = lazy(() => import("./pages/dashboard/disbursement/input"))
 const RegistrationPayment = lazy(
   () => import("./pages/dashboard/payments/registration")
@@ -926,6 +927,14 @@ export const router = createBrowserRouter([
                 element: (
                   <Suspense fallback={<Loading />}>
                     <DisbursementLoanForm />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "affidavit",
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <FarmerAffidavit />
                   </Suspense>
                 ),
               },

@@ -40,7 +40,7 @@ function Certificate(props: ICertificateProps) {
           </h3>
         </div>
 
-        <h4 className="text-center text-red-600 font-bold italic text-3xl font-serif m-8">
+        <h4 className="text-center text-green-600 font-bold italic text-3xl font-serif m-8">
           Certificate of Cooperative Registration
         </h4>
         {/* Body  */}
@@ -134,8 +134,7 @@ function Certificate(props: ICertificateProps) {
           <div className="flex gap-5 capitalize mt-5 mb-10">
             <p className="">Cooperative Head:</p>
             <p className="flex flex-1 border-b-[0.5px] border-black -mt-3 -ml-4"></p>
-            <p className="">Warehouse Manager:</p>
-            <p className="flex flex-1 border-b-[0.5px] border-black -mt-3 -ml-4"></p>
+
             <p className="">Area Sales Manager:</p>
             <p className="flex flex-1 border-b-[0.5px] border-black -mt-3 -ml-4"></p>
           </div>
