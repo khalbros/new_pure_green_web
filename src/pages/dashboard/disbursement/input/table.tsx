@@ -61,7 +61,6 @@ import { IProject } from "../../../../interfaces/project"
 import { ICooperative } from "../../../../interfaces/cooperative"
 import { useQuery } from "react-query"
 import EmptyResult from "../emptyResult"
-import FarmerAffidavit from "./Affidavit"
 
 const DisbursementTable = () => {
   const { data, error, isLoading, isError } = useQuery({
