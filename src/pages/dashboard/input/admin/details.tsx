@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useContext, useEffect, useMemo, useState } from "react"
+import React, { useContext, useMemo, useState } from "react"
 import { MdCancel, MdCheckCircle, MdDeleteForever } from "react-icons/md"
 import { useLocation, useNavigate } from "react-router-dom"
 import { InputContext } from "../"
