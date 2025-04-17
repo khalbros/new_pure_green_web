@@ -8,7 +8,6 @@ import { useReactToPrint } from "react-to-print"
 import { Button } from "@material-tailwind/react"
 import Input from "../../../../components/form/input"
 import { useLocation } from "react-router-dom"
-import { IProject } from "../../../../interfaces/project"
 
 function FarmerAffidavit() {
   const location = useLocation()
@@ -59,9 +58,7 @@ function FarmerAffidavit() {
               pure green agrochemicals nig ltd
             </h3>
             <h4 className="text-center text-green-600 font-bold italic text-2xl font-serif m-5 mt-0 uppercase">
-              {`${
-                (disbursement?.project as IProject).name
-              } input loan AGREEMENT`}
+              {`2025 Wet Season Farmer Affidavits`}
             </h4>
             <div className="absolute right-0 bottom-10 object-contain overflow-hidden w-40 self-center">
               <img
@@ -103,7 +100,7 @@ function FarmerAffidavit() {
             <h4 className="font-black text-xl">Loan Details:</h4>
             <div className="grid grid-cols-2  gap-1 my-2">
               <span className="flex gap-3 items-baseline">
-                <p className="">Paid Equity:</p>
+                <p className="">Equity Paid:</p>
                 <p className="font-black tracking-wider text-lg">
                   {disbursement?.equity?.toLocaleString("en-NG", {
                     style: "currency",

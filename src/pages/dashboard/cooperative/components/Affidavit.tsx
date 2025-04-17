@@ -64,7 +64,7 @@ function Affidavit(props: IAffidavitProps) {
             </h3>
           </div>
           <h4 className="text-center text-green-600 font-bold italic text-3xl font-serif m-5 capitalize">
-            {`${cooperative.project} cooperative input loan affidavit`}
+            {`2025 Wet Season Cooperative Affidavits`}
           </h4>
           {/* Body  */}
           <hr />
@@ -88,7 +88,7 @@ function Affidavit(props: IAffidavitProps) {
             <h4 className="font-black text-xl">Loan Details:</h4>
             <div className="grid grid-cols-2  gap-1 my-2">
               <span className="flex gap-3 items-baseline">
-                <p className="">Paid Equity:</p>
+                <p className="">Equity Paid:</p>
                 <p className="font-black tracking-wider text-lg">
                   {cooperative?.equity.toLocaleString("en-NG", {
                     style: "currency",
