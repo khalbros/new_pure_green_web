@@ -241,7 +241,6 @@ const DisbursementTable = () => {
           onChange={handleSearch}
         />
         <>
-          <h3>input loan</h3>
           <div className="w-full overflow-x-scroll rounded-lg">
             <table className="w-full border-collapse border-spacing-y-1 shadow border-[0.5px] rounded-lg capitalize whitespace-nowrap">
               <thead className="bg-green-50 text-[14px] lg:text-[17px]">
@@ -403,7 +402,9 @@ const DisbursementTable = () => {
                               </MenuItem>
                             )}
 
-                          {currentUser?.role === "AREA SALES MANAGER" &&
+                          {(currentUser?.role === "AREA SALES MANAGER" ||
+                            currentUser?.role === "SUPER ADMIN" ||
+                            currentUser?.role === "DATA ANALYST") &&
                             disbursement?.isApproved && (
                               <MenuItem
                                 onClick={() =>

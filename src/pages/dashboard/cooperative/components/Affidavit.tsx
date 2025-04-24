@@ -1,4 +1,5 @@
 import logo from "../../../../assets/puregreen-logo.png"
+import signature from "../../../../assets/PG_SIGNATURE.png"
 import { ICooperative } from "../../../../interfaces/cooperative"
 import { fetchData, shortDateFormatter } from "../../../../utils"
 import { useRef } from "react"
@@ -30,7 +31,6 @@ function Affidavit(props: IAffidavitProps) {
         .catch((err) => toast.error(err))
     },
   })
-  const year = new Date()
   // printing handlers
   const componentRef = useRef(null)
   const handlePrint = useReactToPrint({
@@ -46,7 +46,7 @@ function Affidavit(props: IAffidavitProps) {
 
   if (cooperative)
     return (
-      <div className="flex flex-col py-10">
+      <div className="flex flex-col py-10 text-base font-serif">
         <div
           className="container justify-center items-center capitalize p-6 mx-auto"
           ref={componentRef}>
@@ -71,159 +71,139 @@ function Affidavit(props: IAffidavitProps) {
           <div className="flex flex-col gap-6 mt-10">
             <p>
               I,{" "}
-              <em className="uppercase font-black px-1">
+              <b className="uppercase font-black px-1 tracking-wider ">
                 {props.cooperative?.chairman}
-              </em>{" "}
-              , acting on behalf of{" "}
-              <em className="uppercase font-black px-1">
+              </b>
+              {" Chairman "}
+              of{" "}
+              <b className="uppercase font-black px-1 tracking-wider ">
                 {props.cooperative?.name}
-              </em>{" "}
-              in collaboration with PUREGREEN Agrochemicals Nig Limited
-              (“PUREGREEN”), acknowledge and agree to the terms and conditions
-              outlined in this affidavit for accessing agricultural inputs to
-              support the cooperative's farming activities.
+              </b>{" "}
+              in {shortDateFormatter(cooperative.createdAt as string)} apply to
+              access{" "}
+              <b className="font-extrabold ">
+                {cooperative?.hectares.toLocaleString() + " Hectares "}
+              </b>{" "}
+              of input from the warehouse of PUREGREEN Agrochemicals Nig Limited
+              (“PUREGREEN”), located at{" "}
+              {(props.cooperative?.warehouse as ICooperative)?.name} wareahouse.
+              <h6 className="font-black text-lg">Financial Details:</h6>
+              The Cooperative paid a total equity of{" "}
+              <b className="font-black tracking-wider ">
+                {cooperative?.equity.toLocaleString("en-NG", {
+                  style: "currency",
+                  currency: "NGN",
+                })}
+              </b>{" "}
+              with a Total Loan Value of{" "}
+              <b className="font-black tracking-wider ">
+                {cooperative?.loan_amount.toLocaleString("en-NG", {
+                  style: "currency",
+                  currency: "NGN",
+                })}
+              </b>{" "}
+              and have Outstanding Loan Value of{" "}
+              <b className="font-black tracking-wider ">
+                {cooperative?.outstanding_loan.toLocaleString("en-NG", {
+                  style: "currency",
+                  currency: "NGN",
+                })}
+                .
+              </b>
+              The Cooperative will pay an additional{" "}
+              <b className="font-black tracking-wider ">25%</b> interest on the
+              total loan value for any repayment made after{" "}
+              <b className="font-black tracking-wider ">
+                {shortDateFormatter(props.date as string)}
+              </b>
+              .
             </p>
           </div>
-          <div className="mt-2">
-            <h4 className="font-black text-xl">Loan Details:</h4>
-            <div className="grid grid-cols-2  gap-1 my-2">
-              <span className="flex gap-3 items-baseline">
-                <p className="">Equity Paid:</p>
-                <p className="font-black tracking-wider text-lg">
-                  {cooperative?.equity.toLocaleString("en-NG", {
-                    style: "currency",
-                    currency: "NGN",
-                  })}
-                </p>
-              </span>
-              <span className="flex gap-3 items-baseline">
-                <p className="">Hectares:</p>
-                <p className="font-black tracking-wider text-lg">
-                  {cooperative?.hectares.toLocaleString() + " Ha"}
-                </p>
-              </span>
-              <span className="flex gap-3 items-baseline">
-                <p className="">Total Loan Value:</p>
-                <p className="font-black tracking-wider text-lg">
-                  {cooperative?.loan_amount.toLocaleString("en-NG", {
-                    style: "currency",
-                    currency: "NGN",
-                  })}
-                </p>
-              </span>
-              <span className="flex gap-3 items-baseline">
-                <p className="">Outstanding Loan Value:</p>
-                <p className="font-black tracking-wider text-lg">
-                  {cooperative?.outstanding_loan.toLocaleString("en-NG", {
-                    style: "currency",
-                    currency: "NGN",
-                  })}
-                </p>
-              </span>
-            </div>
-          </div>
+
           <div className="">
-            <h4 className="font-black text-xl">Terms and Conditions:</h4>
+            <h6 className="font-black text-lg">Terms and Conditions:</h6>
 
             <ol className="list-decimal list-outside space-y-1 ml-8">
               <li className="">
-                The cooperative affirms that the inputs received under this
-                agreement are solely for agricultural use on designated
-                agricultural land totalling{" "}
-                <em className="font-black tracking-wider text-xl">
-                  {cooperative?.hectares}
-                </em>
-                {" Ha"}.
+                <b>Purpose of Loan:</b> I affirm that the inputs received under
+                this agreement are solely for distribution to the members of{" "}
+                <b className="uppercase font-black px-1">
+                  {props.cooperative?.name}
+                </b>{" "}
+                for agricultural use on their respective farmlands.
               </li>
               <li>
-                The loan provided will cover{" "}
-                <em className="font-black tracking-wider text-xl">
-                  {cooperative?.hectares}
-                </em>
-                {" Ha. "}
-                of agricultural land, distributed among the cooperative's
-                members.
+                <b>Distribution Responsibility:</b> I affirm that, as Chairman,
+                I am responsible for ensuring that the inputs are distributed
+                equitably among the members of the cooperative, with each member
+                receiving inputs proportional to their allocated hectares of
+                land.
               </li>
               <li>
-                The inputs will be disbursed by a PUREGREEN warehouse upon
-                execution of this affidavit.
+                <b>Repayment Obligation: </b> I agree to oversee and ensure that
+                the loan repayment is made according to the terms specified by
+                PUREGREEN.
               </li>
+
               <li>
-                The cooperative agrees to repay the loan according to the terms
-                specified by PUREGREEN.
-              </li>
-              <li>
-                Loan repayment will be made in commodities or cash equivalent on
-                or before the{" "}
-                <em className="font-black tracking-wider text-xl">
+                <b>Repayment in Commodities:</b> I agree that the{" "}
+                {"cooperative’s"}
+                repayment shall be made in commodities on or before{" "}
+                <b className="tracking-wider">
                   {shortDateFormatter(props.date as string)}
-                </em>
+                </b>
                 .
               </li>
               <li>
-                The cooperative affirms it shall distribute the inputs
-                exclusively to its registered members and monitor proper usage
-                on their designated agricultural land.
+                <b>Use of Inputs:</b> I affirm that the inputs shall be used
+                solely by the members of the cooperative on their designated
+                agricultural lands and shall not be sold or transferred to third
+                parties.
               </li>
               <li>
-                The cooperative agrees to maintain records of input usage,
-                farmer distribution, and yield data for reporting purposes.
+                <b>Compliance and Penalties:</b> I agree to be held accountable
+                if the cooperative or any of its members fail to comply with the
+                stated conditions. Any outstanding amount plus penalties as
+                determined by PUREGREEN will be paid.
               </li>
               <li>
-                All inputs provided under this loan agreement remain the
-                property of PUREGREEN until fully repaid by the cooperative.
-              </li>
-              <li>
-                The cooperative assumes all risks associated with the use of the
-                inputs, including risks incurred by individual members.
-              </li>
-              <li className="">
-                The cooperative and its members agree to be liable for
-                prosecution if they fail to comply with the terms stated above,
-                including the repayment of any outstanding loan value plus
-                applicable penalties.
-              </li>
-              <li>
-                The cooperative agrees to compensate for any damages or losses
-                resulting from the misuse or misappropriation of the inputs.
+                <b>{"Cooperative Members’ Commitment:"}</b> I affirm that all
+                members of the cooperative receiving inputs under this agreement
+                are fully aware of and agree to the terms and conditions
+                outlined in this document.
               </li>
             </ol>
           </div>
           <div className="grid grid-cols-2 gap-10 mt-16 capitalize">
             <span className="flex flex-col">
-              <p className="flex flex-1 border-b-[0.5px] border-black"></p>
-              <p className="font-black">Cooperative Head (Name/Signature): </p>
+              <p className="flex flex-1 border-b-2 border-black border-dotted"></p>
+              <p className="font-black">Cooperative Head Signature & Date : </p>
             </span>
 
             <span className="flex flex-col">
-              <p className="flex flex-1 border-b-[0.5px] border-black"></p>
-              <p className="font-black">Village Head (Name/Signature): </p>
+              <p className="flex flex-1 border-b-2 border-black border-dotted"></p>
+              <p className="font-black">Village Head Signature & Date: </p>
             </span>
             <span className="flex flex-col">
-              <p className="flex flex-1 border-b-[0.5px] border-black"></p>
-              <p className="font-black">Warehouse Manager (Name/Signature): </p>
+              <p className="flex flex-1 border-b-2 border-black border-dotted"></p>
+              <p className="font-black">Warehouse Manager Signature & Date: </p>
             </span>
             <span className="flex flex-col">
-              <p className="flex flex-1 border-b-[0.5px] border-black"></p>
-              <p className="font-black">
-                Area Sales Manager (Name/Signature):{" "}
+              <p className="relative flex flex-1 border-b-2 border-black border-dotted object-contain w-full self-center">
+                <img
+                  src={signature}
+                  alt="signature"
+                  className="absolute -top-11 md:left-20 h-16 w-[60%]"
+                />
               </p>
-            </span>
-            <span className="flex flex-col">
-              <p className="flex flex-1 border-b-[0.5px] border-black"></p>
-              <p className="font-black">CEO (Name/Signature): </p>
+              <p className="font-black">CEO's Signature & Date: </p>
             </span>
           </div>
-          <div className="font-bold uppercase text-center mt-4">
-            SWORN TO THE HIGH COURT OF JUSTICE REGISTRY, ZARIA
-          </div>
-          <div className="flex w-[50%] mx-auto gap-5 capitalize mt-5 mb-10">
-            <p className="">This</p>
-            <p className="flex flex-1 border-b-[0.5px] border-black -mt-3 -ml-4"></p>
-            <p className="">Day of</p>
-            <p className="flex flex-1 border-b-[0.5px] border-black -mt-3 -ml-4"></p>
-            <p className="">{year.getFullYear()}</p>
-          </div>
+          <div className="font-bold uppercase text-center mt-4">Before Me</div>
+          <div className="flex w-[50%] mx-auto gap-5 capitalize mt-8 border-b-2 border-black border-dotted"></div>
+          <p className="font-bold uppercase text-center mt-4">
+            The Commissioner For Oaths
+          </p>
         </div>
         <Button
           type="button"

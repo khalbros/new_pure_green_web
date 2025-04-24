@@ -95,9 +95,7 @@ function Certificate(props: ICertificateProps) {
               <th className="p-2">Farmer Name</th>
               <th className="p-2">Farmer ID</th>
               <th className="p-2">NIN</th>
-              <th className="p-2">BVN</th>
               <th className="p-2">Phone No.</th>
-              <th className="p-2">Collateral Details</th>
             </thead>
             <tbody className="divide-x divide-y border border-black divide-black">
               {props.Farmers?.map((farm, index) => (
@@ -105,9 +103,7 @@ function Certificate(props: ICertificateProps) {
                   <td className="p-2">{`${farm.first_name} ${farm.other_name} ${farm.last_name}`}</td>
                   <td className="p-2">{farm.farmer_id}</td>
                   <td className="p-2">{farm.id_number}</td>
-                  <td className="p-2">{farm.bvn}</td>
                   <td className="p-2">{farm.phone}</td>
-                  <td className="p-2">{props.cooperative?.collateral?.url}</td>
                 </tr>
               ))}
             </tbody>

@@ -1,4 +1,5 @@
 import logo from "../../../../assets/puregreen-logo.png"
+import signature from "../../../../assets/PG_SIGNATURE.png"
 import { IDisbursement } from "../../../../interfaces/disbursement"
 import { ICooperative } from "../../../../interfaces/cooperative"
 import { IFarmer } from "../../../../interfaces/farmer"
@@ -8,6 +9,7 @@ import { useReactToPrint } from "react-to-print"
 import { Button } from "@material-tailwind/react"
 import Input from "../../../../components/form/input"
 import { useLocation } from "react-router-dom"
+import { IWarehouse } from "../../../../interfaces/warehouse"
 
 function FarmerAffidavit() {
   const location = useLocation()
@@ -15,7 +17,6 @@ function FarmerAffidavit() {
     location?.state
   )
 
-  const year = new Date()
   const [date, setDate] = useState("")
   // printing handlers
   const componentRef = useRef(null)
@@ -33,7 +34,7 @@ function FarmerAffidavit() {
 
   if (disbursement)
     return (
-      <div className="flex flex-col py-10">
+      <div className="flex flex-col py-10 text-base">
         <Input
           name="date"
           value={date}
@@ -74,162 +75,155 @@ function FarmerAffidavit() {
           <div className="flex flex-col gap-6 mt-5">
             <p>
               I,{" "}
-              <em className="uppercase font-black px-1">
+              <b className="uppercase font-black px-1">
                 {`${(disbursement?.farmer as IFarmer)?.first_name} ${
                   (disbursement?.farmer as IFarmer)?.other_name ?? ""
                 } ${(disbursement?.farmer as IFarmer)?.last_name}`}
-              </em>{" "}
-              , with Farmer ID{" "}
-              <em className="uppercase font-black px-1">
-                {(disbursement?.farmer as IFarmer)?.farmer_id}
-              </em>
-              {", "}a member of{" "}
-              <em className="uppercase font-black px-1">
+              </b>
+              {", "}of{" "}
+              <b className="uppercase font-black px-1">
                 {(disbursement?.cooperative as ICooperative).name}
-              </em>
-              {", "}
-              do hereby acknowledge and agree to the terms and conditions
-              outlined in this affidavit for accessing agricultural inputs from
-              PUREGREEN Agrochemicals Nig Limited (“PUREGREEN”), located at{" "}
-              <em className="uppercase font-black px-1">
-                {(disbursement?.warehouse as ICooperative).name}
-              </em>
+              </b>
+              {", "}in{" "}
+              <b className="font-black tracking-wider">
+                {shortDateFormatter(disbursement?.createdAt as string)}
+              </b>
+              apply to access{" "}
+              <b className="font-black tracking-wider">
+                {disbursement?.hectares?.toLocaleString() + " Hectare(s)"}
+              </b>{" "}
+              of input from the warehouse of PUREGREEN Agrochemicals Nig Limited
+              (“PUREGREEN”) located at{" "}
+              <b className="uppercase font-black px-1">
+                {(disbursement?.warehouse as IWarehouse).name} wareahouse.
+              </b>
+              Paid Equity of{" "}
+              <b className="font-black tracking-wider">
+                {disbursement?.equity?.toLocaleString("en-NG", {
+                  style: "currency",
+                  currency: "NGN",
+                })}
+              </b>{" "}
+              with a Total Loan value of{" "}
+              <b className="font-black tracking-wider">
+                {disbursement?.loan_amount?.toLocaleString("en-NG", {
+                  style: "currency",
+                  currency: "NGN",
+                })}
+              </b>{" "}
+              and Outstanding Loan Value of{" "}
+              <b className="font-black tracking-wider text-lg">
+                {disbursement?.outstanding_loan?.toLocaleString("en-NG", {
+                  style: "currency",
+                  currency: "NGN",
+                })}
+              </b>
             </p>
           </div>
-          <div className="mt-2">
-            <h4 className="font-black text-xl">Loan Details:</h4>
-            <div className="grid grid-cols-2  gap-1 my-2">
-              <span className="flex gap-3 items-baseline">
-                <p className="">Equity Paid:</p>
-                <p className="font-black tracking-wider text-lg">
-                  {disbursement?.equity?.toLocaleString("en-NG", {
-                    style: "currency",
-                    currency: "NGN",
-                  })}
-                </p>
-              </span>
-              <span className="flex gap-3 items-baseline">
-                <p className="">Hectares:</p>
-                <p className="font-black tracking-wider text-lg">
-                  {disbursement?.hectares?.toLocaleString() + " Ha"}
-                </p>
-              </span>
-              <span className="flex gap-3 items-baseline">
-                <p className="">Total Loan Value:</p>
-                <p className="font-black tracking-wider text-lg">
-                  {disbursement?.loan_amount?.toLocaleString("en-NG", {
-                    style: "currency",
-                    currency: "NGN",
-                  })}
-                </p>
-              </span>
-              <span className="flex gap-3 items-baseline">
-                <p className="">Outstanding Loan Value:</p>
-                <p className="font-black tracking-wider text-lg">
-                  {disbursement?.outstanding_loan?.toLocaleString("en-NG", {
-                    style: "currency",
-                    currency: "NGN",
-                  })}
-                </p>
-              </span>
-            </div>
-          </div>
+
           <div className="">
-            <h4 className="font-black text-xl">Terms and Conditions:</h4>
+            <h4 className="font-black text-lg">Terms and Conditions:</h4>
 
             <ol className="list-decimal list-outside space-y-1 ml-8">
               <li className="">
-                I affirms that the inputs received under this agreement are
-                solely for agricultural use on designated agricultural land
-                totalling{" "}
-                <em className="font-black tracking-wider text-xl">
+                I affirm that the inputs received under this agreement are
+                solely for agricultural use on my agricultural land comprising a
+                minimum of{" "}
+                <b className="font-black tracking-wider text-xl">
                   {disbursement?.hectares}
-                </em>
+                </b>
                 {" Ha"}.
               </li>
               <li>
-                I affirm that the loan covers{" "}
-                <em className="font-black tracking-wider text-xl">
+                I affirm that the loan is to cover{" "}
+                <b className="font-black tracking-wider text-xl">
                   {disbursement?.hectares}
-                </em>
+                </b>
                 {" Ha. "}
                 of agricultural land.
               </li>
               <li>
-                I agree to receive the inputs from a PUREGREEN warehouse upon
-                execution of this affidavit.
+                I agree that the inputs will be disbursed by an PUREGREEN
+                warehouse upon execution of this Agreement
               </li>
               <li>
                 I agree to repay the loan according to the terms specified by
                 PUREGREEN.
               </li>
               <li>
-                I agree to make repayment in commodities or before the{" "}
-                <em className="font-black tracking-wider text-xl">
+                I agree that my repayment shall be made in commodities on or
+                before the{" "}
+                <b className="font-black tracking-wider text-xl">
                   {shortDateFormatter(date)}
-                </em>
+                </b>
                 .
               </li>
               <li>
-                I affirm that I shall use the inputs exclusively on the
-                designated agricultural land and not transfer them to anyone
-                else.
+                I affirm that I shall use the inputs solely on the designated
+                agricultural land and not give part to anyone.
               </li>
               <li>
-                I agree to maintain records of input usage and yield data for
-                reporting purposes.
+                I affirm that I shall maintain records of input usage and yield
+                data for reporting purposes.
               </li>
               <li>
-                I understand that the inputs shall remain the property of
-                PUREGREEN until the loan is fully repaid.
+                I agree that the inputs shall remain the property of PUREGREEN
+                until fully repaid by me.
               </li>
-              <li>I assume all risks associated with the use of the inputs.</li>
+              <li>
+                I agree to assume all risks associated with the use of the
+                inputs.
+              </li>
               <li className="">
-                I agree to be prosecuted if I fail to comply with the terms
-                stated above, including repayment of any outstanding loan value
-                plus applicable penalties as determined by PUREGREEN.
+                I agree to be prosecuted if I fail to comply with the conditions
+                stated above and pay any outstanding amount plus penalties as
+                determined by PUREGREEN.
               </li>
               <li>
-                11. I affirm that I shall be liable for any damages or losses
+                I affirm that I shall be liable for any damages or losses
                 resulting from misuse or misappropriation of the inputs.
               </li>
             </ol>
           </div>
           <div className="grid grid-cols-2 gap-10 mt-16 capitalize">
             <span className="flex flex-col">
-              <p className="flex flex-1 border-b-[0.5px] border-black"></p>
-              <p className="font-black">Cooperative Head (Name/Signature): </p>
+              <p className="flex flex-1 border-b-2 border-black border-dotted"></p>
+              <p className="font-black">Farmer's Signature & Date : </p>
+            </span>
+            <span className="flex flex-col">
+              <p className="flex flex-1 border-b-2 border-black border-dotted"></p>
+              <p className="font-black">
+                Cooperative Head's Signature & Date :{" "}
+              </p>
             </span>
 
             <span className="flex flex-col">
-              <p className="flex flex-1 border-b-[0.5px] border-black"></p>
-              <p className="font-black">Village Head (Name/Signature): </p>
+              <p className="flex flex-1 border-b-2 border-black border-dotted"></p>
+              <p className="font-black">Village Head's Signature & Date: </p>
             </span>
             <span className="flex flex-col">
-              <p className="flex flex-1 border-b-[0.5px] border-black"></p>
-              <p className="font-black">Warehouse Manager (Name/Signature): </p>
-            </span>
-            <span className="flex flex-col">
-              <p className="flex flex-1 border-b-[0.5px] border-black"></p>
+              <p className="flex flex-1 border-b-2 border-black border-dotted"></p>
               <p className="font-black">
-                Area Sales Manager (Name/Signature):{" "}
+                Warehouse Manager's Signature & Date:{" "}
               </p>
             </span>
-            <span className="flex flex-col">
-              <p className="flex flex-1 border-b-[0.5px] border-black"></p>
-              <p className="font-black">CEO (Name/Signature): </p>
-            </span>
+            <div className="col-span-2 mx-auto">
+              <p className="relative flex flex-1 border-b-2 border-black border-dotted object-contain w-full self-center">
+                <img
+                  src={signature}
+                  alt="signature"
+                  className="absolute -top-11 h-16 w-full"
+                />
+              </p>
+              <p className="font-black">CEO's Signature & Date: </p>
+            </div>
           </div>
-          <div className="font-bold uppercase text-center mt-4">
-            SWORN TO THE HIGH COURT OF JUSTICE REGISTRY, ZARIA
-          </div>
-          <div className="flex w-[50%] mx-auto gap-5 capitalize mt-5 mb-10">
-            <p className="">This</p>
-            <p className="flex flex-1 border-b-[0.5px] border-black -mt-3 -ml-4"></p>
-            <p className="">Day of</p>
-            <p className="flex flex-1 border-b-[0.5px] border-black -mt-3 -ml-4"></p>
-            <p className="">{year.getFullYear()}</p>
-          </div>
+
+          <div className="font-bold uppercase text-center mt-4">Before Me</div>
+          <div className="flex w-[50%] mx-auto gap-5 capitalize mt-8 border-b-2 border-black border-dotted"></div>
+          <p className="font-bold uppercase text-center mt-4">
+            The Commissioner For Oaths
+          </p>
         </div>
         <Button
           type="button"

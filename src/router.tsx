@@ -953,7 +953,7 @@ export const router = createBrowserRouter([
             path: "cash-loan",
             element: (
               <Suspense fallback={<Loading />}>
-                <InputLoan />
+                {/* <CashDisbursement /> */}
               </Suspense>
             ),
             children: [
@@ -961,7 +961,7 @@ export const router = createBrowserRouter([
                 path: "",
                 element: (
                   <Suspense fallback={<Loading />}>
-                    <DisbursementTable />
+                    {/* <CashDisbursementTable /> */}
                   </Suspense>
                 ),
               },
@@ -969,7 +969,7 @@ export const router = createBrowserRouter([
                 path: "booking",
                 element: (
                   <Suspense fallback={<Loading />}>
-                    <DisbursementLoanForm />
+                    {/* <DisbursementLoanForm /> */}
                   </Suspense>
                 ),
               },
@@ -977,7 +977,7 @@ export const router = createBrowserRouter([
                 path: "edit",
                 element: (
                   <Suspense fallback={<Loading />}>
-                    <DisbursementLoanForm />
+                    {/* <DisbursementLoanForm /> */}
                   </Suspense>
                 ),
               },

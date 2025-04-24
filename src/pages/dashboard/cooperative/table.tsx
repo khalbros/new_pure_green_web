@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, useMemo, useState } from "react"
 import { Button } from "@material-tailwind/react"
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
@@ -10,9 +10,6 @@ import Input from "../../../components/form/input"
 import QueryResult from "../../../components/queryResult"
 import { ICooperative } from "../../../interfaces/cooperative"
 import { fetchData, getUser } from "../../../utils"
-import { useAppDispatch, useAppSelector } from "../../../store"
-import { toast } from "react-toastify"
-import { cooperativeSelector } from "../../../store/slices/cooperative/index"
 import EmptyResult from "./emptyResult"
 import MobileList from "./components/small-screens/list"
 import DesktopList from "./components/large-screens/table"
@@ -26,8 +23,6 @@ const CooperativeTable = () => {
     usePagination(cooperatives)
 
   const navigate = useNavigate()
-  const dispatchAction = useAppDispatch()
-  const cooperativeState = useAppSelector(cooperativeSelector)
 
   const { data, error, isError, isLoading } = useQuery({
     queryKey: ["cooperative"],
@@ -53,17 +48,6 @@ const CooperativeTable = () => {
     )
     setCooperatives(result)
   }
-
-  useEffect(() => {
-    return () => {
-      fetchData("/cooperative/get/all")
-        .then(
-          (res) => setCooperatives(res.data),
-          (err) => toast.error(err)
-        )
-        .catch((err) => toast.error(err))
-    }
-  }, [data, dispatchAction, cooperativeState.data])
 
   return (
     <>
@@ -91,7 +75,9 @@ const CooperativeTable = () => {
                 Cooperative
               </Button>
             ) : (
-              currentUser.role === "AREA SALES MANAGER" && (
+              (currentUser.role === "SUPER ADMIN" ||
+                currentUser.role === "AREA SALES MANAGER" ||
+                currentUser.role === "DATA ANALYST") && (
                 <>
                   <Button
                     onClick={() =>
