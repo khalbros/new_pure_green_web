@@ -257,7 +257,7 @@ function WarehouseManagerDashboard() {
         <StatCard
           color="red"
           icon={
-            <FaUsers className="text-4xl md:text-5xl lg:text-6xl text-cyan-500" />
+            <FaUsers className="text-4xl md:text-5xl lg:text-6xl text-light-green-700" />
           }
           title="Total Farmers"
           count={(queryFarmers?.data ?? 0)?.toLocaleString()}
@@ -266,7 +266,7 @@ function WarehouseManagerDashboard() {
         <StatCard
           color="red"
           icon={
-            <FaUsers className="text-4xl md:text-5xl lg:text-6xl text-cyan-500" />
+            <FaUsers className="text-4xl md:text-5xl lg:text-6xl text-light-green-700" />
           }
           title="Total Clients"
           count={(queryClients?.data ?? 0)?.toLocaleString()}
@@ -505,7 +505,7 @@ function WarehouseManagerDashboard() {
 
         <div className=" p-4 gap-2 md:gap-3 lg:gap-4 lg:shadow-lg border">
           <div className=" border-2 p-2">
-            <h3 className="font-bold text-base md:text-lg lg:text-xl text-green-600 text-center my-2">
+            <h3 className="font-bold text-base md:text-lg lg:text-xl text-light-green-700 text-center my-2">
               Transactions
             </h3>
             <div className="grid grid-flow-row md:grid-cols-2 gap-2 md:gap-3 mt-4 border p-2 max-w-full">
@@ -561,12 +561,12 @@ function WarehouseManagerDashboard() {
             </div>
           </div>
           <div className=" border-2 p-2">
-            <h3 className="font-bold text-base md:text-lg lg:text-xl text-green-600 text-center my-2">
+            <h3 className="font-bold text-base md:text-lg lg:text-xl text-light-green-700 text-center my-2">
               Dispatch
             </h3>
             <div className="grid lg:grid-flow-row lg:grid-cols-2 gap-2 md:gap-3 mt-4">
               <div className="p-2 bg-purple-50 text-gray-700 space-y-2 md:space-y-3">
-                <h3 className="font-bold text-base md:text-lg lg:text-xl text-green-600 my-2">
+                <h3 className="font-bold text-base md:text-lg lg:text-xl text-light-green-700 my-2">
                   To Client's
                 </h3>
                 <p className="flex flex-row items-center justify-between w-full">
@@ -578,7 +578,7 @@ function WarehouseManagerDashboard() {
                 </p>
               </div>
               <div className="p-2 bg-indigo-50 text-gray-700 space-y-2 md:space-y-3">
-                <h3 className="font-bold text-base md:text-lg lg:text-xl text-green-600 my-2">
+                <h3 className="font-bold text-base md:text-lg lg:text-xl text-light-green-700 my-2">
                   To Warehouse
                 </h3>
                 <p className="flex flex-row items-center justify-between w-full">
@@ -602,7 +602,7 @@ function WarehouseManagerDashboard() {
       </div>
       <div className="grid grid-flow-row lg:grid-cols-2 gap-6 lg:gap-3 items-stretch">
         <div className="grid bg-white lg:drop-shadow-lg rounded-md p-2 md:p-3 lg:p-4 space-y-3 lg:shadow-lg border">
-          <h3 className="font-bold text-base md:text-lg lg:text-xl text-green-600 text-center my-2">
+          <h3 className="font-bold text-base md:text-lg lg:text-xl text-light-green-700 text-center my-2">
             Inputs
           </h3>
           <div className="grid grid-flow-row md:grid-cols-2 w-full gap-2 max-h-[400px] overflow-hidden overflow-y-auto">
@@ -655,7 +655,7 @@ function WarehouseManagerDashboard() {
           </div>
         </div>
         <div className="w-full overflow-x-scroll bg-white lg:drop-shadow-lg rounded-md p-2 md:p-3 lg:p-4 space-y-3 lg:shadow-lg border">
-          <h3 className="font-bold text-base md:text-lg lg:text-xl text-green-600 text-center my-2">
+          <h3 className="font-bold text-base md:text-lg lg:text-xl text-light-green-700 text-center my-2">
             Commodities
           </h3>
           <div className="max-h-[400px] overflow-y-auto">
@@ -721,10 +721,10 @@ export const StatCard: React.FC<IProps> = (props) => {
         onClick={props.action}>
         <div className={`flex`}>{props.icon}</div>
         <div className="flex flex-col flex-1 gap-2 items-end">
-          <p className="text-indigo-600 font-extrabold lg:text-xl truncate">
+          <p className="text-light-green-700 font-extrabold lg:text-xl truncate">
             {props.count}
           </p>
-          <p className="flex text-cyan-500 font-bold lg:text-lg text-right">
+          <p className="flex text-light-green-700 font-bold lg:text-lg text-right">
             {props.title}
           </p>
         </div>
@@ -753,16 +753,16 @@ export const GrainStatCard: React.FC<IGrainProps> = (props) => {
         </div>
         <div className="flex flex-col flex-1 gap-2 items-end">
           <span className="flex items-center justify-end gap-1 w-full">
-            <p className="flex text-indigo-600 font-extrabold lg:text-xl">
+            <p className="flex text-light-green-700 font-extrabold lg:text-xl">
               {props.bags + " Bags"}
             </p>
           </span>
           <span className="flex items-center justify-end gap-1 w-full">
-            <p className="flex text-indigo-600 font-extrabold lg:text-xl">
+            <p className="flex text-light-green-700 font-extrabold lg:text-xl">
               {props.weight + " WT"}
             </p>
           </span>
-          <p className="flex text-cyan-500 font-bold lg:text-lg text-right">
+          <p className="flex text-light-green-700 font-bold lg:text-lg text-right">
             {props.title}
           </p>
         </div>
