@@ -56,12 +56,12 @@ export default function Sidebar({
               {user?.warehouse.name}
             </Typography>
           )}
-          <Typography variant="h5" className="text-green-700 md:text-lg">
+          <Typography variant="h5" className="text-green-600 md:text-lg">
             {user?.role}
           </Typography>
         </div>
         <MdClose
-          className="text-3xl lg:text-4xl text-green-700"
+          className="text-3xl lg:text-4xl text-green-600"
           onClick={() => handleClose()}
         />
       </div>
@@ -80,7 +80,7 @@ export default function Sidebar({
           }}
         >
           <ListItemPrefix>
-            <HiPresentationChartBar className="h-5 w-5 text-green-700 hover:bg-green-200 focus:bg-green-100 focus:text-green-900" />
+            <HiPresentationChartBar className="h-5 w-5 text-green-600 hover:bg-green-200 focus:bg-green-100 focus:text-green-900" />
           </ListItemPrefix>
           <Typography
             color="green"
@@ -101,8 +101,8 @@ export default function Sidebar({
 
         <hr className="my-2 border-green-50" />
 
-        {/* <ListItem className="text-green-700 hover:bg-green-200 focus:bg-green-100 focus:text-green-900">
-          <ListItemPrefix className="text-green-700 focus:text-green-900">
+        {/* <ListItem className="text-green-600 hover:bg-green-200 focus:bg-green-100 focus:text-green-900">
+          <ListItemPrefix className="text-green-600 focus:text-green-900">
             <MdMoveToInbox className="h-5 w-5" />
           </ListItemPrefix>
           Inbox
@@ -118,13 +118,13 @@ export default function Sidebar({
         </ListItem> */}
 
         <ListItem
-          className="text-green-700 hover:bg-green-200 focus:bg-green-100 focus:text-green-900"
+          className="text-green-600 hover:bg-green-200 focus:bg-green-100 focus:text-green-900"
           onClick={() => {
             navigate("/dashboard/settings/profile")
             handleOpen("1")
           }}
         >
-          <ListItemPrefix className="text-green-700 focus:text-green-900">
+          <ListItemPrefix className="text-green-600 focus:text-green-900">
             <MdSettings className="h-5 w-5" />
           </ListItemPrefix>
           Settings
@@ -132,9 +132,9 @@ export default function Sidebar({
 
         <ListItem
           onClick={handleLogout}
-          className="text-green-700 hover:bg-green-200 focus:bg-green-100 focus:text-green-900"
+          className="text-green-600 hover:bg-green-200 focus:bg-green-100 focus:text-green-900"
         >
-          <ListItemPrefix className="text-green-700 focus:text-green-900">
+          <ListItemPrefix className="text-green-600 focus:text-green-900">
             <IoMdPower className="h-5 w-5" />
           </ListItemPrefix>
           Log Out

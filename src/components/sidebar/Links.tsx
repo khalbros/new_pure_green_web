@@ -7,9 +7,9 @@ import {
   ListItemPrefix,
   Typography,
 } from "@material-tailwind/react"
-import {IRoute} from "../../routes"
-import {TbChevronDown} from "react-icons/tb"
-import {useNavigate} from "react-router-dom"
+import { IRoute } from "../../routes"
+import { TbChevronDown } from "react-icons/tb"
+import { useNavigate } from "react-router-dom"
 
 interface ILink {
   link: IRoute
@@ -17,7 +17,7 @@ interface ILink {
   handleOpen: (name: string) => void
 }
 
-function Links({link, open, handleOpen}: ILink) {
+function Links({ link, open, handleOpen }: ILink) {
   const navigate = useNavigate()
 
   function handleClick(link: IRoute) {
@@ -38,16 +38,16 @@ function Links({link, open, handleOpen}: ILink) {
           />
         }>
         <ListItem
-          className="p-0 text-green-700 hover:bg-green-200 focus:bg-green-100 focus:text-green-900"
+          className="p-0 text-green-600 hover:bg-green-200 focus:bg-green-100 focus:text-green-900"
           selected={open === link.name}
           onClick={() => handleOpen(link.name)}>
-          <AccordionHeader className="border-b-0 p-3 text-green-700 hover:bg-green-200 focus:bg-green-100 focus:text-green-900">
-            <ListItemPrefix className="text-green-700 focus:text-green-900">
+          <AccordionHeader className="border-b-0 p-3 text-green-600 hover:bg-green-200 focus:bg-green-100 focus:text-green-900">
+            <ListItemPrefix className="text-green-600 focus:text-green-900">
               {link?.icon}
             </ListItemPrefix>
             <Typography
               color="blue-gray"
-              className="mr-auto font-normal capitalize text-green-700 focus:text-green-900">
+              className="mr-auto font-normal capitalize text-green-600 focus:text-green-900">
               {link.name}
             </Typography>
           </AccordionHeader>
@@ -58,7 +58,7 @@ function Links({link, open, handleOpen}: ILink) {
               <ListItem
                 key={index}
                 onClick={() => handleClick(item)}
-                className="text-green-700 hover:bg-green-200 focus:bg-green-100 focus:text-green-900 capitalize">
+                className="text-green-600 hover:bg-green-200 focus:bg-green-100 focus:text-green-900 capitalize">
                 {item.name}
               </ListItem>
             ))}
@@ -71,9 +71,9 @@ function Links({link, open, handleOpen}: ILink) {
       <ListItem
         selected={open === link.name ? true : false}
         onClick={() => handleClick(link)}
-        className="text-green-700 hover:bg-green-200 focus:bg-green-100 focus:text-green-900 capitalize">
+        className="text-green-600 hover:bg-green-200 focus:bg-green-100 focus:text-green-900 capitalize">
         {link.icon ? (
-          <ListItemPrefix className="text-green-700 focus:text-green-900">
+          <ListItemPrefix className="text-green-600 focus:text-green-900">
             {link.icon}
           </ListItemPrefix>
         ) : null}

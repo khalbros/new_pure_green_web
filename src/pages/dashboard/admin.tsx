@@ -258,7 +258,7 @@ function AdminDashboard() {
         <StatCard
           color="red"
           icon={
-            <FaUsers className="text-4xl md:text-5xl lg:text-6xl text-light-green-700" />
+            <FaUsers className="text-4xl md:text-5xl lg:text-6xl text-green-600" />
           }
           title="Total Clients"
           count={clients.toLocaleString()}
@@ -414,7 +414,7 @@ function AdminDashboard() {
         </div>
         <div className=" p-4 gap-2 md:gap-3 lg:gap-4 lg:shadow-lg border">
           <div className=" border-2 p-2">
-            <h3 className="font-bold text-base md:text-lg lg:text-xl text-light-green-700 text-center my-2">
+            <h3 className="font-bold text-base md:text-lg lg:text-xl text-green-600 text-center my-2">
               Transactions
             </h3>
             <div className="grid grid-flow-row md:grid-cols-2 gap-2 md:gap-3 mt-4 border p-2 max-w-full">
@@ -491,10 +491,10 @@ export const StatCard: React.FC<IProps> = (props) => {
         onClick={props.action}>
         <div className={`flex`}>{props.icon}</div>
         <div className="flex flex-col flex-1 gap-2 items-end">
-          <p className="flex text-light-green-700 font-extrabold text-xl">
+          <p className="flex text-green-600 font-extrabold text-xl">
             {props.count}
           </p>
-          <p className="flex text-light-green-700 lg:text-lg text-right">
+          <p className="flex text-green-600 lg:text-lg text-right">
             {props.title}
           </p>
         </div>
@@ -521,16 +521,16 @@ export const GrainStatCard: React.FC<IGrainProps> = (props) => {
         {props.icon && <div className={`flex`}>{props.icon}</div>}
         <div className="flex flex-col flex-1 gap-2 items-end">
           <span className="flex items-center justify-end gap-1 w-full">
-            <p className="flex text-light-green-700 font-extrabold lg:text-xl">
+            <p className="flex text-green-600 font-extrabold lg:text-xl">
               {props.bags + " Bags"}
             </p>
           </span>
           <span className="flex items-center justify-end gap-1 w-full">
-            <p className="flex text-light-green-700 font-extrabold lg:text-xl">
+            <p className="flex text-green-600 font-extrabold lg:text-xl">
               {props.weight + " WT"}
             </p>
           </span>
-          <p className="flex text-light-green-700 font-bold lg:text-lg text-right">
+          <p className="flex text-green-600 font-bold lg:text-lg text-right">
             {props.title}
           </p>
         </div>

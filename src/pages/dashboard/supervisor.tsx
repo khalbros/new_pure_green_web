@@ -207,7 +207,7 @@ function SupervisorDashboard() {
         <StatCard
           color="red"
           icon={
-            <FaUserCheck className="text-4xl md:text-5xl lg:text-6xl text-light-green-800" />
+            <FaUserCheck className="text-4xl md:text-5xl lg:text-6xl text-green-600" />
           }
           title="Approved Farmers"
           count={queryApprovedFarmers.data?.toLocaleString()}
@@ -353,7 +353,7 @@ function SupervisorDashboard() {
         <div className="flex flex-col bg-white p-4 space-y-2 md:space-y-3 lg:space-y-4 shadow-lg border justify-between">
           {recentDisbursement && (
             <div>
-              <h3 className="font-bold text-xl md:text-2xl lg:text-3xl text-light-green-800 text-center my-2">
+              <h3 className="font-bold text-xl md:text-2xl lg:text-3xl text-green-600 text-center my-2">
                 Recent Disbursements
               </h3>
               <table className="w-full">
@@ -416,7 +416,7 @@ function SupervisorDashboard() {
               </table>
             </div>
             <div className="bg-gray-50">
-              <h3 className="font-bold text-lg md:text-xl lg:text-2xl text-light-green-800 text-center my-2">
+              <h3 className="font-bold text-lg md:text-xl lg:text-2xl text-green-600 text-center my-2">
                 FEOs
               </h3>
               <table className="w-full">
@@ -460,10 +460,10 @@ export const StatCard: React.FC<IProps> = (props) => {
         onClick={props.action}>
         <div className={`flex`}>{props.icon}</div>
         <div className="flex flex-col flex-1 gap-2 items-end">
-          <p className="flex text-light-green-800 font-extrabold text-lg">
+          <p className="flex text-green-600 font-extrabold text-lg">
             {props.count}
           </p>
-          <p className="flex text-light-green-800 lg:text-base text-right">
+          <p className="flex text-green-600 lg:text-base text-right">
             {props.title}
           </p>
         </div>

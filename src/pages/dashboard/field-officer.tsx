@@ -140,7 +140,7 @@ function FieldOfficerDashboard() {
         </div>
         <div className="bg-white p-4 space-y-2 md:space-y-3 lg:space-y-4 shadow-xl border">
           <div>
-            <h3 className="font-bold text-xl md:text-2xl lg:text-3xl text-light-green-800 text-center my-2">
+            <h3 className="font-bold text-xl md:text-2xl lg:text-3xl text-green-600 text-center my-2">
               Recent Farmers
             </h3>
           </div>
@@ -176,7 +176,7 @@ function FieldOfficerDashboard() {
               </table>
             </div>
             <div className="bg-gray-50 border">
-              <h3 className="font-bold text-lg md:text-xl lg:text-2xl text-light-green-800 text-center my-2">
+              <h3 className="font-bold text-lg md:text-xl lg:text-2xl text-green-600 text-center my-2">
                 Unverified
               </h3>
               <table className="w-full">
@@ -229,10 +229,10 @@ export const StatCard: React.FC<IProps> = (props) => {
         onClick={props.action}>
         <div className={`flex`}>{props.icon}</div>
         <div className="flex flex-col flex-1 gap-2 items-end">
-          <p className="flex text-light-green-800 font-extrabold text-xl">
+          <p className="flex text-green-600 font-extrabold text-xl">
             {props.count.toLocaleString()}
           </p>
-          <p className="flex text-light-green-800 lg:text-lg text-right">
+          <p className="flex text-green-600 lg:text-lg text-right">
             {props.title}
           </p>
         </div>

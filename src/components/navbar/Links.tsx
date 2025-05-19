@@ -1,12 +1,12 @@
-import {Link, useLocation} from "react-router-dom"
-import {IRoute} from "../../routes"
+import { Link, useLocation } from "react-router-dom"
+import { IRoute } from "../../routes"
 import React from "react"
 
 interface IProps {
   routes: IRoute[]
 }
 
-const Links: React.FC<IProps> = ({routes}) => {
+const Links: React.FC<IProps> = ({ routes }) => {
   const location = useLocation()
 
   const activeRoute = (pathName: string): boolean =>
@@ -19,7 +19,7 @@ const Links: React.FC<IProps> = ({routes}) => {
           to={route.path}
           className={`capitalize py-2 ${
             activeRoute(route.path)
-              ? "border-b-2 border-b-green-700 text-green-700 font-bold"
+              ? "border-b-2 border-b-green-700 text-green-600 font-bold"
               : "text-green-400"
           }`}>
           {route.name}

@@ -145,10 +145,10 @@ export const StatCard: React.FC<IProps> = (props) => {
         onClick={props.action}>
         <div className={`flex`}>{props.icon}</div>
         <div className="flex flex-col flex-1 gap-2 items-end">
-          <p className="flex text-light-green-800 font-extrabold text-[1rem] lg:text-2xl tracking-wide lg:tracking-wider">
+          <p className="flex text-green-600 font-extrabold text-[1rem] lg:text-2xl tracking-wide lg:tracking-wider">
             {props.count.toLocaleString()}
           </p>
-          <p className="flex text-light-green-800 text-sm lg:text-lg text-right">
+          <p className="flex text-green-600 text-sm lg:text-lg text-right">
             {props.title}
           </p>
         </div>
@@ -174,16 +174,16 @@ export const CertStatCard: React.FC<ICertProps> = (props) => {
         <div className={`flex`}>{props.icon}</div>
         <div className="flex flex-col flex-1 items-end">
           <span className="flex items-center justify-end gap-1 w-full">
-            <p className="flex text-light-green-800 font-extrabold lg:text-xl">
+            <p className="flex text-green-600 font-extrabold lg:text-xl">
               {props.count + " cert."}
             </p>
           </span>
           <span className="flex items-center justify-end gap-1 w-full">
-            <p className="flex text-light-green-800 font-extrabold lg:text-xl">
+            <p className="flex text-green-600 font-extrabold lg:text-xl">
               {props.amount}
             </p>
           </span>
-          <p className="flex text-light-green-800 font-bold lg:text-lg text-right">
+          <p className="flex text-green-600 font-bold lg:text-lg text-right">
             {props.title}
           </p>
         </div>
