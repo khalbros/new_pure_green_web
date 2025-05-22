@@ -3,25 +3,16 @@
 import { ReactNode, useEffect, useMemo, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Color } from "chart.js"
-import {
-  FcAreaChart,
-  FcComboChart,
-  FcFlowChart,
-  FcManager,
-  FcPieChart,
-  FcPositiveDynamic,
-} from "react-icons/fc"
-
+import { FcAreaChart, FcComboChart, FcPieChart } from "react-icons/fc"
+import { FaUserTie } from "react-icons/fa"
 import { fetchData, getUser } from "../../utils"
 import { toast } from "react-toastify"
 import ReactApexChart from "react-apexcharts"
-import { FaUserCheck, FaUserClock, FaUserSlash, FaUsers } from "react-icons/fa"
+import { FaUserCheck, FaUserSlash, FaUsers } from "react-icons/fa"
 import { Doughnut } from "react-chartjs-2"
 import { IInput } from "../../interfaces/input"
 import { ICommodity } from "../../interfaces/commodity"
 import { useQuery } from "react-query"
-import { Avatar } from "@material-tailwind/react"
-import maize_bag from "../../assets/icons/maize_bag.jpg"
 import grain from "../../assets/icons/grain.jpeg"
 import nairabag from "../../assets/icons/naira_bag.jpg"
 import nairanote from "../../assets/icons/naira_note.png"
@@ -30,6 +21,9 @@ import datacapt from "../../assets/icons/pngkey.com-username-icon-png-2035339.pn
 import input_icon from "../../assets/icons/input.png"
 import naira_icon from "../../assets/icons/naira.png"
 import { CertStatCard } from "./finance"
+import { FaPeopleGroup } from "react-icons/fa6"
+import { GiFarmer, GiGrain } from "react-icons/gi"
+import { GrLineChart } from "react-icons/gr"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -260,10 +254,7 @@ function SuperAdminDashboard() {
         <StatCard
           color="red"
           icon={
-            <FcManager
-              className="text-3xl md:text-5xl lg:text-6xl"
-              color="blue"
-            />
+            <FaUserTie className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
           }
           title="Total Staff"
           count={queryUsers.data?.toLocaleString()}
@@ -272,7 +263,7 @@ function SuperAdminDashboard() {
         <StatCard
           color="red"
           icon={
-            <FaUsers className="text-3xl md:text-5xl lg:text-6xl text-green-600" />
+            <FaUsers className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
           }
           title="Total Clients"
           count={clients.toLocaleString()}
@@ -280,7 +271,9 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="red"
-          icon={<FcFlowChart className="text-3xl md:text-5xl lg:text-6xl" />}
+          icon={
+            <FaPeopleGroup className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
+          }
           title="Total Cooperativies"
           count={cooperativies.toLocaleString()}
           action={() => navigate("cooperative-management")}
@@ -288,10 +281,7 @@ function SuperAdminDashboard() {
         <StatCard
           color="red"
           icon={
-            <FaUserClock
-              className="text-3xl md:text-5xl lg:text-6xl"
-              color="blue"
-            />
+            <GiFarmer className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
           }
           title="Total Registered Farmers"
           count={queryRegisteredFarmer.data?.toLocaleString()}
@@ -301,10 +291,7 @@ function SuperAdminDashboard() {
         <StatCard
           color="red"
           icon={
-            <FaUserCheck
-              className="text-3xl md:text-5xl lg:text-6xl"
-              color="green"
-            />
+            <FaUserCheck className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
           }
           title="Total Approved Farmers"
           count={queryApprovedFarmer.data?.toLocaleString()}
@@ -313,10 +300,7 @@ function SuperAdminDashboard() {
         <StatCard
           color="red"
           icon={
-            <FaUserSlash
-              className="text-3xl md:text-5xl lg:text-6xl"
-              color="orange"
-            />
+            <FaUserSlash className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
           }
           title="Total Unapprove Farmers"
           count={queryNotApprovedFarmer.data?.toLocaleString()}
@@ -326,7 +310,7 @@ function SuperAdminDashboard() {
         <StatCard
           color="red"
           icon={
-            <FcPositiveDynamic className="text-3xl md:text-5xl lg:text-6xl" />
+            <GrLineChart className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
           }
           title="Total Loan Disburse"
           count={total_loan.toLocaleString("en-NG", {
@@ -341,7 +325,7 @@ function SuperAdminDashboard() {
             <div className="object-contain w-10 h-10">
               <img
                 src={nairanote}
-                className="text-3xl md:text-5xl lg:text-6xl"
+                className="text-3xl md:text-5xl lg:text-6xl grayscale"
                 color="green"
               />
             </div>
@@ -359,8 +343,7 @@ function SuperAdminDashboard() {
             <div className="object-contain w-10 h-10">
               <img
                 src={grain}
-                className="text-3xl md:text-5xl lg:text-6xl"
-                color="green"
+                className="text-3xl md:text-5xl lg:text-6xl grayscale"
               />
             </div>
           }
@@ -373,7 +356,9 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="red"
-          icon={<FcComboChart className="text-3xl md:text-5xl lg:text-6xl" />}
+          icon={
+            <FcComboChart className="text-3xl md:text-5xl lg:text-6xl grayscale" />
+          }
           title="Total Loan Repaid"
           count={loan_recovered.toLocaleString("en-NG", {
             style: "currency",
@@ -424,8 +409,7 @@ function SuperAdminDashboard() {
             <div className="object-contain w-10 h-10">
               <img
                 src={cert1}
-                className="text-3xl md:text-5xl lg:text-6xl"
-                color="green"
+                className="text-3xl md:text-5xl lg:text-6xl grayscale"
               />
             </div>
           }
@@ -439,7 +423,15 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="green"
-          icon={<Avatar src={nairabag} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={nairabag}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Equity Booked"
           count={total_equity.toLocaleString("en-NG", {
             style: "currency",
@@ -449,7 +441,15 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="red"
-          icon={<Avatar src={nairabag} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={nairabag}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Equity Paid"
           action={() => navigate("payment/equity")}
           count={(queryEquity?.data ?? 0)?.toLocaleString("en-NG", {
@@ -466,7 +466,15 @@ function SuperAdminDashboard() {
         />
         <StatCard
           color="green"
-          icon={<Avatar src={input_icon} sizes="sm md lg" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={input_icon}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Inputs"
           count={(queryInput?.data ?? 0)?.toLocaleString()}
           action={() => navigate("input-management")}
@@ -600,7 +608,7 @@ export const StatCard: React.FC<IProps> = (props) => {
       <div
         className="flex flex-wrap rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
         onClick={props.action}>
-        <div className={`flex`}>{props.icon}</div>
+        <div className={`flex grayscale`}>{props.icon}</div>
         <div className="flex flex-col flex-1 flex-wrap gap-2 items-end">
           <p className="flex text-[1rem] text-green-600 font-extrabold lg:text-xl">
             {props.count}
@@ -629,8 +637,8 @@ export const GrainStatCard: React.FC<IGrainProps> = (props) => {
       <div
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
         onClick={props.action}>
-        <div className={`flex`}>
-          <Avatar src={maize_bag} size="sm" />
+        <div className={`flex grayscale`}>
+          <GiGrain className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
         </div>
         <div className="flex flex-col flex-1 gap-2 items-end">
           <span className="flex items-center justify-end gap-1 w-full">

@@ -143,12 +143,12 @@ export const StatCard: React.FC<IProps> = (props) => {
       <div
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
         onClick={props.action}>
-        <div className={`flex`}>{props.icon}</div>
+        <div className={`flex grayscale text-gray-500`}>{props.icon}</div>
         <div className="flex flex-col flex-1 gap-2 items-end">
           <p className="flex text-green-600 font-extrabold text-[1rem] lg:text-2xl tracking-wide lg:tracking-wider">
             {props.count.toLocaleString()}
           </p>
-          <p className="flex text-green-600 text-sm lg:text-lg text-right">
+          <p className="flex text-green-600 text-sm lg:text-lg text-right font-extrabold">
             {props.title}
           </p>
         </div>
@@ -171,7 +171,7 @@ export const CertStatCard: React.FC<ICertProps> = (props) => {
       <div
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
         onClick={props.action}>
-        <div className={`flex`}>{props.icon}</div>
+        <div className={`flex grayscale text-gray-500`}>{props.icon}</div>
         <div className="flex flex-col flex-1 items-end">
           <span className="flex items-center justify-end gap-1 w-full">
             <p className="flex text-green-600 font-extrabold lg:text-xl">
@@ -183,7 +183,7 @@ export const CertStatCard: React.FC<ICertProps> = (props) => {
               {props.amount}
             </p>
           </span>
-          <p className="flex text-green-600 font-bold lg:text-lg text-right">
+          <p className="flex text-green-600 lg:text-lg text-right font-extrabold">
             {props.title}
           </p>
         </div>

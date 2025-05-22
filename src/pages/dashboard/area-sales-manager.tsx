@@ -5,7 +5,6 @@ import {
   FcAreaChart,
   FcComboChart,
   FcPieChart,
-  FcFlowChart,
   FcPositiveDynamic,
   FcDoughnutChart,
 } from "react-icons/fc"
@@ -17,8 +16,6 @@ import { ICommodity } from "../../interfaces/commodity"
 import { IGrade } from "../../interfaces/grade"
 import { FaUsers } from "react-icons/fa"
 import { useQuery } from "react-query"
-import { Avatar } from "@material-tailwind/react"
-import maize_bag from "../../assets/icons/maize_bag.jpg"
 import naira_bag from "../../assets/icons/naira_bag.jpg"
 import nairanote from "../../assets/icons/naira_note.png"
 import naira_icon from "../../assets/icons/naira.png"
@@ -27,6 +24,8 @@ import grain from "../../assets/icons/grain.jpeg"
 import datacapt from "../../assets/icons/pngkey.com-username-icon-png-2035339.png"
 import cert1 from "../../assets/icons/cert1.png"
 import { CertStatCard } from "./finance"
+import { GiFarmer, GiGrain } from "react-icons/gi"
+import { FaPeopleGroup } from "react-icons/fa6"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -260,7 +259,7 @@ function AreaSalesManagerDashboard() {
         <StatCard
           color="red"
           icon={
-            <FaUsers className="text-4xl md:text-5xl lg:text-6xl text-green-600" />
+            <GiFarmer className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
           }
           title="Total Farmers"
           count={(queryFarmers?.data ?? 0)?.toLocaleString()}
@@ -277,7 +276,9 @@ function AreaSalesManagerDashboard() {
         />
         <StatCard
           color="red"
-          icon={<FcFlowChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={
+            <FaPeopleGroup className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
+          }
           title="Total Cooperativies"
           count={(queryCooperatives?.data ?? 0)?.toLocaleString()}
           action={() => navigate("cooperative-management")}
@@ -398,7 +399,15 @@ function AreaSalesManagerDashboard() {
         />
         <StatCard
           color="green"
-          icon={<Avatar src={naira_bag} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={naira_bag}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Equity Paid"
           count={(queryEquityPaid?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -408,7 +417,15 @@ function AreaSalesManagerDashboard() {
         />
         <StatCard
           color="green"
-          icon={<Avatar src={naira_bag} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={naira_bag}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Equity Booked"
           count={(queryEquity?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -425,7 +442,15 @@ function AreaSalesManagerDashboard() {
         />
         <StatCard
           color="green"
-          icon={<Avatar src={input_icon} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={input_icon}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
           title="Total Inputs"
           count={(queryInput?.data ?? 0)?.toLocaleString()}
           action={() => navigate("warehouse-input-management")}
@@ -735,12 +760,12 @@ export const StatCard: React.FC<IProps> = (props) => {
       <div
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
         onClick={props.action}>
-        <div className={`flex`}>{props.icon}</div>
+        <div className={`flex grayscale text-gray-500`}>{props.icon}</div>
         <div className="flex flex-col flex-1 gap-2 items-end">
           <p className="flex text-green-600 font-extrabold lg:text-xl">
             {props.count}
           </p>
-          <p className="flex text-green-600 font-bold lg:text-lg text-right">
+          <p className="flex text-green-600 font-extrabold lg:text-lg text-right">
             {props.title}
           </p>
         </div>
@@ -764,8 +789,8 @@ export const GrainStatCard: React.FC<IGrainProps> = (props) => {
       <div
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
         onClick={props.action}>
-        <div className={`flex`}>
-          <Avatar src={maize_bag} size="sm" />
+        <div className={`flex grayscale`}>
+          <GiGrain className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
         </div>
         <div className="flex flex-col flex-1 gap-2 items-end">
           <span className="flex items-center justify-end gap-1 w-full">
@@ -778,7 +803,7 @@ export const GrainStatCard: React.FC<IGrainProps> = (props) => {
               {props.weight + " WT"}
             </p>
           </span>
-          <p className="flex text-green-600 font-bold lg:text-lg text-right">
+          <p className="flex text-green-600 font-extrabold lg:text-lg text-right">
             {props.title}
           </p>
         </div>

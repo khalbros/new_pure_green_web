@@ -458,7 +458,7 @@ export const StatCard: React.FC<IProps> = (props) => {
       <div
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
         onClick={props.action}>
-        <div className={`flex`}>{props.icon}</div>
+        <div className={`flex grayscale text-gray-500`}>{props.icon}</div>
         <div className="flex flex-col flex-1 gap-2 items-end">
           <p className="flex text-green-600 font-extrabold text-lg">
             {props.count}

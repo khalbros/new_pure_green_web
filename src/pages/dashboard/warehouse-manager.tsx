@@ -4,7 +4,6 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, Color } from "chart.js"
 import {
   FcAreaChart,
   FcComboChart,
-  FcPieChart,
   FcFlowChart,
   FcPositiveDynamic,
   FcDoughnutChart,
@@ -25,8 +24,8 @@ import input_icon from "../../assets/icons/input.png"
 import grain from "../../assets/icons/grain.jpeg"
 import datacapt from "../../assets/icons/pngkey.com-username-icon-png-2035339.png"
 import cert1 from "../../assets/icons/cert1.png"
-import { Avatar } from "@material-tailwind/react"
 import { CertStatCard } from "./finance"
+import { GiFarmer, GiGrain } from "react-icons/gi"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -257,7 +256,7 @@ function WarehouseManagerDashboard() {
         <StatCard
           color="red"
           icon={
-            <FaUsers className="text-4xl md:text-5xl lg:text-6xl text-light-green-700" />
+            <GiFarmer className="text-4xl md:text-5xl lg:text-6xl text-light-green-700" />
           }
           title="Total Farmers"
           count={(queryFarmers?.data ?? 0)?.toLocaleString()}
@@ -303,7 +302,7 @@ function WarehouseManagerDashboard() {
             <div className="object-contain w-10 h-10">
               <img
                 src={cert1}
-                className="text-3xl md:text-5xl lg:text-6xl"
+                className="text-3xl md:text-5xl lg:text-6xl grayscale"
                 color="green"
               />
             </div>
@@ -395,7 +394,14 @@ function WarehouseManagerDashboard() {
         />
         <StatCard
           color="green"
-          icon={<Avatar src={naira_bag} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={naira_bag}
+                className="text-3xl md:text-5xl lg:text-6xl"
+              />
+            </div>
+          }
           title="Total Equity Paid"
           count={(queryEquityPaid?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
@@ -405,7 +411,14 @@ function WarehouseManagerDashboard() {
         />
         <StatCard
           color="green"
-          icon={<Avatar src={naira_bag} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={naira_bag}
+                className="text-3xl md:text-5xl lg:text-6xl"
+              />
+            </div>
+          }
           title="Total Equity Booked"
           count={(queryEquity?.data ?? 0).toLocaleString("en-NG", {
             style: "currency",
@@ -422,14 +435,18 @@ function WarehouseManagerDashboard() {
         />
         <StatCard
           color="green"
-          icon={<Avatar src={input_icon} size="sm" />}
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img src={input_icon} />
+            </div>
+          }
           title="Total Inputs"
           count={(queryInput?.data ?? 0)?.toLocaleString()}
           action={() => navigate("warehouse-input-management")}
         />
         <GrainStatCard
           color="green"
-          icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={<GiGrain className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Grains Loan"
           bags={queryLoanWeight?.data?.bags.toLocaleString() ?? 0}
           weight={Number(queryLoanWeight?.data?.weight ?? 0)?.toFixed(2) + ""}
@@ -437,7 +454,7 @@ function WarehouseManagerDashboard() {
         />
         <GrainStatCard
           color="green"
-          icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={<GiGrain className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Grains Trade"
           bags={queryTradeWeight?.data?.bags.toLocaleString() ?? 0}
           weight={Number(queryTradeWeight?.data?.weight ?? 0)?.toFixed(2) + ""}
@@ -445,7 +462,7 @@ function WarehouseManagerDashboard() {
         />
         <GrainStatCard
           color="green"
-          icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={<GiGrain className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Grains Storage"
           bags={queryStorageWeight?.data?.bags.toLocaleString() ?? 0}
           weight={
@@ -455,7 +472,6 @@ function WarehouseManagerDashboard() {
         />
         <GrainStatCard
           color="green"
-          icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Gross Weight"
           weight={Number(queryGrossweight?.data?.weight ?? 0)?.toFixed(2) + ""}
           bags={queryGrossweight?.data?.quantity?.toLocaleString() ?? 0 + ""}
@@ -463,7 +479,6 @@ function WarehouseManagerDashboard() {
         />
         <GrainStatCard
           color="green"
-          icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Net Weight"
           weight={Number(queryNetweight?.data?.weight ?? 0)?.toFixed(2) + ""}
           bags={queryNetweight?.data?.quantity?.toLocaleString() ?? 0 + ""}
@@ -719,7 +734,7 @@ export const StatCard: React.FC<IProps> = (props) => {
       <div
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
         onClick={props.action}>
-        <div className={`flex`}>{props.icon}</div>
+        <div className={`flex grayscale text-gray-500`}>{props.icon}</div>
         <div className="flex flex-col flex-1 gap-2 items-end">
           <p className="text-light-green-700 font-extrabold lg:text-xl truncate">
             {props.count}
@@ -748,8 +763,12 @@ export const GrainStatCard: React.FC<IGrainProps> = (props) => {
       <div
         className="flex rounded bg-white p-4 lg:p-6 w-full items-center justify-between drop-shadow-lg cursor-pointer border hover:transform hover:scale-105 hover:bg-green-50 focus:bg-green-50 transition-transform duration-300 ease-linear"
         onClick={props.action}>
-        <div className={`flex`}>
-          {props.icon ?? <Avatar src={maize_bag} size="sm" />}
+        <div className={`flex grayscale text-gray-500`}>
+          {props.icon ?? (
+            <div className="object-contain w-10 h-10">
+              <img src={maize_bag} />
+            </div>
+          )}
         </div>
         <div className="flex flex-col flex-1 gap-2 items-end">
           <span className="flex items-center justify-end gap-1 w-full">
