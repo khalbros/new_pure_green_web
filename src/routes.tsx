@@ -119,12 +119,12 @@ export const routes: IRoute[] = [
         icon: <TbPackageExport className="text-2xl md:text3xl" />,
         children: [
           {
-            name: "wet season input loans",
+            name: "wet season loans",
             path: "/dashboard/disbursement/input-loan",
             layout: "super admin",
           },
           {
-            name: "dry season input loans",
+            name: "dry season loans",
             path: "/dashboard/disbursement/cash-loan",
             layout: "super admin",
           },
