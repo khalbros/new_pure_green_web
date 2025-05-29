@@ -99,35 +99,10 @@ const FarmerForm = () => {
   const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files![0]
     const name = e.target.name
-    // const maxSize = 1024 * 1024 //1MB
 
     if (!file) return
     dispatch(reset())
-    // if (file.size > maxSize) {
-    //   if (name === "profile_img") {
-    //     setProfileImg(undefined)
-    //     setPreview(undefined)
-    //     toast.warn(`Passpost too large (1MB max)`, {
-    //       autoClose: false,
-    //     })
-    //     return
-    //   }
-    //   if (name === "id_card") {
-    //     setFID(undefined)
-    //     toast.warn(`Farmer's ID Card is too large (1MB max)`, {
-    //       autoClose: false,
-    //     })
-    //     return
-    //   }
-    //   if (name === "guarantor_id") {
-    //     setGID(undefined)
-    //     toast.warn(`Guarantor's ID card is too large (1MB max)`, {
-    //       autoClose: false,
-    //     })
-    //     return
-    //   }
-    //   return dispatch(failed("upload size is too large"))
-    // }
+
     if (name === "id_card") {
       const reader = new FileReader()
       reader.readAsArrayBuffer(file)
