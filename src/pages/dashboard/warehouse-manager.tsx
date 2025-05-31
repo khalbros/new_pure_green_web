@@ -262,23 +262,62 @@ function WarehouseManagerDashboard() {
           count={(queryFarmers?.data ?? 0)?.toLocaleString()}
           action={() => navigate("farmer-management")}
         />
+         <StatCard
+          color="red"
+          icon={
+            <FaUserTie className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
+          }
+          title="Total Staff"
+          count={queryUsers.data?.toLocaleString()}
+          action={() => navigate("user-management")}
+        />
         <StatCard
           color="red"
           icon={
-            <FaUsers className="text-4xl md:text-5xl lg:text-6xl text-light-green-700" />
+            <FaUsers className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
           }
           title="Total Clients"
-          count={(queryClients?.data ?? 0)?.toLocaleString()}
+          count={clients.toLocaleString()}
           action={() => navigate("client-management")}
         />
         <StatCard
           color="red"
-          icon={<FcFlowChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={
+            <FaPeopleGroup className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
+          }
           title="Total Cooperativies"
-          count={(queryCooperatives?.data ?? 0)?.toLocaleString()}
+          count={cooperativies.toLocaleString()}
           action={() => navigate("cooperative-management")}
         />
         <StatCard
+          color="red"
+          icon={
+            <GiFarmer className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
+          }
+          title="Total Registered Farmers"
+          count={queryRegisteredFarmer.data?.toLocaleString()}
+          action={() => navigate("farmer-management")}
+        />
+
+                <CertStatCard
+          color="red"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={cert1}
+                className="text-3xl md:text-5xl lg:text-6xl grayscale"
+              />
+            </div>
+          }
+          title="Total Certificate Paid"
+          count={(queryCert?.data ?? 0)?.toLocaleString("en-NG")}
+          amount={(queryCertFee?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/certificate")}
+        />
+                <StatCard
           color="green"
           icon={
             <div className="object-contain w-10 h-10">
@@ -289,92 +328,87 @@ function WarehouseManagerDashboard() {
               />
             </div>
           }
-          title="Data Capture Fee"
-          count={(queryDataCapt?.data ?? 0)?.toLocaleString("en-NG", {
+          title="Data Captured Fee"
+          count={(queryRegFee.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
           action={() => navigate("payment/registration")}
         />
-        <CertStatCard
+          <StatCard
+          color="red"
+          icon={
+            <FaUserCheck className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
+          }
+          title="Total Approved Farmers"
+          count={queryApprovedFarmer.data?.toLocaleString()}
+          action={() => navigate("farmer-management/verified")}
+        />
+                <StatCard
+          color="red"
+          icon={
+            <FaUserSlash className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
+          }
+          title="Total Unapprove Farmers"
+          count={queryNotApprovedFarmer.data?.toLocaleString()}
+          action={() => navigate("farmer-management/unverified")}
+        />
+                <StatCard
           color="red"
           icon={
             <div className="object-contain w-10 h-10">
               <img
-                src={cert1}
-                className="text-3xl md:text-5xl lg:text-6xl grayscale"
+                src={nairabag}
+                className="text-3xl md:text-5xl lg:text-6xl"
                 color="green"
               />
             </div>
           }
-          title="Total Certificate Paid"
-          count={(queryCert?.data ?? 0)?.toLocaleString("en-NG")}
-          amount={(queryCertPaid?.data ?? 0)?.toLocaleString("en-NG", {
+          title="Total Equity Paid"
+          action={() => navigate("payment/equity")}
+          count={(queryEquity?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("payment/certificate")}
         />
-        <StatCard
-          color="red"
+                <StatCard
+          color="green"
           icon={
-            <FcPositiveDynamic className="text-4xl md:text-5xl lg:text-6xl" />
+            <div className="object-contain w-10 h-10">
+              <img
+                src={nairabag}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
           }
-          title="Total Loan Disburse"
-          count={(queryToatalLoan?.data ?? 0)?.toLocaleString("en-NG", {
+          title="Total Equity Booked"
+          count={total_equity.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
           action={() => navigate("disbursement/input-loan")}
         />
-        <StatCard
+                <StatCard
           color="red"
           icon={
-            <div className="object-contain w-10 h-10">
-              <img
-                src={nairanote}
-                className="text-3xl md:text-5xl lg:text-6xl"
-                color="green"
-              />
-            </div>
+            <GrLineChart className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
           }
-          title="Total Cash Repaid"
-          count={(queryCashRecovered?.data ?? 0)?.toLocaleString("en-NG", {
+          title="Total Loan Disburse"
+          count={total_loan.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement/cash")}
+          action={() => navigate("disbursement/input-loan")}
         />
-        <StatCard
-          color="red"
-          icon={
-            <div className="object-contain w-10 h-10">
-              <img
-                src={grain}
-                className="text-3xl md:text-5xl lg:text-6xl"
-                color="green"
-              />
-            </div>
-          }
-          title="Total Grain Repaid"
-          count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
-            style: "currency",
-            currency: "NGN",
-          })}
-          action={() => navigate("disbursement/grains")}
+                <StatCard
+          color="green"
+          icon={<FcAreaChart className="text-3xl md:text-5xl lg:text-6xl" />}
+          title="Total Hectares Disbursed"
+          count={disbursed_hectare.toLocaleString() + " Ha"}
+          action={() => navigate("disbursement/input-loan")}
         />
-        <StatCard
-          color="red"
-          icon={<FcComboChart className="text-4xl md:text-5xl lg:text-6xl" />}
-          title="Total Loan Repaid"
-          count={(queryLoanRecovered?.data ?? 0)?.toLocaleString("en-NG", {
-            style: "currency",
-            currency: "NGN",
-          })}
-          action={() => navigate("disbursement/recovered")}
-        />
-
-        <StatCard
+                <StatCard
           color="green"
           icon={
             <div className="object-contain w-10 h-10">
@@ -386,104 +420,132 @@ function WarehouseManagerDashboard() {
             </div>
           }
           title="Total Outstanding Loan"
-          count={(queryOutstandingLoan?.data ?? 0)?.toLocaleString("en-NG", {
+          count={total_outstanding.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
           action={() => navigate("disbursement/input-loan/outstanding")}
         />
+                <StatCard
+          color="red"
+          icon={
+            <FcComboChart className="text-3xl md:text-5xl lg:text-6xl grayscale" />
+          }
+          title="Total Loan Repaid"
+          count={loan_recovered.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("disbursement/recovered")}
+        />
+                <StatCard
+          color="red"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={nairanote}
+                className="text-3xl md:text-5xl lg:text-6xl grayscale"
+                color="green"
+              />
+            </div>
+          }
+          title="Total Cash Repaid"
+          count={(queryCashRecovered?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("disbursement/cash")}
+        />
+                <StatCard
+          color="red"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={grain}
+                className="text-3xl md:text-5xl lg:text-6xl grayscale"
+              />
+            </div>
+          }
+          title="Total Grain Repaid"
+          count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("disbursement/grains")}
+        />
+                <StatCard
+          color="red"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={grain}
+                className="text-3xl md:text-5xl lg:text-6xl grayscale"
+              />
+            </div>
+          }
+          title="Total Grain Repaid"
+          count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("disbursement/grains")}
+        />
         <StatCard
           color="green"
           icon={
             <div className="object-contain w-10 h-10">
               <img
-                src={naira_bag}
+                src={input_icon}
                 className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
               />
-            </div>
-          }
-          title="Total Equity Paid"
-          count={(queryEquityPaid?.data ?? 0)?.toLocaleString("en-NG", {
-            style: "currency",
-            currency: "NGN",
-          })}
-          action={() => navigate("payment/equity")}
-        />
-        <StatCard
-          color="green"
-          icon={
-            <div className="object-contain w-10 h-10">
-              <img
-                src={naira_bag}
-                className="text-3xl md:text-5xl lg:text-6xl"
-              />
-            </div>
-          }
-          title="Total Equity Booked"
-          count={(queryEquity?.data ?? 0).toLocaleString("en-NG", {
-            style: "currency",
-            currency: "NGN",
-          })}
-          action={() => navigate("disbursement/input-loan")}
-        />
-        <StatCard
-          color="green"
-          icon={<FcAreaChart className="text-4xl md:text-5xl lg:text-6xl" />}
-          title="Total Hectares Disbursed"
-          count={queryHectares?.data?.toLocaleString() ?? 0 + " Ha"}
-          action={() => navigate("disbursement/input-loan")}
-        />
-        <StatCard
-          color="green"
-          icon={
-            <div className="object-contain w-10 h-10">
-              <img src={input_icon} />
             </div>
           }
           title="Total Inputs"
           count={(queryInput?.data ?? 0)?.toLocaleString()}
           action={() => navigate("warehouse-input-management")}
         />
-        <GrainStatCard
+                <GrainStatCard
           color="green"
-          icon={<GiGrain className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Grains Loan"
-          bags={queryLoanWeight?.data?.bags.toLocaleString() ?? 0}
-          weight={Number(queryLoanWeight?.data?.weight ?? 0)?.toFixed(2) + ""}
+          bags={total_loan_weight?.bags?.toLocaleString()}
+          weight={total_loan_weight?.weight?.toLocaleString()}
           action={() => navigate("warehouse-commodity-management")}
         />
-        <GrainStatCard
+                <GrainStatCard
           color="green"
-          icon={<GiGrain className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Grains Trade"
-          bags={queryTradeWeight?.data?.bags.toLocaleString() ?? 0}
-          weight={Number(queryTradeWeight?.data?.weight ?? 0)?.toFixed(2) + ""}
+          bags={total_trade_weight?.bags?.toLocaleString()}
+          weight={total_trade_weight?.weight?.toLocaleString() ?? 0}
           action={() => navigate("warehouse-commodity-management")}
         />
         <GrainStatCard
           color="green"
-          icon={<GiGrain className="text-4xl md:text-5xl lg:text-6xl" />}
+          icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Grains Storage"
-          bags={queryStorageWeight?.data?.bags.toLocaleString() ?? 0}
-          weight={
-            Number(queryStorageWeight?.data?.weight ?? 0)?.toFixed(2) + ""
-          }
+          bags={total_storage_weight?.bags?.toLocaleString()}
+          weight={total_storage_weight?.weight?.toLocaleString() ?? 0}
           action={() => navigate("warehouse-commodity-management")}
         />
+        
         <GrainStatCard
-          color="green"
-          title="Total Gross Weight"
-          weight={Number(queryGrossweight?.data?.weight ?? 0)?.toFixed(2) + ""}
-          bags={queryGrossweight?.data?.quantity?.toLocaleString() ?? 0 + ""}
-          action={() => navigate("warehouse-commodity-management")}
-        />
-        <GrainStatCard
-          color="green"
-          title="Total Net Weight"
-          weight={Number(queryNetweight?.data?.weight ?? 0)?.toFixed(2) + ""}
-          bags={queryNetweight?.data?.quantity?.toLocaleString() ?? 0 + ""}
-          action={() => navigate("warehouse-commodity-management")}
-        />
+                  color="green"
+                  icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
+                  title="Total Gross Weight"
+                  weight={total_grossweight?.weight.toLocaleString() + ""}
+                  bags={total_grossweight?.quantity.toLocaleString() + ""}
+                  action={() => navigate("disbursement/grains")}
+                />
+                <GrainStatCard
+                          color="green"
+                          icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
+                          title="Total Net Weight"
+                          weight={total_netweight?.weight.toLocaleString() + ""}
+                          bags={total_netweight?.quantity.toLocaleString() + ""}
+                          action={() => navigate("disbursement/grains")}
+                        />s
 
         <StatCard
           color="green"
