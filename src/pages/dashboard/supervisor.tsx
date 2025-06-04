@@ -196,6 +196,20 @@ function SupervisorDashboard() {
       <div className="grid grid-flow-row grid-cols-2 lg:grid-cols-3 gap-3 items-stretch">
         <StatCard
           color="red"
+          icon={<FcBusinessman className="text-4xl md:text-5xl lg:text-6xl" />}
+          title="Total FEOs"
+          count={Number(FEOs?.length).toLocaleString()}
+          action={() => navigate("user-management/feos")}
+        />
+        <StatCard
+          color="red"
+          icon={<FcFlowChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          title="Total Cooperatives"
+          count={totalCooperativies.toLocaleString()}
+          action={() => navigate("cooperative-management")}
+        />
+        <StatCard
+          color="red"
           icon={
             <FaUserClock className="text-4xl md:text-5xl lg:text-6xl text-teal-600" />
           }
@@ -203,7 +217,24 @@ function SupervisorDashboard() {
           count={queryRegisteredFarmers.data?.toLocaleString()}
           action={() => navigate("farmer-management")}
         />
-
+        <StatCard
+          color="green"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={datacapt}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
+          title="Data Capture Fee"
+          count={(queryDataCapt?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/registration")}
+        />
         <StatCard
           color="red"
           icon={
@@ -228,55 +259,6 @@ function SupervisorDashboard() {
           action={() => navigate("farmer-management/unverified")}
         />
         <StatCard
-          color="red"
-          icon={<FcBusinessman className="text-4xl md:text-5xl lg:text-6xl" />}
-          title="Total FEOs"
-          count={Number(FEOs?.length).toLocaleString()}
-          action={() => navigate("user-management/feos")}
-        />
-        <StatCard
-          color="red"
-          icon={<FcFlowChart className="text-4xl md:text-5xl lg:text-6xl" />}
-          title="Total Cooperatives"
-          count={totalCooperativies.toLocaleString()}
-          action={() => navigate("cooperative-management")}
-        />
-        <StatCard
-          color="green"
-          icon={
-            <div className="object-contain w-10 h-10">
-              <img
-                src={datacapt}
-                className="text-3xl md:text-5xl lg:text-6xl"
-                color="green"
-              />
-            </div>
-          }
-          title="Data Capture Fee"
-          count={(queryDataCapt?.data ?? 0)?.toLocaleString("en-NG", {
-            style: "currency",
-            currency: "NGN",
-          })}
-          action={() => navigate("payment/registration")}
-        />
-        <StatCard
-          color="green"
-          icon={<FcAreaChart className="text-4xl md:text-5xl lg:text-6xl" />}
-          title="Total Hectares Disbursed"
-          count={Number(totalHectares ?? 0)?.toLocaleString() + " Ha"}
-          action={() => navigate("disbursement/input-loan")}
-        />
-        <StatCard
-          color="red"
-          icon={<FcBullish className="text-4xl md:text-5xl lg:text-6xl" />}
-          title="Total Loan Disbursed"
-          count={Number(totalLoanDisburse ?? 0).toLocaleString("en-NG", {
-            style: "currency",
-            currency: "NGN",
-          })}
-          action={() => navigate("disbursement/input-loan")}
-        />
-        <StatCard
           color="green"
           icon={<Avatar src={naira_bag} size="sm" />}
           title="Total Equity Paid"
@@ -298,13 +280,20 @@ function SupervisorDashboard() {
         />
         <StatCard
           color="red"
-          icon={<FcComboChart className="text-4xl md:text-5xl lg:text-6xl" />}
-          title="Total Loan Repaid"
-          count={(queryLoanRecovered?.data ?? 0)?.toLocaleString("en-NG", {
+          icon={<FcBullish className="text-4xl md:text-5xl lg:text-6xl" />}
+          title="Total Loan Disbursed"
+          count={Number(totalLoanDisburse ?? 0).toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("disbursement/recovered")}
+          action={() => navigate("disbursement/input-loan")}
+        />
+        <StatCard
+          color="green"
+          icon={<FcAreaChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          title="Total Hectares Disbursed"
+          count={Number(totalHectares ?? 0)?.toLocaleString() + " Ha"}
+          action={() => navigate("disbursement/input-loan")}
         />
         <StatCard
           color="green"
@@ -316,6 +305,17 @@ function SupervisorDashboard() {
           })}
           action={() => navigate("disbursement/input-loan/outstanding")}
         />
+        <StatCard
+          color="red"
+          icon={<FcComboChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          title="Total Loan Repaid"
+          count={(queryLoanRecovered?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("disbursement/recovered")}
+        />
+
         <StatCard
           color="green"
           icon={
