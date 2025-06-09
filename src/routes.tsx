@@ -205,12 +205,12 @@ export const routes: IRoute[] = [
         icon: <TbPackageExport className="text-2xl md:text3xl" />,
         children: [
           {
-            name: "input loan",
+            name: "wet season input loans",
             path: "/dashboard/disbursement/input-loan",
             layout: "data analyst",
           },
           {
-            name: "cash loan",
+            name: "dry season input loans",
             path: "/dashboard/disbursement/cash-loan",
             layout: "data analyst",
           },
@@ -325,12 +325,12 @@ export const routes: IRoute[] = [
         icon: <TbPackageExport className="text-2xl md:text3xl" />,
         children: [
           {
-            name: "input loan",
+            name: "wet season input loans",
             path: "/dashboard/disbursement/input-loan",
             layout: "area sales manager",
           },
           {
-            name: "cash loan",
+            name: "dry season input loans",
             path: "/dashboard/disbursement/cash-loan",
             layout: "area sales manager",
           },
@@ -422,12 +422,12 @@ export const routes: IRoute[] = [
         icon: <TbPackageExport className="text-2xl md:text3xl" />,
         children: [
           {
-            name: "input loan",
+            name: "wet season input loans",
             path: "/dashboard/disbursement/input-loan",
             layout: "wareahouse manager",
           },
           {
-            name: "cash loan",
+            name: "dry season input loans",
             path: "/dashboard/disbursement/cash-loan",
             layout: "wareahouse manager",
           },
@@ -446,7 +446,7 @@ export const routes: IRoute[] = [
             layout: "wareahouse manager",
           },
           {
-            name: "cash loan repayment",
+            name: "dry season input loans repayment",
             path: "/dashboard/disbursement/repayment/cash-loan",
             layout: "wareahouse manager",
           },
@@ -507,12 +507,12 @@ export const routes: IRoute[] = [
         icon: <TbPackageExport className="text-2xl md:text3xl" />,
         children: [
           {
-            name: "input loan",
+            name: "wet season input loans",
             path: "/dashboard/disbursement/input-loan",
             layout: "wareahouse admin",
           },
           {
-            name: "cash loan",
+            name: "dry season input loans",
             path: "/dashboard/disbursement/cash-loan",
             layout: "wareahouse admin",
           },

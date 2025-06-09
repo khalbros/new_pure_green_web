@@ -292,6 +292,24 @@ function AdminDashboard() {
           count={queryRegisteredFarmer.data?.toLocaleString()}
           action={() => navigate("farmer-management")}
         />
+        <StatCard
+          color="red"
+          icon={
+            <FaUserCheck className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
+          }
+          title="Total Approved Farmers"
+          count={queryApprovedFarmer.data?.toLocaleString()}
+          action={() => navigate("farmer-management/verified")}
+        />
+        <StatCard
+          color="red"
+          icon={
+            <FaUserSlash className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
+          }
+          title="Total Unapproved Farmers"
+          count={queryNotApprovedFarmer.data?.toLocaleString()}
+          action={() => navigate("farmer-management/unverified")}
+        />
         <CertStatCard
           color="red"
           icon={
@@ -328,24 +346,7 @@ function AdminDashboard() {
           })}
           action={() => navigate("payment/registration")}
         />
-        <StatCard
-          color="red"
-          icon={
-            <FaUserCheck className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
-          }
-          title="Total Approved Farmers"
-          count={queryApprovedFarmer.data?.toLocaleString()}
-          action={() => navigate("farmer-management/verified")}
-        />
-        <StatCard
-          color="red"
-          icon={
-            <FaUserSlash className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
-          }
-          title="Total Unapproved Farmers"
-          count={queryNotApprovedFarmer.data?.toLocaleString()}
-          action={() => navigate("farmer-management/unverified")}
-        />
+
         <StatCard
           color="red"
           icon={

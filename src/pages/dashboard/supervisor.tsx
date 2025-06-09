@@ -218,24 +218,6 @@ function SupervisorDashboard() {
           action={() => navigate("farmer-management")}
         />
         <StatCard
-          color="green"
-          icon={
-            <div className="object-contain w-10 h-10">
-              <img
-                src={datacapt}
-                className="text-3xl md:text-5xl lg:text-6xl"
-                color="green"
-              />
-            </div>
-          }
-          title="Data Capture Fee"
-          count={(queryDataCapt?.data ?? 0)?.toLocaleString("en-NG", {
-            style: "currency",
-            currency: "NGN",
-          })}
-          action={() => navigate("payment/registration")}
-        />
-        <StatCard
           color="red"
           icon={
             <FaUserCheck className="text-4xl md:text-5xl lg:text-6xl text-green-600" />
@@ -258,6 +240,25 @@ function SupervisorDashboard() {
           count={queryUnApprovedFarmers.data?.toLocaleString()}
           action={() => navigate("farmer-management/unverified")}
         />
+        <StatCard
+          color="green"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={datacapt}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
+          title="Data Capture Fee"
+          count={(queryDataCapt?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/registration")}
+        />
+
         <StatCard
           color="green"
           icon={<Avatar src={naira_bag} size="sm" />}
