@@ -34,9 +34,7 @@ const AdminInputDetails: React.FC = () => {
   } = useQuery({
     queryKey: ["input", "details", `${state._id}`],
     queryFn: async () => {
-      return fetchData(`/input/by-warehouse/${state?._id}`).then(
-        (res) => res.data
-      )
+      return fetchData(`/input/${state?._id}`).then((res) => res.data)
     },
   })
   // open or close action dialog
@@ -113,7 +111,7 @@ const AdminInputDetails: React.FC = () => {
             <div className="flex items-center gap-4 md:gap-8 lg:gap-14 mb-4 md:mb-6">
               <div className="w-full">
                 <div className="flex flex-wrap w-full gap-x-2 md:gap-4 items-center font-bold text-lg md:text-xl lg:text-3xl capitalize mb-3">
-                  {input?.input?.name}
+                  {input?.name}
                   <p
                     className={`flex flex-col rounded-full px-4 bg-${
                       !input?.isApproved ? "red" : "green"
