@@ -339,7 +339,7 @@ function AdminDashboard() {
               />
             </div>
           }
-          title="Data Captured Fee"
+          title="Data Capture Fee"
           count={(queryRegFee.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
@@ -540,7 +540,7 @@ function AdminDashboard() {
           icon={
             <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
           }
-          title="Warehouse Percentage"
+          title="Total loans Repaid Percentage"
           count={
             Number(total_loan) > 0
               ? Number(

@@ -512,7 +512,7 @@ function AreaSalesManagerDashboard() {
           icon={
             <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
           }
-          title="Warehouse Percentage"
+          title="Total Loans Repaid Percentage"
           count={
             Number(queryToatalLoan?.data) > 0
               ? Number(
