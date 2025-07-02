@@ -540,7 +540,7 @@ function AdminDashboard() {
           icon={
             <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
           }
-          title="Total loans Repaid Percentage"
+          title="Total Loans Repaid Percentage"
           count={
             Number(total_loan) > 0
               ? Number(

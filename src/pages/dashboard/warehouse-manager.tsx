@@ -7,16 +7,16 @@ import {
   FcFlowChart,
   FcPositiveDynamic,
   FcDoughnutChart,
-} from "react-icons/fc";
-import { Doughnut } from "react-chartjs-2";
-import { fetchData, getUser } from "../../utils";
-import { IWInput } from "../../interfaces/input";
-import ReactApexChart from "react-apexcharts";
-import { ICommodity } from "../../interfaces/commodity";
-import { IGrade } from "../../interfaces/grade";
-import { FaUsers } from "react-icons/fa";
-import { useQuery } from "react-query";
-import maize_bag from "../../assets/icons/maize_bag.jpg";
+} from "react-icons/fc"
+import { Doughnut } from "react-chartjs-2"
+import { fetchData, getUser } from "../../utils"
+import { IWInput } from "../../interfaces/input"
+import ReactApexChart from "react-apexcharts"
+import { ICommodity } from "../../interfaces/commodity"
+import { IGrade } from "../../interfaces/grade"
+import { FaUsers } from "react-icons/fa"
+import { useQuery } from "react-query"
+import maize_bag from "../../assets/icons/maize_bag.jpg"
 import naira_bag from "../../assets/icons/naira_bag.jpg"
 import nairanote from "../../assets/icons/naira_note.png"
 import naira_icon from "../../assets/icons/naira.png"
@@ -393,7 +393,7 @@ function WarehouseManagerDashboard() {
         <StatCard
           color="red"
           icon={<FcComboChart className="text-4xl md:text-5xl lg:text-6xl" />}
-          title="Total Repaid loan"
+          title="Total Loan Repaid"
           count={(queryLoanRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
