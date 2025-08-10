@@ -263,14 +263,7 @@ function WarehouseManagerDashboard() {
           action={() => navigate("client-management")}
         />
 
-        <StatCard
-          color="red"
-          icon={<FcFlowChart className="text-4xl md:text-5xl lg:text-6xl" />}
-          title="Total Cooperativies"
-          count={(queryCooperatives?.data ?? 0)?.toLocaleString()}
-          action={() => navigate("cooperative-management")}
-        />
-        <StatCard
+           <StatCard
           color="red"
           icon={
             <GiFarmer className="text-4xl md:text-5xl lg:text-6xl text-light-green-700" />
@@ -280,7 +273,15 @@ function WarehouseManagerDashboard() {
           action={() => navigate("farmer-management")}
         />
 
-        <CertStatCard
+        <StatCard
+          color="red"
+          icon={<FcFlowChart className="text-4xl md:text-5xl lg:text-6xl" />}
+          title="Total Cooperativies"
+          count={(queryCooperatives?.data ?? 0)?.toLocaleString()}
+          action={() => navigate("cooperative-management")}
+        />
+       
+         <CertStatCard
           color="red"
           icon={
             <div className="object-contain w-10 h-10">
@@ -399,6 +400,24 @@ function WarehouseManagerDashboard() {
           })}
           action={() => navigate("disbursement/recovered")}
         />
+         <StatCard
+          color="red"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={grain}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
+          title="Total Grain Repaid"
+          count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("disbursement/grains")}
+        />
         <StatCard
           color="red"
           icon={
@@ -417,24 +436,7 @@ function WarehouseManagerDashboard() {
           })}
           action={() => navigate("disbursement/cash")}
         />
-        <StatCard
-          color="red"
-          icon={
-            <div className="object-contain w-10 h-10">
-              <img
-                src={grain}
-                className="text-3xl md:text-5xl lg:text-6xl"
-                color="green"
-              />
-            </div>
-          }
-          title="Total Grain Repaid"
-          count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
-            style: "currency",
-            currency: "NGN",
-          })}
-          action={() => navigate("disbursement/grains")}
-        />
+       
 
         <StatCard
           color="green"
@@ -443,13 +445,13 @@ function WarehouseManagerDashboard() {
               <img src={input_icon} />
             </div>
           }
-          title="Total Inputs"
+          title="Total Input Available"
           count={(queryInput?.data ?? 0)?.toLocaleString()}
           action={() => navigate("warehouse-input-management")}
         />
         <GrainStatCard
           color="green"
-          title="Total Grains"
+          title="Total Grain Available"
           weight={Number(queryGrossweight?.data?.weight ?? 0)?.toFixed(2) + ""}
           bags={queryGrossweight?.data?.quantity?.toLocaleString() ?? 0 + ""}
           action={() => navigate("warehouse-commodity-management")}
@@ -465,14 +467,6 @@ function WarehouseManagerDashboard() {
         <GrainStatCard
           color="green"
           icon={<GiGrain className="text-4xl md:text-5xl lg:text-6xl" />}
-          title="Grains Trade"
-          bags={queryTradeWeight?.data?.bags.toLocaleString() ?? 0}
-          weight={Number(queryTradeWeight?.data?.weight ?? 0)?.toFixed(2) + ""}
-          action={() => navigate("warehouse-commodity-management")}
-        />
-        <GrainStatCard
-          color="green"
-          icon={<GiGrain className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Grains Storage"
           bags={queryStorageWeight?.data?.bags.toLocaleString() ?? 0}
           weight={
@@ -480,6 +474,15 @@ function WarehouseManagerDashboard() {
           }
           action={() => navigate("warehouse-commodity-management")}
         />
+        <GrainStatCard
+          color="green"
+          icon={<GiGrain className="text-4xl md:text-5xl lg:text-6xl" />}
+          title="Grains Trade"
+          bags={queryTradeWeight?.data?.bags.toLocaleString() ?? 0}
+          weight={Number(queryTradeWeight?.data?.weight ?? 0)?.toFixed(2) + ""}
+          action={() => navigate("warehouse-commodity-management")}
+        />
+        
 
         <GrainStatCard
           color="green"
@@ -494,7 +497,7 @@ function WarehouseManagerDashboard() {
           icon={
             <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
           }
-          title="Warehouse Percentage"
+          title="Total Loans Repaid Percentage"
           count={
             Number(queryToatalLoan?.data) > 0
               ? Number(

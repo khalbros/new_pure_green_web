@@ -6,7 +6,6 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, Color } from "chart.js"
 import {
   FcAreaChart,
   FcComboChart,
-  FcDoughnutChart,
   FcPieChart,
 } from "react-icons/fc"
 import { FaUserTie } from "react-icons/fa"
@@ -124,14 +123,6 @@ function SuperAdminDashboard() {
     queryKey: ["payment", "registration"],
     queryFn: async () => {
       return fetchData("/payment/count/registration").then((res) => res.data)
-    },
-  })
-  const queryCertFee = useQuery({
-    queryKey: ["counts", "certificates", "paid"],
-    queryFn: async () => {
-      return fetchData("/payment/count/certificate/paid").then(
-        (res) => res.data
-      )
     },
   })
   const queryCert = useQuery({
@@ -292,6 +283,7 @@ function SuperAdminDashboard() {
           count={queryRegisteredFarmer.data?.toLocaleString()}
           action={() => navigate("farmer-management")}
         />
+
         <StatCard
           color="red"
           icon={
@@ -301,7 +293,7 @@ function SuperAdminDashboard() {
           count={queryApprovedFarmer.data?.toLocaleString()}
           action={() => navigate("farmer-management/verified")}
         />
-        <StatCard
+                <StatCard
           color="red"
           icon={
             <FaUserSlash className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
@@ -310,23 +302,84 @@ function SuperAdminDashboard() {
           count={queryNotApprovedFarmer.data?.toLocaleString()}
           action={() => navigate("farmer-management/unverified")}
         />
-        <CertStatCard
+
+        <StatCard
+          color="red"
+          icon={
+            <GrLineChart className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
+          }
+          title="Total Loan Disburse"
+          count={total_loan.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("disbursement/input-loan")}
+        />
+        <StatCard
           color="red"
           icon={
             <div className="object-contain w-10 h-10">
               <img
-                src={cert1}
+                src={nairanote}
+                className="text-3xl md:text-5xl lg:text-6xl grayscale"
+                color="green"
+              />
+            </div>
+          }
+          title="Total Cash Repaid"
+          count={(queryCashRecovered?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("disbursement/cash")}
+        />
+        <StatCard
+          color="red"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={grain}
                 className="text-3xl md:text-5xl lg:text-6xl grayscale"
               />
             </div>
           }
-          title="Total Certificate Paid"
-          count={(queryCert?.data ?? 0)?.toLocaleString("en-NG")}
-          amount={(queryCertFee?.data ?? 0)?.toLocaleString("en-NG", {
+          title="Total Grain Repaid"
+          count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("payment/certificate")}
+          action={() => navigate("disbursement/grains")}
+        />
+        <StatCard
+          color="red"
+          icon={
+            <FcComboChart className="text-3xl md:text-5xl lg:text-6xl grayscale" />
+          }
+          title="Total Loan Repaid"
+          count={loan_recovered.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("disbursement/recovered")}
+        />
+
+        <StatCard
+          color="green"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={naira_icon}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
+          title="Total Outstanding Loan"
+          count={total_outstanding.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("disbursement/input-loan/outstanding")}
         />
         <StatCard
           color="green"
@@ -346,7 +399,37 @@ function SuperAdminDashboard() {
           })}
           action={() => navigate("payment/registration")}
         />
-
+        <CertStatCard
+          color="red"
+          icon={<div className="object-contain w-10 h-10">
+            <img
+              src={cert1}
+              className="text-3xl md:text-5xl lg:text-6xl grayscale" />
+          </div>}
+          title="Total Grain Repaid"
+          count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("payment/certificate")} amount={""}        />
+        <StatCard
+          color="green"
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={nairabag}
+                className="text-3xl md:text-5xl lg:text-6xl"
+                color="green"
+              />
+            </div>
+          }
+          title="Total Equity Booked"
+          count={total_equity.toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+          })}
+          action={() => navigate("disbursement/input-loan")}
+        />
         <StatCard
           color="red"
           icon={
@@ -364,37 +447,6 @@ function SuperAdminDashboard() {
             style: "currency",
             currency: "NGN",
           })}
-        />
-        <StatCard
-          color="green"
-          icon={
-            <div className="object-contain w-10 h-10">
-              <img
-                src={nairabag}
-                className="text-3xl md:text-5xl lg:text-6xl"
-                color="green"
-              />
-            </div>
-          }
-          title="Total Equity Booked"
-          count={total_equity.toLocaleString("en-NG", {
-            style: "currency",
-            currency: "NGN",
-          })}
-          action={() => navigate("disbursement/input-l oan")}
-        />
-
-        <StatCard
-          color="red"
-          icon={
-            <GrLineChart className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
-          }
-          title="Total Loan Disburse"
-          count={total_loan.toLocaleString("en-NG", {
-            style: "currency",
-            currency: "NGN",
-          })}
-          action={() => navigate("disbursement/input-loan")}
         />
         <StatCard
           color="green"
@@ -483,16 +535,7 @@ function SuperAdminDashboard() {
           }
           title="Total Inputs"
           count={(queryInput?.data ?? 0)?.toLocaleString()}
-          action={() => navigate("input-management")}
-        />
-
-        <GrainStatCard
-          color="green"
-          icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
-          title="Total Grains"
-          bags={total_grossweight?.quantity?.toLocaleString()}
-          weight={total_grossweight?.weight?.toLocaleString()}
-          action={() => navigate("warehouse-commodity-management")}
+          action={() => navigate("warehouse-input-management")}
         />
         <GrainStatCard
           color="green"
@@ -502,7 +545,7 @@ function SuperAdminDashboard() {
           weight={total_loan_weight?.weight?.toLocaleString()}
           action={() => navigate("warehouse-commodity-management")}
         />
-        <GrainStatCard
+                <GrainStatCard
           color="green"
           icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Grains Trade"
@@ -518,15 +561,6 @@ function SuperAdminDashboard() {
           weight={total_storage_weight?.weight?.toLocaleString() ?? 0}
           action={() => navigate("warehouse-commodity-management")}
         />
-
-        <GrainStatCard
-          color="green"
-          icon={<FcPieChart className="text-3xl md:text-5xl lg:text-6xl" />}
-          title="Total Gross Weight"
-          weight={total_grossweight?.weight.toLocaleString() + ""}
-          bags={total_grossweight?.quantity.toLocaleString() + ""}
-          action={() => navigate("disbursement/grains")}
-        />
         <GrainStatCard
           color="green"
           icon={<FcPieChart className="text-3xl md:text-5xl lg:text-6xl" />}
@@ -535,22 +569,13 @@ function SuperAdminDashboard() {
           bags={total_netweight?.quantity.toLocaleString() + ""}
           action={() => navigate("disbursement/grains")}
         />
-        <StatCard
+        <GrainStatCard
           color="green"
-          icon={
-            <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
-          }
-          title="Warehouse Percentage"
-          count={
-            Number(total_loan) > 0
-              ? Number(
-                  (Number(loan_recovered) /
-                    (Number(total_loan) - Number(queryEquity?.data))) *
-                    100
-                )?.toFixed(2) + " %"
-              : "0 %"
-          }
-          action={() => navigate("disbursement/input-loan")}
+          icon={<FcPieChart className="text-3xl md:text-5xl lg:text-6xl" />}
+          title="Total Gross Weight"
+          weight={total_grossweight?.weight.toLocaleString() + ""}
+          bags={total_grossweight?.quantity.toLocaleString() + ""}
+          action={() => navigate("disbursement/grains")}
         />
       </div>
       <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-3 items-stretch">

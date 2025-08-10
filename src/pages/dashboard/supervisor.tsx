@@ -322,7 +322,7 @@ function SupervisorDashboard() {
           icon={
             <FcDoughnutChart className="text-4xl md:text-5xl lg:text-6xl" />
           }
-          title="Warehouse Percentage"
+          title="Total loans Repaid Percentage"
           count={
             Number(totalLoanDisburse) > 0
               ? Number(
