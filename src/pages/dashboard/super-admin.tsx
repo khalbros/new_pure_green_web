@@ -3,11 +3,7 @@
 import { ReactNode, useEffect, useMemo, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Color } from "chart.js"
-import {
-  FcAreaChart,
-  FcComboChart,
-  FcPieChart,
-} from "react-icons/fc"
+import { FcAreaChart, FcComboChart, FcPieChart } from "react-icons/fc"
 import { FaUserTie } from "react-icons/fa"
 import { fetchData, getUser } from "../../utils"
 import { toast } from "react-toastify"
@@ -293,7 +289,7 @@ function SuperAdminDashboard() {
           count={queryApprovedFarmer.data?.toLocaleString()}
           action={() => navigate("farmer-management/verified")}
         />
-                <StatCard
+        <StatCard
           color="red"
           icon={
             <FaUserSlash className="text-3xl md:text-5xl lg:text-6xl text-gray-500" />
@@ -401,17 +397,22 @@ function SuperAdminDashboard() {
         />
         <CertStatCard
           color="red"
-          icon={<div className="object-contain w-10 h-10">
-            <img
-              src={cert1}
-              className="text-3xl md:text-5xl lg:text-6xl grayscale" />
-          </div>}
-          title="Total Grain Repaid"
-          count={(queryGrainRecovered?.data ?? 0)?.toLocaleString("en-NG", {
+          icon={
+            <div className="object-contain w-10 h-10">
+              <img
+                src={cert1}
+                className="text-3xl md:text-5xl lg:text-6xl grayscale"
+              />
+            </div>
+          }
+          title="Certificate Fee"
+          count={(queryCert?.data ?? 0)?.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
           })}
-          action={() => navigate("payment/certificate")} amount={""}        />
+          action={() => navigate("payment/certificate")}
+          amount={""}
+        />
         <StatCard
           color="green"
           icon={
@@ -545,7 +546,7 @@ function SuperAdminDashboard() {
           weight={total_loan_weight?.weight?.toLocaleString()}
           action={() => navigate("warehouse-commodity-management")}
         />
-                <GrainStatCard
+        <GrainStatCard
           color="green"
           icon={<FcPieChart className="text-4xl md:text-5xl lg:text-6xl" />}
           title="Total Grains Trade"
