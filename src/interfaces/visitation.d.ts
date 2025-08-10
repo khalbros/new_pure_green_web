@@ -7,6 +7,7 @@ export interface IVisitation {
   commodity?: string[]
   comment?: string
   village?: string
+  status?: string
   upload?: File
   visited_by?: string
   createdAt?: string

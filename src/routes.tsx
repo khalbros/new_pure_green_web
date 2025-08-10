@@ -369,6 +369,13 @@ export const routes: IRoute[] = [
         layout: "area sales manager",
         icon: <TbPackageExport className="text-2xl md:text3xl" />,
       },
+      // visitation
+      {
+        name: "visitations",
+        path: "/dashboard/visitation-management",
+        layout: "area sales manager",
+        icon: <FaCalendarCheck className="text-2xl md:text3xl" />,
+      },
     ],
   },
 
@@ -477,6 +484,13 @@ export const routes: IRoute[] = [
         path: "/dashboard/dispatch-management",
         layout: "warehouse manager",
         icon: <TbPackageExport className="text-2xl md:text3xl" />,
+      },
+      // visitation
+      {
+        name: "visitations",
+        path: "/dashboard/visitation-management",
+        layout: "warehouse manager",
+        icon: <FaCalendarCheck className="text-2xl md:text3xl" />,
       },
     ],
   },

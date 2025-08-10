@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {useContext, useEffect, useState} from "react"
+import { useContext, useEffect, useMemo, useState } from "react"
 import {
   Button,
   Dialog,
@@ -9,39 +9,41 @@ import {
   MenuItem,
   MenuList,
 } from "@material-tailwind/react"
-import {FaEye} from "react-icons/fa"
-import {TfiMore} from "react-icons/tfi"
+import { FaEye } from "react-icons/fa"
+import { TfiMore } from "react-icons/tfi"
 import {
   AiFillEdit,
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
 } from "react-icons/ai"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import noData from "../../../assets/illustrations/no-data.png"
-import {MdAdd, MdCancel} from "react-icons/md"
+import { MdAdd, MdCancel, MdDeleteForever } from "react-icons/md"
 import DeleteUser from "../../../assets/illustrations/thinking.png"
 
 import usePagination from "../../../hooks/usePagination"
 
 import QueryResult from "../../../components/queryResult"
-import {IVisitation} from "../../../interfaces/visitation"
+import { IVisitation } from "../../../interfaces/visitation"
 import useFetch from "../../../hooks/useFetch"
-import {VisitationContext} from "./"
+import { VisitationContext } from "./"
 import VisitationDetails from "./details"
 import EmptyResult from "./emptyResult"
-import {IUser} from "../../../interfaces/user"
-import {IWarehouse} from "../../../interfaces/warehouse"
+import { IUser } from "../../../interfaces/user"
+import { IWarehouse } from "../../../interfaces/warehouse"
+import { getUser } from "../../../utils"
+import { IoMdCheckmarkCircle } from "react-icons/io"
 
 const VisitationTable = () => {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [visitations, setVisitations] = useState<IVisitation[]>()
   const [visitation, setVisitation] = useState<IVisitation>()
-
-  const {currentItems, currentPage, pages, nextPage, prevPage, changePage} =
+  const currentUser = useMemo(() => JSON.parse(getUser()!), [])
+  const { currentItems, currentPage, pages, nextPage, prevPage, changePage } =
     usePagination(visitations)
   const [_ctx, dispatch] = useContext(VisitationContext)
-  const {data, error, loading, message} = useFetch("/visitation")
+  const { data, error, loading, message } = useFetch("/visitation")
   const navigate = useNavigate()
 
   // search
@@ -126,6 +128,9 @@ const VisitationTable = () => {
                     Visitation
                   </th>
                   <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
+                    status
+                  </th>
+                  <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700">
                     Comment
                   </th>
                   <th className="py-3 pl-2 text-left font-bold tracking-wide text-green-700"></th>
@@ -161,6 +166,7 @@ const VisitationTable = () => {
                       </span>
                     </td>
                     <td className="p-3">{visitation.visitation_count}</td>
+                    <td className="p-3">{visitation.status}</td>
                     <td className="p-3">{visitation.comment}</td>
                     <td className="p-3">
                       <Menu placement="bottom-start">
@@ -180,6 +186,66 @@ const VisitationTable = () => {
                             className="inline-flex gap-2 border-b-2">
                             <AiFillEdit size={16} /> Edit
                           </MenuItem>
+                          <MenuItem
+                            onClick={() => toggleDiaglog()}
+                            className="inline-flex gap-2 border-b-2">
+                            <MdDeleteForever
+                              className="mr-2 inline"
+                              color="red"
+                              size={16}
+                            />{" "}
+                            Delete
+                          </MenuItem>
+                          {(currentUser.role === "DATA ANALYST" ||
+                            currentUser.role === "SUPER ADMIN" ||
+                            currentUser.role === "AREA SALES MANAGER") && (
+                            <>
+                              {visitation.status === "pending" ? (
+                                <>
+                                  <MenuItem
+                                    onClick={() => toggleDiaglog()}
+                                    className="inline-flex gap-2 border-b-2">
+                                    <IoMdCheckmarkCircle
+                                      size={16}
+                                      className="text-green-400"
+                                    />{" "}
+                                    Approve
+                                  </MenuItem>
+                                  <MenuItem
+                                    onClick={() => toggleDiaglog()}
+                                    className="inline-flex gap-2 border-b-2">
+                                    <MdCancel
+                                      size={16}
+                                      className="text-red-400"
+                                    />{" "}
+                                    Reject
+                                  </MenuItem>
+                                </>
+                              ) : visitation.status === "approved" ? (
+                                <>
+                                  <MenuItem
+                                    onClick={() => toggleDiaglog()}
+                                    className="inline-flex gap-2 border-b-2">
+                                    <MdCancel
+                                      size={16}
+                                      className="text-red-400"
+                                    />{" "}
+                                    Reject
+                                  </MenuItem>
+                                </>
+                              ) : (
+                                <MenuItem
+                                  onClick={() => toggleDiaglog()}
+                                  className="inline-flex gap-2 border-b-2">
+                                  <IoMdCheckmarkCircle
+                                    size={16}
+                                    className="text-green-400"
+                                  />{" "}
+                                  Approve
+                                </MenuItem>
+                              )}
+                            </>
+                          )}
                         </MenuList>
                       </Menu>
                     </td>

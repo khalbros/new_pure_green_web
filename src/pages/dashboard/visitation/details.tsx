@@ -1,19 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {Drawer} from "@material-tailwind/react"
-import React, {useContext, useMemo} from "react"
-import {MdCancel} from "react-icons/md"
-import {IVisitation} from "../../../interfaces/visitation"
+import { Drawer } from "@material-tailwind/react"
+import React, { useContext, useMemo } from "react"
+import { MdCancel } from "react-icons/md"
+import { IVisitation } from "../../../interfaces/visitation"
 
-import {IUser} from "../../../interfaces/user"
-import {getTimeAgo, getUser, shortDateFormatter} from "../../../utils"
-import {AiFillEdit} from "react-icons/ai"
-import {useNavigate} from "react-router-dom"
-import {VisitationContext} from "."
+import { IUser } from "../../../interfaces/user"
+import { getTimeAgo, getUser, shortDateFormatter } from "../../../utils"
+import { AiFillEdit } from "react-icons/ai"
+import { useNavigate } from "react-router-dom"
+import { VisitationContext } from "."
 
 interface IProps {
   open: boolean
   close: () => void
   visitation?: IVisitation
+}
+
+interface IUpload {
+  url: string
+  public: string
 }
 
 const VisitationDetails: React.FC<IProps> = (props) => {
@@ -84,6 +89,10 @@ const VisitationDetails: React.FC<IProps> = (props) => {
               </span>
             </p>
             <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize">
+              <span className="text-gray-600">Status:</span>
+              <span className="capitalize">{props.visitation?.status}</span>
+            </p>
+            <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize">
               <span className="text-gray-600">Comment:</span>
               <span className="capitalize">{props.visitation?.comment}</span>
             </p>
@@ -102,7 +111,7 @@ const VisitationDetails: React.FC<IProps> = (props) => {
       <div className="px-6 py-8 flex flex-col gap-6">
         <h4 className="font-[500]">Farm location</h4>
         <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize">
-          <span className="text-gray-600">Coodinates:</span>
+          {/* <span className="text-gray-600">Coodinates:</span>
           <span className="flex gap-1">
             <span className="text-gray-600">Latitude:</span>
             <span className="capitalize">
@@ -114,10 +123,16 @@ const VisitationDetails: React.FC<IProps> = (props) => {
             <span className="capitalize">
               {props.visitation?.farm_location?.lng}
             </span>
+          </span> */}
+          <span className="capitalize">
+            {props.visitation?.farm_location?.lat}
           </span>
         </p>
         <div className="p-4 w-full border rounded-lg">
-          <img src={String(props.visitation?.upload)} alt="farm picture" />
+          <img
+            src={String((props.visitation?.upload as unknown as IUpload).url)}
+            alt="farm picture"
+          />
         </div>
       </div>
     </Drawer>
