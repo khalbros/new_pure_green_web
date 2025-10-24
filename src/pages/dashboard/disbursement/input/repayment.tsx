@@ -143,7 +143,7 @@ const DisbursementRepaymentForm = () => {
     if (name === "grade") {
       setSelectedGrade(gradeSelected)
     }
-    if (name === "gross_weight") {
+    if (name === "quantity") {
       setState({
         ...state,
         commodities: state.commodities?.map((commodity, i) =>
@@ -172,6 +172,7 @@ const DisbursementRepaymentForm = () => {
           ? {
               ...commodity,
               [name]: value,
+              pp: Number(selectedCommodity?.price?.loan),
             }
           : commodity
       ),
@@ -254,19 +255,22 @@ const DisbursementRepaymentForm = () => {
   }, [])
 
   function calPayebleAmmount() {
-    const net = state?.commodities?.reduce(
-      (total, commodity) => total + Number(commodity.net_weight),
-      0
-    )
+    // const net = state?.commodities?.reduce(
+    //   (total, commodity) => total + Number(commodity.net_weight),
+    //   0
+    // )
     const price = state?.commodities?.reduce(
       (total, commodity) => total + Number(commodity?.pp),
       0
     )
     payableAmount =
-      Number(price) * Number(net) -
-      Number(1 * Number(net)) +
+      Number(price) -
       Number(state?.processing_fee ?? 0) -
       Number(state?.logistics_fee ?? 0)
+    // Number(price) * Number(net) -
+    // Number(1 * Number(net)) +
+    // Number(state?.processing_fee ?? 0) -
+    // Number(state?.logistics_fee ?? 0)
 
     outstanding_loan = Number(disbursement?.outstanding_loan) - payableAmount
 
@@ -383,7 +387,8 @@ const DisbursementRepaymentForm = () => {
                           )
                         })}
                       </Select>
-                      <Select
+                      {/* Grade                   */}
+                      {/* <Select
                         name="grade"
                         label={"Grade"}
                         placeholder=""
@@ -402,7 +407,7 @@ const DisbursementRepaymentForm = () => {
                             </option>
                           )
                         })}
-                      </Select>
+                      </Select> */}
                     </div>
                     <div className="hidden">
                       <input
@@ -424,7 +429,7 @@ const DisbursementRepaymentForm = () => {
                         onChange={(e) => handleCommodityChange(e, index)}
                         value={commodity.quantity}
                       />
-                      <Input
+                      {/* <Input
                         name="gross_weight"
                         label="Gross weight"
                         type="text"
@@ -442,7 +447,7 @@ const DisbursementRepaymentForm = () => {
                         onChange={(e) => handleCommodityChange(e, index)}
                         value={commodity.net_weight?.toFixed(2)}
                         readOnly
-                      />
+                      /> */}
                       {(state.commodities?.length as number) > 1 && (
                         <div>
                           <MdCancel
@@ -494,7 +499,7 @@ const DisbursementRepaymentForm = () => {
                   )}
                   readOnly
                 />
-                <Input
+                {/* <Input
                   name="gross_weight"
                   label="Gross weight"
                   type="number"
@@ -523,7 +528,7 @@ const DisbursementRepaymentForm = () => {
                       0
                     )
                     .toFixed(2)}
-                />
+                /> */}
               </>
               <Input
                 name="overage"

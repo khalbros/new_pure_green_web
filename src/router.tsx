@@ -996,7 +996,7 @@ export const router = createBrowserRouter([
                 ),
               },
               {
-                path: "add",
+                path: "grains",
                 element: (
                   <Suspense fallback={<Loading />}>
                     <DisbursementRepaymentForm />
