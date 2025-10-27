@@ -6,25 +6,25 @@ import {
   useReducer,
   useState,
 } from "react"
-import {MdCancel, MdOutlineKeyboardBackspace} from "react-icons/md"
-import {useLocation, useNavigate} from "react-router-dom"
-import {Button, Dialog, DialogBody} from "@material-tailwind/react"
-import {IDisbursement} from "../../../../interfaces/disbursement"
-import {useAppDispatch, useAppSelector} from "../../../../store"
-import {disbursementSelector} from "../../../../store/slices/disbursement"
+import { MdCancel } from "react-icons/md"
+import { useLocation, useNavigate } from "react-router-dom"
+import { Button, Dialog, DialogBody } from "@material-tailwind/react"
+import { IDisbursement } from "../../../../interfaces/disbursement"
+import { useAppDispatch, useAppSelector } from "../../../../store"
+import { disbursementSelector } from "../../../../store/slices/disbursement"
 import {
   cashLRPAction,
   updateCashLRPAction,
 } from "../../../../store/actions/disbursement"
-import {reset} from "../../../../store/slices/disbursement"
-import {fetchData} from "../../../../utils"
-import {IBundle} from "../../../../interfaces/bundle"
+import { reset } from "../../../../store/slices/disbursement"
+import { fetchData } from "../../../../utils"
+import { IBundle } from "../../../../interfaces/bundle"
 import Input from "../../../../components/form/input"
-import {IFarmer} from "../../../../interfaces/farmer"
-import {useRef} from "react"
-import {useReactToPrint} from "react-to-print"
+import { IFarmer } from "../../../../interfaces/farmer"
+import { useRef } from "react"
+import { useReactToPrint } from "react-to-print"
 import Receipt from "./receipt"
-import {ICashFormdata} from "../../../../interfaces/cashLRP"
+import { ICashFormdata } from "../../../../interfaces/cashLRP"
 
 const initialState: ICashFormdata = {
   cash_paid: 0,
@@ -81,14 +81,10 @@ const CashRepaymentForm = () => {
     // navigate(-1)
   }
 
-  const handleGoBack = () => {
-    navigate(-1)
-  }
-
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const {name, value} = e.target
+    const { name, value } = e.target
     if (name === "processing_fee" || name === "logistics_fee") {
       if (outstanding_loan < 0) {
         overage = payableAmount + Number(value)
@@ -108,7 +104,7 @@ const CashRepaymentForm = () => {
       })
       return
     }
-    setState({...state, [name]: value})
+    setState({ ...state, [name]: value })
     return
   }
 
@@ -175,7 +171,7 @@ const CashRepaymentForm = () => {
       Number(state?.logistics_fee ?? 0)
     outstanding_loan = Number(disbursement?.outstanding_loan) - payableAmount
     overage = payableAmount - Number(disbursement?.outstanding_loan)
-    return {payableAmount, outstanding_loan, overage}
+    return { payableAmount, outstanding_loan, overage }
   }
 
   useEffect(() => {
@@ -190,12 +186,6 @@ const CashRepaymentForm = () => {
   return (
     <div className="h-full w-full lg:pr-5 py-4 lg:py-8">
       <div className="flex items-center md:mb-12 mb-6">
-        <span onClick={handleGoBack}>
-          <MdOutlineKeyboardBackspace
-            size={24}
-            className="mr-3 cursor-pointer text-green-500"
-          />
-        </span>
         <h4 className="text-xl lg:text-2xl text-green-500">
           Loan Repayment Form
         </h4>
@@ -231,7 +221,9 @@ const CashRepaymentForm = () => {
                   key={index}
                   className="w-full"
                   value={farmer.farmer_id}
-                  children={farmer.first_name}
+                  children={`${farmer.first_name} ${
+                    farmer.other_name ?? null
+                  } ${farmer.last_name}`}
                 />
               )
             })}
@@ -241,7 +233,9 @@ const CashRepaymentForm = () => {
             <>
               <Input
                 label="Farmer name"
-                value={(disbursement?.farmer as IFarmer)?.first_name}
+                value={`${(disbursement?.farmer as IFarmer)?.first_name} ${
+                  (disbursement?.farmer as IFarmer)?.other_name ?? null
+                } ${(disbursement?.farmer as IFarmer)?.last_name}`}
                 readOnly
               />
               <Input

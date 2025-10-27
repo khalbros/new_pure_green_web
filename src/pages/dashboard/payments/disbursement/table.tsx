@@ -24,12 +24,7 @@ import {
 } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
 import AddUser from "../../../../assets/illustrations/no-data.png"
-import {
-  MdAdd,
-  MdCancel,
-  MdDeleteForever,
-  MdOutlineKeyboardBackspace,
-} from "react-icons/md"
+import { MdAdd, MdCancel, MdDeleteForever } from "react-icons/md"
 import { FiSearch } from "react-icons/fi"
 import usePagination from "../../../../hooks/usePagination"
 import Input from "../../../../components/form/input"
@@ -82,9 +77,22 @@ const CashDisbursementTable = () => {
   const exportTableData = () => {
     return disbursements?.map((disburse) => ({
       "Referance ID": disburse.ref_id,
-      "Farmer Name": (
-        (disburse?.disbursement as unknown as IDisbursement)?.farmer as IFarmer
-      )?.first_name,
+      "Farmer Name": `${
+        (
+          (disburse?.disbursement as unknown as IDisbursement)
+            ?.farmer as IFarmer
+        )?.first_name
+      } ${
+        (
+          (disburse?.disbursement as unknown as IDisbursement)
+            ?.farmer as IFarmer
+        )?.other_name ?? null
+      } ${
+        (
+          (disburse?.disbursement as unknown as IDisbursement)
+            ?.farmer as IFarmer
+        )?.last_name
+      }`,
       "Farmer ID": (
         (disburse?.disbursement as unknown as IDisbursement)?.farmer as IFarmer
       )?.farmer_id,
@@ -258,12 +266,6 @@ const CashDisbursementTable = () => {
           />
         }>
         <div className="flex items-center md:m-6 m-4">
-          <span onClick={() => navigate(-1)}>
-            <MdOutlineKeyboardBackspace
-              size={24}
-              className="mr-3 cursor-pointer text-green-500"
-            />
-          </span>
           <h4 className="text-lg lg:text-xl text-green-500">Cash LRP</h4>
         </div>
         <div className="flex items-center gap-2">
@@ -354,13 +356,25 @@ const CashDisbursementTable = () => {
                     <td className="p-3 font-bold">
                       <div className="flex flex-col">
                         <span>
-                          {
+                          {`${
                             (
                               (
                                 disburse?.disbursement as unknown as IDisbursement
                               )?.farmer as IFarmer
                             )?.first_name
-                          }
+                          } ${
+                            (
+                              (
+                                disburse?.disbursement as unknown as IDisbursement
+                              )?.farmer as IFarmer
+                            )?.other_name ?? null
+                          } ${
+                            (
+                              (
+                                disburse?.disbursement as unknown as IDisbursement
+                              )?.farmer as IFarmer
+                            )?.last_name
+                          }`}
                         </span>
                         <span className="text-gray-500 tracking-wider font-bold text-[10px] md:text-sm">
                           {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import logo from "../../../../assets/puregreen-logo.png"
 import { IUser } from "../../../../interfaces/user"
 import { timeFormatter } from "../../../../utils"
@@ -10,6 +9,8 @@ import { IWarehouse } from "../../../../interfaces/warehouse"
 import { ICashLRP } from "../../../../interfaces/cashLRP"
 
 function Receipt(props: ICashLRP) {
+  const farmerName = (props?.disbursement as unknown as IDisbursement)
+    ?.farmer as IFarmer
   return (
     <div className="max-w-sm mx-auto bg-white justify-center items-center gap-2 capitalize">
       <div className="flex object-contain overflow-hidden w-20 self-center mx-auto my-2">
@@ -33,14 +34,9 @@ function Receipt(props: ICashLRP) {
         </div>
         <div className="flex items-ceter justify-between">
           <span>Farmer</span>
-          <span>
-            {
-              (
-                (props?.disbursement as unknown as IDisbursement)
-                  ?.farmer as IFarmer
-              )?.first_name
-            }
-          </span>
+          <span>{`${farmerName?.first_name} ${farmerName?.other_name ?? null} ${
+            farmerName?.last_name
+          }`}</span>
         </div>
 
         <div className="flex items-ceter justify-between">

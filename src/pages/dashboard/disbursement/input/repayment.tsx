@@ -6,7 +6,7 @@ import {
   useReducer,
   useState,
 } from "react"
-import { MdCancel, MdOutlineKeyboardBackspace } from "react-icons/md"
+import { MdCancel } from "react-icons/md"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Button, Dialog, DialogBody } from "@material-tailwind/react"
 import { IDisbursement } from "../../../../interfaces/disbursement"
@@ -23,7 +23,6 @@ import Input from "../../../../components/form/input"
 import { IFarmer } from "../../../../interfaces/farmer"
 import React from "react"
 import { ICommodity } from "../../../../interfaces/commodity"
-import { IGrade } from "../../../../interfaces/grade"
 import Select from "../../../../components/form/select"
 import { useRef } from "react"
 import { useReactToPrint } from "react-to-print"
@@ -52,9 +51,7 @@ const DisbursementRepaymentForm = () => {
   const [farmers, setFarmerSuggestion] = useState<IFarmer[]>()
   const [disbursements, setDisbursementSuggestion] = useState<IDisbursement[]>()
   const [commoditySuggestion, setCommoditySuggestion] = useState<ICommodity[]>()
-  const [gradeSuggestion, setGradeSuggestion] = useState<IGrade[]>()
   const [selectedCommodity, setSelectedCommodity] = useState<ICommodity>()
-  const [selectedGrade, setSelectedGrade] = useState<IGrade>()
   const [farmerFound, setFarmerFound] = useState<boolean>(true)
   const [open, setOpen] = useState<boolean>(false)
 
@@ -96,10 +93,6 @@ const DisbursementRepaymentForm = () => {
   // navigate(-1)
   // }
 
-  const handleGoBack = () => {
-    navigate(-1)
-  }
-
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -135,14 +128,11 @@ const DisbursementRepaymentForm = () => {
     const commoditySelected = commoditySuggestion?.find(
       (con) => con._id === value
     )
-    const gradeSelected = gradeSuggestion?.find((con) => con._id === value)
 
     if (name === "commodity") {
       setSelectedCommodity(commoditySelected)
     }
-    if (name === "grade") {
-      setSelectedGrade(gradeSelected)
-    }
+
     if (name === "quantity") {
       setState({
         ...state,
@@ -151,12 +141,6 @@ const DisbursementRepaymentForm = () => {
             ? {
                 ...commodity,
                 [name]: Number(value),
-                net_weight: Number(
-                  Number(value) -
-                    Number(
-                      (Number(selectedGrade?.percentage) / 100) * Number(value)
-                    )
-                ),
                 pp: Number(selectedCommodity?.price?.loan),
               }
             : commodity
@@ -241,11 +225,6 @@ const DisbursementRepaymentForm = () => {
         if (res.data) setCommoditySuggestion(res.data)
       })
       .catch((err) => console.log(err))
-    fetchData("/grade")
-      .then((res) => {
-        if (res.data) setGradeSuggestion(res.data)
-      })
-      .catch((err) => console.log(err))
 
     return () => {
       setState(initialState)
@@ -263,8 +242,12 @@ const DisbursementRepaymentForm = () => {
       (total, commodity) => total + Number(commodity?.pp),
       0
     )
+    const qty = state?.commodities?.reduce(
+      (total, commodity) => total + Number(commodity?.quantity),
+      0
+    )
     payableAmount =
-      Number(price) -
+      Number(price) * Number(qty) -
       Number(state?.processing_fee ?? 0) -
       Number(state?.logistics_fee ?? 0)
     // Number(price) * Number(net) -
@@ -290,12 +273,6 @@ const DisbursementRepaymentForm = () => {
   return (
     <div className="h-full w-full lg:pr-5 py-4 lg:py-8">
       <div className="flex items-center md:mb-12 mb-6">
-        <span onClick={handleGoBack}>
-          <MdOutlineKeyboardBackspace
-            size={24}
-            className="mr-3 cursor-pointer text-green-500"
-          />
-        </span>
         <h4 className="text-xl lg:text-2xl text-green-500">
           Loan Repayment Form
         </h4>

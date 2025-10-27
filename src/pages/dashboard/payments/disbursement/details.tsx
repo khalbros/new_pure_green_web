@@ -29,7 +29,9 @@ const CashDisbursementDetails: React.FC<IProps> = (props) => {
     dispatch(props.disbursement)
     navigate("/dashboard/payment/loan/edit")
   }
-
+  const farmerName = (
+    props.disbursement?.disbursement as unknown as IDisbursement
+  )?.farmer as IFarmer
   return (
     <Drawer
       open={props.open}
@@ -60,12 +62,11 @@ const CashDisbursementDetails: React.FC<IProps> = (props) => {
             </p>
             <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize font-bold">
               <span className="text-gray-600">Farmer Name :</span>
-              {
-                (
-                  (props.disbursement?.disbursement as unknown as IDisbursement)
-                    ?.farmer as IFarmer
-                )?.first_name
+              {`
+                ${farmerName?.first_name} ${farmerName?.other_name ?? null} ${
+                farmerName?.last_name
               }
+              `}
             </p>
             <p className="grid grid-flow-col items-start gap-2 place-content-start capitalize font-bold">
               <span className="text-gray-600">Farmer ID :</span>

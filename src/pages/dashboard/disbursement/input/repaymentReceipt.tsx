@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import logo from "../../../../assets/puregreen-logo.png"
 import { IUser } from "../../../../interfaces/user"
 // import {IGrade} from "../../../interfaces/grade"
@@ -37,7 +35,9 @@ function RepaymentReceipt(props: IGrainLRPPayload) {
         </div>
         <div className="flex items-ceter justify-between">
           <span>Farmer</span>
-          <span>{(props.disbursement?.farmer as IFarmer)?.first_name}</span>
+          <span>{`${(props.disbursement?.farmer as IFarmer)?.first_name} ${
+            (props.disbursement?.farmer as IFarmer)?.other_name ?? null
+          } ${(props.disbursement?.farmer as IFarmer)?.last_name}`}</span>
         </div>
 
         <div className="flex items-ceter justify-between">
